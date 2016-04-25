@@ -14,6 +14,7 @@ import com.example.dangxuanhung.alarmtraining.model.DayAlarm;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Dang Xuan Hung on 07/03/2016.
@@ -37,6 +38,16 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Calendar c1 = Calendar.getInstance();
+        c1.set(Calendar.HOUR_OF_DAY,1);
+        c1.set(Calendar.MINUTE,2);
+        Calendar c2 = Calendar.getInstance();
+        c2.set(Calendar.HOUR_OF_DAY,1);
+        c2.set(Calendar.MINUTE,5);
+
+        Log.d(TAG, "minute_c1 :"+ c1.getTimeInMillis() );
+        Log.d(TAG, "minute_c2 :"+ c2.getTimeInMillis() );
 
         dbHelper = new DatabaseHelper(this);
         arrDay = new ArrayList<DayAlarm>();
