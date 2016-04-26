@@ -21,6 +21,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         String ring_alarm = intent.getExtras().getString("ring");
         String name_alarm = intent.getExtras().getString("name");
         boolean vibrate = intent.getExtras().getBoolean("vibrate");
+        int day = intent.getExtras().getInt("day");
+        int hour = intent.getExtras().getInt("hour");
+        int minute = intent.getExtras().getInt("minute");
 
         Intent service_intent = new Intent(context,RingtonePlayingService.class);
         Calendar c = Calendar.getInstance();
@@ -28,24 +31,27 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.e(TAG, name_alarm);
         Log.e(TAG, ring_alarm);
 
-        if(state.equals("on")){
-            Intent ring_intent = new Intent(context,StopAlarm.class);
-            ring_intent.putExtra("name",name_alarm);
-            ring_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(ring_intent);
+        if(day==c.get(Calendar.DAY_OF_WEEK) && hour==c.get(Calendar.HOUR_OF_DAY) && minute== c.get(Calendar.MINUTE)){
+            if(state.equals("on")){
+                Intent ring_intent = new Intent(context,StopAlarm.class);
+                ring_intent.putExtra("name",name_alarm);
+                ring_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(ring_intent);
 
-            service_intent.putExtra("extra",state);
-            service_intent.putExtra("ring_alarm", ring_alarm);
+                service_intent.putExtra("extra",state);
+                service_intent.putExtra("ring_alarm", ring_alarm);
 
-            context.startService(service_intent);
+                context.startService(service_intent);
+            }
+            else {
+                //   Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+                //   vibrator.vibrate(2000);
+                service_intent.putExtra("extra",state);
+                service_intent.putExtra("ring_alarm",ring_alarm);
+                context.startService(service_intent);
+
+            }
         }
-        else {
-            //   Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-            //   vibrator.vibrate(2000);
-            service_intent.putExtra("extra",state);
-            service_intent.putExtra("ring_alarm",ring_alarm);
-            context.startService(service_intent);
 
-        }
     }
 }

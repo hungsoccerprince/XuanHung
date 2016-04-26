@@ -46,9 +46,6 @@ public class MainActivity extends Activity {
         c2.set(Calendar.HOUR_OF_DAY,1);
         c2.set(Calendar.MINUTE,5);
 
-        Log.d(TAG, "minute_c1 :"+ c1.getTimeInMillis() );
-        Log.d(TAG, "minute_c2 :"+ c2.getTimeInMillis() );
-
         dbHelper = new DatabaseHelper(this);
         arrDay = new ArrayList<DayAlarm>();
         arrAlarm = new ArrayList<Alarm>();
@@ -79,20 +76,18 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-               /* Alarm alarm = (Alarm) parent.getItemAtPosition(position);
+                Alarm alarm = (Alarm) parent.getItemAtPosition(position);
                 Intent intent_edit = new Intent(MainActivity.this, EditAlarm.class);
 
-                String time = alarm.getTimeAlarm();
-
                 intent_edit.putExtra("id", alarm.getIdAlarm());
-                intent_edit.putExtra("pCode", alarm.getpCode());
                 intent_edit.putExtra("name_alarm", alarm.getNameAlarm());
                 intent_edit.putExtra("ring_alarm", alarm.getRingAlarm());
-                intent_edit.putExtra("time_alarm", time);
-                intent_edit.putExtra("day_alarm",alarm.getDayAlarm());
+                intent_edit.putExtra("hour", alarm.getHourAlarm());
+                intent_edit.putExtra("minute", alarm.getMinuteAlarm());
+                intent_edit.putExtra("arr_day_string",alarm.getArrDay());
                 intent_edit.putExtra("vibrate",alarm.getVibrate());
 
-                startActivityForResult(intent_edit, REQUEST_CODE_EDIT);*/
+                startActivityForResult(intent_edit, REQUEST_CODE_EDIT);
             }
 
         });
@@ -103,16 +98,14 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
-        if (data.getExtras() != null && data.getExtras().getString("request").equals("add")) {
-            showList();
-        }
+        showList();
     }
 
     // show list alarm from database to listview
     public void showList() {
         arrAlarm.clear();
         Cursor kq_alarm = dbHelper.getData("Select * from alarm_table");
-        Log.d(TAG, String.valueOf(kq_alarm.getCount()));
+        //Log.d(TAG, String.valueOf(kq_alarm.getCount()));
         while (kq_alarm.moveToNext()) {
             Alarm alarm = new Alarm();
 
@@ -128,8 +121,6 @@ public class MainActivity extends Activity {
 
             arrAlarm.add(alarm);
         }
-        Log.d(TAG, "list alarm");
-
         adapterAlarm.notifyDataSetChanged();
     }
 
