@@ -43,7 +43,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
 
         <ListView
             android:id="@+id/lvListAlarm"
@@ -51,8 +52,7 @@
             android:layout_height="wrap_content"
             android:transcriptMode="alwaysScroll"
             android:stackFromBottom="false"
-            android:divider="#55b246"
-            android:dividerHeight="1dp"
+            
             />
     </LinearLayout>
 

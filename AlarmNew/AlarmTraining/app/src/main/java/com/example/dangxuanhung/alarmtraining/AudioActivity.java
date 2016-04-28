@@ -25,17 +25,16 @@ import java.util.Random;
  */
 public class AudioActivity extends Activity {
 
-    Button btn1,btn2, btn3, btn4 ;
-    TextView tvReply;
-    Cursor audioCursor;
+    private Button btn1,btn2, btn3, btn4 ;
+    private TextView tvReply;
+    private Cursor audioCursor;
 
-    String name_audio = null;
+    private String name_audio = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.audio_layout);
-
 
         btn1=(Button)findViewById(R.id.btn1);
         btn2=(Button)findViewById(R.id.btn2);
@@ -93,10 +92,6 @@ public class AudioActivity extends Activity {
                     audioPlay.stop();
                     onCreate(savedInstanceState );
                 }
-
-
-
-
             }
         });
 

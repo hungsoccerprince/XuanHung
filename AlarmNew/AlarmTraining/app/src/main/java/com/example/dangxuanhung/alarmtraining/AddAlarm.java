@@ -85,7 +85,8 @@ public class AddAlarm extends Activity {
         dbHelper = new DatabaseHelper(this);
 
         this.context=getApplicationContext();
-        final int max_id =getIntent().getExtras().getInt("max_id")+1;
+        final int max_id =getIntent().getExtras().getInt("max_id");
+        Log.d(TAG, "Max ID "+max_id);
 
         calendar = Calendar.getInstance();
         arrDayAlarm.clear();
@@ -164,7 +165,7 @@ public class AddAlarm extends Activity {
                 arrDayAlarm = getArrayDay();
                 setAlarm(arrDayAlarm);
 
-                sendToMain(MainActivity.REQUEST_CODE_INPUT,pCode);
+                sendToMain(MainActivity.REQUEST_CODE_INPUT);
 
             }
         });
@@ -267,7 +268,30 @@ public class AddAlarm extends Activity {
                 dayAlarmSelect.setNameAlarm(mlist.get(0).getNameAlarm());
                 dayAlarmSelect.setRingAlarm(mlist.get(0).getRingAlarm());
                 dayAlarmSelect.setVibrate(mlist.get(0).getVibrate());
-            }else if(mlist.size()>1){
+
+                Log.d(TAG,"hour today"+ String.valueOf(dayAlarmSelect.getHour()));
+                Log.d(TAG,"minute today"+ String.valueOf(dayAlarmSelect.getMinute()));
+
+                Intent my_intent = new Intent(AddAlarm.this,AlarmReceiver.class);
+                my_intent.putExtra("name",dayAlarmSelect.getNameAlarm());
+                my_intent.putExtra("ring",dayAlarmSelect.getRingAlarm());
+                my_intent.putExtra("vibrate",dayAlarmSelect.getVibrate());
+                my_intent.putExtra("day",dayAlarmSelect.getDay());
+                my_intent.putExtra("hour",dayAlarmSelect.getHour());
+                my_intent.putExtra("minute",dayAlarmSelect.getMinute());
+                my_intent.putExtra("extra", "on");
+
+                Calendar calendar_alarm = Calendar.getInstance();
+                calendar_alarm.set(Calendar.HOUR_OF_DAY,dayAlarmSelect.getHour());
+                calendar_alarm.set(Calendar.MINUTE,dayAlarmSelect.getMinute());
+
+                pending_intent = PendingIntent.getBroadcast(AddAlarm.this,1,
+                        my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+                AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                alarm_manager.set(AlarmManager.RTC_WAKEUP,
+                        calendar_alarm.getTimeInMillis(), pending_intent);
+            } else if(mlist.size()>1){
                 int choose=0;
                 int k=1;
                 Calendar c1 = Calendar.getInstance();
@@ -297,17 +321,17 @@ public class AddAlarm extends Activity {
                 Log.d(TAG,"today minute : "+ dayAlarmSelect.getMinute() );
 
                 Intent my_intent = new Intent(AddAlarm.this,AlarmReceiver.class);
-                my_intent.putExtra("name",mlist.get(choose).getNameAlarm());
-                my_intent.putExtra("ring",mlist.get(choose).getRingAlarm());
-                my_intent.putExtra("vibrate",mlist.get(choose).getVibrate());
-                my_intent.putExtra("day",mlist.get(choose).getDay());
-                my_intent.putExtra("hour",mlist.get(choose).getHour());
-                my_intent.putExtra("minute",mlist.get(choose).getMinute());
+                my_intent.putExtra("name",dayAlarmSelect.getNameAlarm());
+                my_intent.putExtra("ring",dayAlarmSelect.getRingAlarm());
+                my_intent.putExtra("vibrate",dayAlarmSelect.getVibrate());
+                my_intent.putExtra("day",dayAlarmSelect.getDay());
+                my_intent.putExtra("hour",dayAlarmSelect.getHour());
+                my_intent.putExtra("minute",dayAlarmSelect.getMinute());
                 my_intent.putExtra("extra", "on");
 
                 Calendar calendar_alarm = Calendar.getInstance();
-                calendar_alarm.set(Calendar.HOUR_OF_DAY,mlist.get(choose).getHour());
-                calendar_alarm.set(Calendar.MINUTE,mlist.get(choose).getMinute());
+                calendar_alarm.set(Calendar.HOUR_OF_DAY,dayAlarmSelect.getHour());
+                calendar_alarm.set(Calendar.MINUTE,dayAlarmSelect.getMinute());
 
                 pending_intent = PendingIntent.getBroadcast(AddAlarm.this,1,
                         my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
@@ -492,7 +516,7 @@ public class AddAlarm extends Activity {
     }
 
     // gửi du liệu về mainactivity
-    public void sendToMain(int resultcode, int pCode)
+    public void sendToMain(int resultcode)
     {
         Intent i=getIntent();
         i.putExtra("request","add");

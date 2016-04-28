@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
         c2.set(Calendar.MINUTE,5);
 
         dbHelper = new DatabaseHelper(this);
-        arrDay = new ArrayList<DayAlarm>();
+       // arrDay = new ArrayList<DayAlarm>();
         arrAlarm = new ArrayList<Alarm>();
 
         lvListAlarm = (ListView) findViewById(R.id.lvListAlarm);
@@ -58,9 +58,6 @@ public class MainActivity extends Activity {
         adapterAlarm = new ListAdapter(this, R.layout.listview, arrAlarm);
         lvListAlarm.setAdapter(adapterAlarm);
         showList();
-
-        if (arrAlarm.size() > 0)
-            max_id = arrAlarm.get(arrAlarm.size() - 1).getIdAlarm();
 
         fabAddAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +118,16 @@ public class MainActivity extends Activity {
 
             arrAlarm.add(alarm);
         }
+        // Log.d(TAG, "max_id : "+ arrAlarm.get(arrAlarm.size()-1).getIdAlarm());
         adapterAlarm.notifyDataSetChanged();
+        if (arrAlarm.size() > 0){
+            Log.d(TAG, "max_id : "+ arrAlarm.get(arrAlarm.size()-1).getIdAlarm());
+            max_id = arrAlarm.get(arrAlarm.size() - 1).getIdAlarm();
+        }
+        else {
+            Log.d(TAG,"max_id = 0");
+            max_id=0;
+        }
     }
 
 }

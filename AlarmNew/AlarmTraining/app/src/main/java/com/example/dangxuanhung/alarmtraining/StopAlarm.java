@@ -43,9 +43,6 @@ public class StopAlarm extends AppCompatActivity {
         // Count Time display activity
         startTimer();
 
-        Intent intent_pCode = getIntent();
-        final int pCode = intent_pCode.getExtras().getInt("pCode");
-
         foundDevice=(ImageView)findViewById(R.id.foundDevice);
         btnStop=(ImageView)findViewById(R.id.centerImage);
 
@@ -64,31 +61,26 @@ public class StopAlarm extends AppCompatActivity {
                         .setPositiveButton("Image", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
+                                Intent intent = new Intent(getApplicationContext(), RingtonePlayingService.class);
+                                intent.putExtra("extra", "off");
+                                startService(intent);
+                                finish();
+
                                 Intent i_image = new Intent(StopAlarm.this,SDCardImagesActivity.class);
                                 finish();
                                 startActivity(i_image);
-
-                                //dialog.cancel();
-
-                                /*String uri = "com.example.dangxuanhung.test";
-                                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(uri);
-                                startActivity(launchIntent);*/
                             }
                         })
                         .setNegativeButton("Audio", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                                Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
                                 intent.putExtra("extra", "off");
-
-                                stopService(intent);
-                                sendBroadcast(intent);
+                                startService(intent);
                                 finish();
 
                                 Intent intent_audio = new Intent(StopAlarm.this,AudioActivity.class);
                                 startActivity(intent_audio);
-
-                                //finish();
                             }
                         });
                 AlertDialog alert = builder.create();

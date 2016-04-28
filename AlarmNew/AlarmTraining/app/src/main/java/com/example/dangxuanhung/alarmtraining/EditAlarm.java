@@ -63,6 +63,7 @@ public class EditAlarm extends Activity {
     PendingIntent pending_intent;
     DatabaseHelper dbHelper;
     String array_day_string ="";
+    private int id;
 
     final CharSequence alarmMode[] ={"Default","Play Game"};
 
@@ -90,8 +91,8 @@ public class EditAlarm extends Activity {
         dbHelper = new DatabaseHelper(this);
 
         final Intent intent_edit = getIntent();
-        final int id = intent_edit.getExtras().getInt("id");
-        final int pCode = intent_edit.getExtras().getInt("pCode");
+        id = intent_edit.getExtras().getInt("id");
+        Log.d(TAG, "id edit + " + id);
         String day_alarm = intent_edit.getStringExtra("arr_day_string");
         Boolean vibrate_checked = intent_edit.getExtras().getBoolean("vibrate");
 
@@ -149,7 +150,7 @@ public class EditAlarm extends Activity {
                 values_alarm.put("vibrate", vibrate);
                 dbHelper.update(values_alarm,"_id_alarm="+id,"alarm_table");
 
-                dbHelper.delete("id_alarm="+id,"day_table");
+                dbHelper.delete("day_table","id_alarm="+id);
 
                 int i=0;
                 for(i=0;i<arrDay.size();i++) {
@@ -177,18 +178,19 @@ public class EditAlarm extends Activity {
             @Override
             public void onClick(View v) {
 
-                Intent intent_dellete = new Intent(EditAlarm.this,MainActivity.class);
-                intent_dellete.putExtra("request","delete");
-                intent_dellete.putExtra("id", id);
-                setResult(MainActivity.REQUEST_CODE_EDIT, intent_dellete);
-
+                // xóa csdl
+                dbHelper.delete("alarm_table","_id_alarm="+id);
+                dbHelper.delete("day_table","id_alarm="+id);
+                // cancel alarm_manager
                 Intent i_del = new Intent(EditAlarm.this,AlarmReceiver.class);
-                PendingIntent p_intent_del = PendingIntent.getBroadcast(EditAlarm.getAppContext(), pCode, i_del, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                Log.e("PCode Del", String.valueOf(pCode));
+                PendingIntent p_intent_del = PendingIntent.getBroadcast(EditAlarm.getAppContext(), 1, i_del, PendingIntent.FLAG_UPDATE_CURRENT);
                 AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarm.cancel(p_intent_del);
-                finish();
+
+                // set alarm mới
+                arrDayAlarm = getArrayDay();
+                setAlarm(arrDayAlarm);
+                sendToMain(MainActivity.REQUEST_CODE_EDIT);
             }
         });
 
@@ -237,6 +239,7 @@ public class EditAlarm extends Activity {
 
             dayAlarm.setIdDay(kq_day.getInt(0));
             Log.d(TAG,"ID DAY : "+dayAlarm.getIdDay());
+            Log.d(TAG, "ID Alarm " + dayAlarm.getIdAlarm());
 
             dayAlarm.setIdAlarm(kq_day.getInt(kq_day.getColumnIndex("id_alarm")));
             dayAlarm.setDay(kq_day.getInt(kq_day.getColumnIndex("day_alarm")));
@@ -303,6 +306,26 @@ public class EditAlarm extends Activity {
                 dayAlarmSelect.setNameAlarm(mlist.get(0).getNameAlarm());
                 dayAlarmSelect.setRingAlarm(mlist.get(0).getRingAlarm());
                 dayAlarmSelect.setVibrate(mlist.get(0).getVibrate());
+
+                Intent my_intent = new Intent(EditAlarm.this,AlarmReceiver.class);
+                my_intent.putExtra("name",dayAlarmSelect.getNameAlarm());
+                my_intent.putExtra("ring",dayAlarmSelect.getRingAlarm());
+                my_intent.putExtra("vibrate",dayAlarmSelect.getVibrate());
+                my_intent.putExtra("day",dayAlarmSelect.getDay());
+                my_intent.putExtra("hour",dayAlarmSelect.getHour());
+                my_intent.putExtra("minute",dayAlarmSelect.getMinute());
+                my_intent.putExtra("extra", "on");
+
+                Calendar calendar_alarm = Calendar.getInstance();
+                calendar_alarm.set(Calendar.HOUR_OF_DAY,dayAlarmSelect.getHour());
+                calendar_alarm.set(Calendar.MINUTE,dayAlarmSelect.getMinute());
+
+                pending_intent = PendingIntent.getBroadcast(EditAlarm.this,1,
+                        my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+                AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                alarm_manager.set(AlarmManager.RTC_WAKEUP,
+                        calendar_alarm.getTimeInMillis(), pending_intent);
             }else if(mlist.size()>1){
                 int choose=0;
                 int k=1;

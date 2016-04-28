@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
  */
 public class RingtonePlayingService extends Service {
 
+    private static final String TAG = RingtonePlayingService.class.getSimpleName() ;
     MediaPlayer media_song;
     Boolean isRunning=false;
     private int startID;
@@ -29,6 +30,7 @@ public class RingtonePlayingService extends Service {
     public int onStartCommand(Intent intent,int flags,int startID){
 
         String state = intent.getExtras().getString("extra");
+        Log.d(TAG, "extra : "+ state);
         String ring_alarm = intent.getExtras().getString("ring_alarm");
 
         switch (state){

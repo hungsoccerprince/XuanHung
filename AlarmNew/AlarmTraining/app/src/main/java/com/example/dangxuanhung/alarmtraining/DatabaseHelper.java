@@ -123,7 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return index > 0;
     }
 
-    public boolean delete(String where,String table) {
+    public boolean delete(String table,String where) {
         open();
         long index = db.delete(table, where, null);
         close();
