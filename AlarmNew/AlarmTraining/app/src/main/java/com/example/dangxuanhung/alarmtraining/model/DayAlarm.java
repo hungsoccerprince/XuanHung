@@ -11,7 +11,7 @@ public class DayAlarm {
     private int hour;
     private int minute;
     private String ringAlarm;
-    private Boolean vibrate;
+    private String vibrate;
 
     public int getIdDay() {
         return idDay;
@@ -69,11 +69,11 @@ public class DayAlarm {
         this.ringAlarm = ringAlarm;
     }
 
-    public void setVibrate(Boolean vibrate) {
+    public void setVibrate(String vibrate) {
         this.vibrate = vibrate;
     }
 
-    public Boolean getVibrate() {
+    public String getVibrate() {
         return vibrate;
     }
 

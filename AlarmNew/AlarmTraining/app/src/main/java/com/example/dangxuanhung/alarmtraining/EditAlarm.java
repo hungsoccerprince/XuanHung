@@ -139,15 +139,14 @@ public class EditAlarm extends Activity {
                 int minuteAlarm = calendar.get(Calendar.MINUTE);
                 String ringAlarm = tvSelectRing.getText().toString();
                 String vibrate = "no";
-                if(cbVibrate.isChecked())
-                    vibrate = "yes";
+
                 ContentValues values_alarm = new ContentValues();
                 values_alarm.put("name_alarm",nameAlarm);
                 values_alarm.put("ring_alarm",ringAlarm);
                 values_alarm.put("hour",hourAlarm);
                 values_alarm.put("minute",minuteAlarm);
                 values_alarm.put("arr_day", array_day_string);
-                values_alarm.put("vibrate", vibrate);
+                values_alarm.put("vibrate", getVibrate());
                 dbHelper.update(values_alarm,"_id_alarm="+id,"alarm_table");
 
                 dbHelper.delete("day_table","id_alarm="+id);
@@ -161,7 +160,7 @@ public class EditAlarm extends Activity {
                     values_day_alarm.put("hour_alarm", hourAlarm);
                     values_day_alarm.put("minute_alarm", minuteAlarm);
                     values_day_alarm.put("day_alarm", arrDay.get(i));
-                    values_day_alarm.put("vibrate", vibrate);
+                    values_day_alarm.put("vibrate", getVibrate());
                     dbHelper.insert(values_day_alarm, "day_table");
                     Log.d(TAG, "insert day true");
                 }
@@ -247,9 +246,8 @@ public class EditAlarm extends Activity {
             dayAlarm.setMinute(kq_day.getInt(kq_day.getColumnIndex("minute_alarm")));
             dayAlarm.setNameAlarm(kq_day.getString(kq_day.getColumnIndex("name_alarm")));
             dayAlarm.setRingAlarm(kq_day.getString(kq_day.getColumnIndex("ring_alarm")));
-            if(kq_day.getString(kq_day.getColumnIndex("vibrate")).equals("yes"))
-                dayAlarm.setVibrate(true);
-            else dayAlarm.setVibrate(false);
+            dayAlarm.setVibrate(kq_day.getString(kq_day.getColumnIndex("vibrate")));
+
 
             arrDayAlarm.add(dayAlarm);
         }
@@ -658,6 +656,13 @@ public class EditAlarm extends Activity {
             arrDay.add(1);
             array_day_string += "1";
         }
+    }
+
+    public String getVibrate() {
+        if (cbVibrate.isChecked())
+            return "yes";
+        else
+            return "no";
     }
 
     public void getDefaultInfor(Intent i){

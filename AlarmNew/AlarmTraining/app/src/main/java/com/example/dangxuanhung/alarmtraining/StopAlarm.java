@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -65,6 +67,8 @@ public class StopAlarm extends AppCompatActivity {
                                 intent.putExtra("extra", "off");
                                 startService(intent);
                                 finish();
+                                Vibrator vibrator = (Vibrator) StopAlarm.this.getSystemService(Context.VIBRATOR_SERVICE);
+                                vibrator.cancel();
 
                                 Intent i_image = new Intent(StopAlarm.this,SDCardImagesActivity.class);
                                 finish();
@@ -78,6 +82,8 @@ public class StopAlarm extends AppCompatActivity {
                                 intent.putExtra("extra", "off");
                                 startService(intent);
                                 finish();
+                                Vibrator vibrator = (Vibrator) StopAlarm.this.getSystemService(Context.VIBRATOR_SERVICE);
+                                vibrator.cancel();
 
                                 Intent intent_audio = new Intent(StopAlarm.this,AudioActivity.class);
                                 startActivity(intent_audio);

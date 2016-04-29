@@ -3,6 +3,7 @@ package com.example.dangxuanhung.alarmtraining;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         String state = intent.getExtras().getString("extra");
         String ring_alarm = intent.getExtras().getString("ring");
         String name_alarm = intent.getExtras().getString("name");
-        boolean vibrate = intent.getExtras().getBoolean("vibrate");
+        String  vibrate = intent.getExtras().getString("vibrate");
         int day = intent.getExtras().getInt("day");
         int hour = intent.getExtras().getInt("hour");
         int minute = intent.getExtras().getInt("minute");
@@ -29,6 +30,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Intent service_intent = new Intent(context,RingtonePlayingService.class);
         Calendar c = Calendar.getInstance();
+
 
         if(day==c.get(Calendar.DAY_OF_WEEK) && hour==c.get(Calendar.HOUR_OF_DAY) && minute== c.get(Calendar.MINUTE)){
             if(state.equals("on")){
@@ -41,14 +43,15 @@ public class AlarmReceiver extends BroadcastReceiver {
                 service_intent.putExtra("ring_alarm", ring_alarm);
 
                 context.startService(service_intent);
+                if(vibrate.equals("yes")){
+                    Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(20000);
+                }
             }
             else {
-                //   Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-                //   vibrator.vibrate(2000);
                 service_intent.putExtra("extra",state);
                 service_intent.putExtra("ring_alarm",ring_alarm);
                 context.startService(service_intent);
-
             }
         }
 
