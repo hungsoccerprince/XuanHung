@@ -164,7 +164,6 @@ public class AddAlarm extends Activity {
 
                 arrDayAlarm = getArrayDay();
                 setAlarm(arrDayAlarm);
-
                 sendToMain(MainActivity.REQUEST_CODE_INPUT);
 
             }
