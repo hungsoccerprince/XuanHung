@@ -43,6 +43,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 service_intent.putExtra("ring_alarm", ring_alarm);
 
                 context.startService(service_intent);
+
                 if(vibrate.equals("yes")){
                     Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(20000);

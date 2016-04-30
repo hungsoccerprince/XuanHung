@@ -22,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "hour INTERGER," +
                     "minute INTERGER, "+
                     "arr_day VARCHAR(20),"+
+                    "state VARCHAR(20),"+
                     "vibrate VARCHAR(20))" ;
     public static final String CREATE_TABLE_DAY =
             "CREATE TABLE IF NOT EXISTS day_table(_id_day INTEGER PRIMARY KEY, " +
@@ -31,6 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "ring_alarm VARCHAR(200), " +
                     "hour_alarm INTERGER ," +
                     "minute_alarm INTERGER, " +
+                    "state VARCHAR(20),"+
                     "vibrate VARCHAR(20))" ;
 
     public static final String CREATE_TABLE_PCODE =

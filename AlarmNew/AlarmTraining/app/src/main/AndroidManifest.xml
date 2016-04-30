@@ -50,6 +50,10 @@
             android:enabled="true">
         </service>
 
+        <service android:name=".SetAlarmService"
+            android:enabled="true">
+        </service>
+
     </application>
 
 </manifest>

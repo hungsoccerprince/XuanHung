@@ -11,6 +11,7 @@ public class DayAlarm {
     private int hour;
     private int minute;
     private String ringAlarm;
+    private String state;
     private String vibrate;
 
     public int getIdDay() {
@@ -67,6 +68,14 @@ public class DayAlarm {
 
     public void setRingAlarm(String ringAlarm) {
         this.ringAlarm = ringAlarm;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public void setVibrate(String vibrate) {

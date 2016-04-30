@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:transcriptMode="alwaysScroll"
             android:stackFromBottom="false"
-            
+            android:focusable="true"
             />
     </LinearLayout>
 

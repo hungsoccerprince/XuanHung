@@ -1,10 +1,16 @@
 package com.example.dangxuanhung.alarmtraining;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dangxuanhung.alarmtraining.model.Alarm;
 
@@ -18,15 +24,15 @@ import java.util.Locale;
  */
 public class ListAdapter extends ArrayAdapter<Alarm> {
 
-    ArrayList<Alarm> arrAlarm;
-    Context context;
-    Alarm alarm;
-    int resource;
+    private static final String TAG = ListAdapter.class.getSimpleName() ;
+    private ArrayList<Alarm> arrAlarm;
+    private Context context;
+    private Alarm alarm;
+    private int resource;
 
-    TextView tvNameAlarm;
-    TextView tvIdAlarm;
-    TextView tvTimeAlarm;
-    TextView tvDayAlarm;
+    private TextView tvNameAlarm,tvIdAlarm,tvTimeAlarm,tvDayAlarm;
+    private Switch switchState;
+    private DatabaseHelper dbHelper;
 
     public ListAdapter(Context context, int textViewResourceId,ArrayList<Alarm> array) {
         super(context, textViewResourceId,array);
@@ -43,17 +49,51 @@ public class ListAdapter extends ArrayAdapter<Alarm> {
         if (alarmView == null) {
             alarmView = new CustomViewListAlarm(getContext());
         }
+        dbHelper = new DatabaseHelper(getContext());
         alarm = arrAlarm.get(position);
         if (alarm != null) {
             tvTimeAlarm = ((CustomViewListAlarm)alarmView).tvTimeAlarm;
             tvNameAlarm = ((CustomViewListAlarm) alarmView).tvNameAlarm;
             tvIdAlarm = ((CustomViewListAlarm) alarmView).tvIdAlarm;
             tvDayAlarm = ((CustomViewListAlarm) alarmView).tvDayAlarm;
+            switchState = ((CustomViewListAlarm)alarmView).switchState;
 
+            switchState.setTextOff("Off");
+            switchState.setTextOn("On");
+
+            switchState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        ContentValues v_update_alarm = new ContentValues();
+                        v_update_alarm.put("state","on");
+                        dbHelper.update(v_update_alarm,"_id_alarm="+alarm.getIdAlarm(),"alarm_table");
+                        dbHelper.update(v_update_alarm,"id_alarm="+alarm.getIdAlarm(),"day_table");
+
+                        Intent i_service = new Intent(getContext(),SetAlarmService.class);
+                        getContext().startService(i_service);
+                        Toast.makeText(context,"On",Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        ContentValues v_update_alarm = new ContentValues();
+                        v_update_alarm.put("state","off");
+                        dbHelper.update(v_update_alarm,"_id_alarm="+alarm.getIdAlarm(),"alarm_table");
+                        dbHelper.update(v_update_alarm,"id_alarm="+alarm.getIdAlarm(),"day_table");
+
+                        Intent i_service = new Intent(getContext(),SetAlarmService.class);
+                        getContext().startService(i_service);
+                        Toast.makeText(context,"Off",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
             // lay doi tuong alarm va dua ra UI
             tvIdAlarm.setText(String.valueOf(alarm.getIdAlarm()));
             tvTimeAlarm.setText(String.valueOf(alarm.getHourAlarm())+ ":" + String.valueOf(alarm.getMinuteAlarm()));
             tvNameAlarm.setText(alarm.getNameAlarm());
+
+            Log.d(TAG, alarm.getState());
+            if(alarm.getState().equals("on"))
+                switchState.setChecked(true);
 
             String dayAlarm = alarm.getArrDay();
             String dayView = "";

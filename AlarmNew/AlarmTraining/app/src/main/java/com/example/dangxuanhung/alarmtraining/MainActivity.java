@@ -111,10 +111,9 @@ public class MainActivity extends Activity {
             alarm.setHourAlarm(kq_alarm.getInt(kq_alarm.getColumnIndex("hour")));
             alarm.setMinuteAlarm(kq_alarm.getInt(kq_alarm.getColumnIndex("minute")));
             alarm.setRingAlarm(kq_alarm.getString(kq_alarm.getColumnIndex("ring_alarm")));
-            if (kq_alarm.getString(kq_alarm.getColumnIndex("vibrate")).equals("yes"))
-                alarm.setVibrate(true);
-            else alarm.setVibrate(false);
+            alarm.setVibrate(kq_alarm.getString(kq_alarm.getColumnIndex("vibrate")));
             alarm.setArrDay(kq_alarm.getString(kq_alarm.getColumnIndex("arr_day")));
+            alarm.setState(kq_alarm.getString(kq_alarm.getColumnIndex("state")));
 
             arrAlarm.add(alarm);
         }

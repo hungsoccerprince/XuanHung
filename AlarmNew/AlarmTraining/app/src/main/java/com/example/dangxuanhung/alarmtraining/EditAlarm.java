@@ -94,7 +94,7 @@ public class EditAlarm extends Activity {
         id = intent_edit.getExtras().getInt("id");
         Log.d(TAG, "id edit + " + id);
         String day_alarm = intent_edit.getStringExtra("arr_day_string");
-        Boolean vibrate_checked = intent_edit.getExtras().getBoolean("vibrate");
+        String vibrate_checked = intent_edit.getExtras().getString("vibrate");
 
         getDefaultInfor(intent_edit);
         getDayView(day_alarm);
@@ -103,8 +103,6 @@ public class EditAlarm extends Activity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i= new Intent(EditAlarm.this,MainActivity.class);
-                setResult(REQUEST_CODE_EDIT, i);
                 finish();
             }
         });
@@ -146,6 +144,7 @@ public class EditAlarm extends Activity {
                 values_alarm.put("hour",hourAlarm);
                 values_alarm.put("minute",minuteAlarm);
                 values_alarm.put("arr_day", array_day_string);
+                values_alarm.put("state","off");
                 values_alarm.put("vibrate", getVibrate());
                 dbHelper.update(values_alarm,"_id_alarm="+id,"alarm_table");
 
@@ -160,12 +159,14 @@ public class EditAlarm extends Activity {
                     values_day_alarm.put("hour_alarm", hourAlarm);
                     values_day_alarm.put("minute_alarm", minuteAlarm);
                     values_day_alarm.put("day_alarm", arrDay.get(i));
+                    values_alarm.put("state", "on");
                     values_day_alarm.put("vibrate", getVibrate());
                     dbHelper.insert(values_day_alarm, "day_table");
                     Log.d(TAG, "insert day true");
                 }
-                arrDayAlarm = getArrayDay();
-                setAlarm(arrDayAlarm);
+
+                Intent i_setAlarm = new Intent(EditAlarm.this,SetAlarmService.class);
+                startService(i_setAlarm);
 
                 sendToMain(MainActivity.REQUEST_CODE_EDIT);
 
@@ -187,8 +188,8 @@ public class EditAlarm extends Activity {
                 alarm.cancel(p_intent_del);
 
                 // set alarm mới
-                arrDayAlarm = getArrayDay();
-                setAlarm(arrDayAlarm);
+                Intent i_setAlarm = new Intent(EditAlarm.this,SetAlarmService.class);
+                startService(i_setAlarm);
                 sendToMain(MainActivity.REQUEST_CODE_EDIT);
             }
         });
@@ -731,8 +732,8 @@ public class EditAlarm extends Activity {
 
     }
 
-    public void getVibrateView(Boolean v){
-        if(v){
+    public void getVibrateView(String v){
+        if(v.equals("yes")){
             cbVibrate.setChecked(true);
         }
     }

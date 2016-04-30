@@ -11,7 +11,8 @@ public class Alarm {
     private String ringAlarm;
   //  private int dayAlarm;
     private String arrDay;
-    private Boolean vibrate;
+    private String state;
+    private String vibrate;
 
     public Alarm(){
         super();
@@ -56,11 +57,11 @@ public class Alarm {
         this.ringAlarm = ringAlarm;
     }
 
-    public void setVibrate(Boolean vibrate) {
+    public void setVibrate(String vibrate) {
         this.vibrate = vibrate;
     }
 
-    public Boolean getVibrate() {
+    public String getVibrate() {
         return vibrate;
     }
 
@@ -70,5 +71,13 @@ public class Alarm {
 
     public void setArrDay(String arrDay) {
         this.arrDay = arrDay;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

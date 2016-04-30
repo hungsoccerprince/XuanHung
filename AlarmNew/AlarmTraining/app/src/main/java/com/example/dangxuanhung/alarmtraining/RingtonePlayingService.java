@@ -80,8 +80,11 @@ public class RingtonePlayingService extends Service {
     }
     @Override
     public void onDestroy(){
-        Toast.makeText(this,"ringtone complete",Toast.LENGTH_SHORT).show();
+
+        super.onDestroy();
+        Toast.makeText(this,"Stop Service",Toast.LENGTH_SHORT).show();
     }
+
 
     public void createPlaymedia(String name){
 

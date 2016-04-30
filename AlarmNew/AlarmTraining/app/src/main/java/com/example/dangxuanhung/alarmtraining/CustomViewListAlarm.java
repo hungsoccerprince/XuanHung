@@ -3,6 +3,7 @@ package com.example.dangxuanhung.alarmtraining;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 /**
@@ -15,6 +16,7 @@ public class CustomViewListAlarm extends LinearLayout {
     TextView tvNameAlarm;
     TextView tvDayAlarm;
     Context context;
+    Switch switchState;
 
     public CustomViewListAlarm(Context context){
 
@@ -30,6 +32,7 @@ public class CustomViewListAlarm extends LinearLayout {
         tvIdAlarm = (TextView)findViewById(R.id.tvIdAlarm);
         tvNameAlarm = (TextView)findViewById(R.id.tvNameAlarm);
         tvDayAlarm = (TextView)findViewById(R.id.tvDayAlarm);
+        switchState = (Switch)findViewById(R.id.switchState);
 
     }
 }
