@@ -61,24 +61,41 @@ public class ListAdapter extends ArrayAdapter<Alarm> {
             switchState.setTextOff("Off");
             switchState.setTextOn("On");
 
+            if(alarm.getState().equals("on"))
+                switchState.setChecked(true);
+
             switchState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
                         ContentValues v_update_alarm = new ContentValues();
                         v_update_alarm.put("state","on");
-                        dbHelper.update(v_update_alarm,"_id_alarm="+alarm.getIdAlarm(),"alarm_table");
-                        dbHelper.update(v_update_alarm,"id_alarm="+alarm.getIdAlarm(),"day_table");
+                        try {
+                            dbHelper.update(v_update_alarm,"_id_alarm="+alarm.getIdAlarm(),"alarm_table");
+                            dbHelper.update(v_update_alarm,"id_alarm="+alarm.getIdAlarm(),"day_table");
+                            Log.d(TAG,"id "+ alarm.getIdAlarm());
+                        }
+                        catch (Exception e){
+                            Log.e(TAG, String.valueOf(e));
+                        }
+
+
 
                         Intent i_service = new Intent(getContext(),SetAlarmService.class);
                         getContext().startService(i_service);
                         Toast.makeText(context,"On",Toast.LENGTH_SHORT).show();
                     }
-                    else {
+                    if(!isChecked) {
                         ContentValues v_update_alarm = new ContentValues();
                         v_update_alarm.put("state","off");
-                        dbHelper.update(v_update_alarm,"_id_alarm="+alarm.getIdAlarm(),"alarm_table");
-                        dbHelper.update(v_update_alarm,"id_alarm="+alarm.getIdAlarm(),"day_table");
+                        try {
+                            dbHelper.update(v_update_alarm,"_id_alarm="+alarm.getIdAlarm(),"alarm_table");
+                            dbHelper.update(v_update_alarm,"id_alarm="+alarm.getIdAlarm(),"day_table");
+                            Log.d(TAG,"id "+ alarm.getIdAlarm());
+                        }
+                        catch (Exception e){
+                            Log.e(TAG, String.valueOf(e));
+                        }
 
                         Intent i_service = new Intent(getContext(),SetAlarmService.class);
                         getContext().startService(i_service);
@@ -90,10 +107,6 @@ public class ListAdapter extends ArrayAdapter<Alarm> {
             tvIdAlarm.setText(String.valueOf(alarm.getIdAlarm()));
             tvTimeAlarm.setText(String.valueOf(alarm.getHourAlarm())+ ":" + String.valueOf(alarm.getMinuteAlarm()));
             tvNameAlarm.setText(alarm.getNameAlarm());
-
-            Log.d(TAG, alarm.getState());
-            if(alarm.getState().equals("on"))
-                switchState.setChecked(true);
 
             String dayAlarm = alarm.getArrDay();
             String dayView = "";

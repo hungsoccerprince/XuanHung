@@ -35,9 +35,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "state VARCHAR(20),"+
                     "vibrate VARCHAR(20))" ;
 
-    public static final String CREATE_TABLE_PCODE =
-            "CREATE TABLE IF NOT EXISTS pcode_table(pcode INTERGER)";
-
     public static final int DATA_VERSION = 1;
 
     private SQLiteDatabase db;
@@ -53,7 +50,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.d(TAG,"Create table alarm true");
             db.execSQL(CREATE_TABLE_DAY);
             Log.e(TAG,"Create table day true");
-            db.execSQL(CREATE_TABLE_PCODE);
             db.execSQL("Insert into pcode_table values(1)");
         } catch (Exception e) {
             e.printStackTrace();
@@ -121,6 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean update( ContentValues values, String where,String table) {
         open();
         long index = db.update(table, values, where, null);
+        Log.d(TAG, "update complete!");
         close();
         return index > 0;
     }

@@ -52,7 +52,7 @@ public class AddAlarm extends Activity {
     final CharSequence alarmMode[] ={"Default","Play Game"};
     private ArrayList<Integer> selList;
     private ArrayList<Integer> arrDay;
-    private ArrayList<DayAlarm> arrDayAlarm ;
+   // private ArrayList<DayAlarm> arrDayAlarm ;
     private String array_day_string ="";
     private boolean bl[] = new boolean[alarmMode.length];
     private String msg ="";
@@ -66,7 +66,7 @@ public class AddAlarm extends Activity {
 
         selList=new ArrayList();
         arrDay = new ArrayList<>();
-        arrDayAlarm = new ArrayList<>();
+     //   arrDayAlarm = new ArrayList<>();
         dbHelper = new DatabaseHelper(this);
 
         this.context=getApplicationContext();
@@ -74,8 +74,7 @@ public class AddAlarm extends Activity {
         Log.d(TAG, "Max ID "+max_id);
 
         calendar = Calendar.getInstance();
-        arrDayAlarm.clear();
-        arrDay.clear();
+       // arrDayAlarm.clear();
 
         getViewLayout();
         getDefaultInfor();
@@ -106,7 +105,7 @@ public class AddAlarm extends Activity {
             @Override
             public void onClick(View v) {
 
-                setDay();
+                arrDay = setDay();
                 String nameAlarm = edtNameAlarm.getText().toString();
                 int hourAlarm = calendar.get(Calendar.HOUR_OF_DAY);
                 int minuteAlarm = calendar.get(Calendar.MINUTE);
@@ -131,14 +130,11 @@ public class AddAlarm extends Activity {
                     values_day_alarm.put("hour_alarm",hourAlarm);
                     values_day_alarm.put("minute_alarm",minuteAlarm);
                     values_day_alarm.put("day_alarm", arrDay.get(i));
-                    values_alarm.put("state", "on");
+                    values_day_alarm.put("state", "on");
                     values_day_alarm.put("vibrate", getVibrate());
                     dbHelper.insert(values_day_alarm,"day_table");
                     Log.d(TAG,"insert day true");
                 }
-
-              /*  arrDayAlarm = getArrayDay();
-                setAlarm(arrDayAlarm);*/
 
                 Intent i_setAlarm = new Intent(AddAlarm.this,SetAlarmService.class);
                 startService(i_setAlarm);
@@ -266,8 +262,8 @@ public class AddAlarm extends Activity {
         });
     }
 
-    public void setDay(){
-        arrDay.clear();
+    public ArrayList<Integer> setDay(){
+        ArrayList<Integer> arrDay = new ArrayList<Integer>();
         if(cbMon.isChecked()){
             arrDay.add(2);
             array_day_string += "2";
@@ -296,6 +292,7 @@ public class AddAlarm extends Activity {
             arrDay.add(1);
             array_day_string += "1";
         }
+        return arrDay;
     }
 
     public String getVibrate(){

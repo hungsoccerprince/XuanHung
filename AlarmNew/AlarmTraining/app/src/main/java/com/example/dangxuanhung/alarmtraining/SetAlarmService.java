@@ -3,6 +3,7 @@ package com.example.dangxuanhung.alarmtraining;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.IBinder;
@@ -49,7 +50,7 @@ public class SetAlarmService extends Service {
     // get anh sách Day from database
     public ArrayList<DayAlarm> getArrayDay() {
         ArrayList<DayAlarm> arrDayAlarm = new ArrayList<>();
-        Cursor kq_day = dbHelper.getData("Select * from day_table where state='on'");
+        Cursor kq_day = dbHelper.getData("Select * from day_table where state = 'on'");
         while (kq_day.moveToNext()) {
             DayAlarm dayAlarm = new DayAlarm();
 
@@ -62,17 +63,19 @@ public class SetAlarmService extends Service {
             dayAlarm.setMinute(kq_day.getInt(kq_day.getColumnIndex("minute_alarm")));
             dayAlarm.setNameAlarm(kq_day.getString(kq_day.getColumnIndex("name_alarm")));
             dayAlarm.setRingAlarm(kq_day.getString(kq_day.getColumnIndex("ring_alarm")));
+            dayAlarm.setState(kq_day.getString(kq_day.getColumnIndex("state")));
             dayAlarm.setVibrate(kq_day.getString(kq_day.getColumnIndex("vibrate")));
 
             arrDayAlarm.add(dayAlarm);
         }
+        Log.d(TAG, String.valueOf(arrDayAlarm.size()));
         return arrDayAlarm;
     }
 
 
     // Đặt báo thức gần nhất
     public void setAlarm(ArrayList<DayAlarm> arr){
-        DayAlarm dayAlarmSelect = new DayAlarm();
+
         int i=0;
         ArrayList<DayAlarm> list0 = new ArrayList<>(); // list báo thức tuần tiếp theo
         ArrayList<DayAlarm> list1 = new ArrayList<>(); // list báo thức trong ngày
@@ -81,6 +84,11 @@ public class SetAlarmService extends Service {
         int nowDay = calendar_now.get(Calendar.DAY_OF_WEEK);
         int nowTime = (int) calendar_now.getTimeInMillis();
         Log.d(TAG,"minute now"+calendar_now.get(Calendar.MINUTE));
+
+        Intent i_del = new Intent(SetAlarmService.this,AlarmReceiver.class);
+        PendingIntent p_intent_del = PendingIntent.getBroadcast(SetAlarmService.this, 1, i_del, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(p_intent_del);
 
         for(i=0;i<arr.size();i++){
             if(arr.get(i).getDay() > nowDay){
@@ -98,14 +106,13 @@ public class SetAlarmService extends Service {
         Log.d(TAG, "lis2 : "+list2.size());
 
         if (list1.size()>=1) {
+            DayAlarm dayAlarmSelect = new DayAlarm();
             ArrayList<DayAlarm> mlist = new ArrayList<>();// list alarm gần nhất trong ngày
             int j=0;
+            Calendar c_now = Calendar.getInstance();
             for(j=0;j<list1.size();j++){
-                Calendar c = Calendar.getInstance() ;
-                c.set(Calendar.HOUR_OF_DAY,list1.get(j).getHour());
-                c.set(Calendar.MINUTE,list1.get(j).getMinute());
 
-                if(c.getTimeInMillis()>=Calendar.getInstance().getTimeInMillis()){
+                if(list1.get(j).getHour()>c_now.get(Calendar.HOUR_OF_DAY) | (list1.get(j).getHour()==c_now.get(Calendar.HOUR_OF_DAY) &&  list1.get(j).getMinute()>c_now.get(Calendar.MINUTE))){
                     mlist.add(list1.get(j));
                 }
             }
@@ -120,6 +127,7 @@ public class SetAlarmService extends Service {
                 dayAlarmSelect.setNameAlarm(mlist.get(0).getNameAlarm());
                 dayAlarmSelect.setRingAlarm(mlist.get(0).getRingAlarm());
                 dayAlarmSelect.setVibrate(mlist.get(0).getVibrate());
+                dayAlarmSelect.setState(mlist.get(0).getState());
 
                 Log.d(TAG,"hour today"+ String.valueOf(dayAlarmSelect.getHour()));
                 Log.d(TAG,"minute today"+ String.valueOf(dayAlarmSelect.getMinute()));
@@ -167,6 +175,7 @@ public class SetAlarmService extends Service {
                 dayAlarmSelect.setNameAlarm(mlist.get(choose).getNameAlarm());
                 dayAlarmSelect.setRingAlarm(mlist.get(choose).getRingAlarm());
                 dayAlarmSelect.setVibrate(mlist.get(choose).getVibrate());
+                dayAlarmSelect.setState(mlist.get(choose).getState());
 
                 Log.d(TAG,"today day : "+ dayAlarmSelect.getDay() );
                 Log.d(TAG,"today hour : "+ dayAlarmSelect.getHour() );

@@ -115,6 +115,8 @@ public class MainActivity extends Activity {
             alarm.setArrDay(kq_alarm.getString(kq_alarm.getColumnIndex("arr_day")));
             alarm.setState(kq_alarm.getString(kq_alarm.getColumnIndex("state")));
 
+            Log.d(TAG,alarm.getState());
+
             arrAlarm.add(alarm);
         }
         // Log.d(TAG, "max_id : "+ arrAlarm.get(arrAlarm.size()-1).getIdAlarm());
