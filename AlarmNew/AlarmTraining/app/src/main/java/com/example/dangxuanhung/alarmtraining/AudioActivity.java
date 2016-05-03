@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.skyfishjy.library.RippleBackground;
@@ -25,11 +26,13 @@ import java.util.Random;
  */
 public class AudioActivity extends Activity {
 
+    private static final String TAG = AudioActivity.class.getSimpleName();
     private Button btn1,btn2, btn3, btn4 ;
     private TextView tvReply;
+    private LinearLayout lnPoint;
     private Cursor audioCursor;
-
     private String name_audio = null;
+    private int point=0;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -41,10 +44,10 @@ public class AudioActivity extends Activity {
         btn3=(Button)findViewById(R.id.btn3);
         btn4=(Button)findViewById(R.id.btn4);
         tvReply =(TextView)findViewById(R.id.tvReply);
+        lnPoint = (LinearLayout)findViewById(R.id.lnPoint);
 
         final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.content);
         final Handler handler=new Handler();
-
         final MediaPlayer audioPlay = new MediaPlayer();
 
         final String[] proj = {MediaStore.Audio.Media._ID,
@@ -78,15 +81,23 @@ public class AudioActivity extends Activity {
             public void onClick(View v) {
                 if(btn1.getText().equals(name_audio))
                 {
-                    audioPlay.stop();
-                    tvReply.setText("Chính Xác");
-                    tvReply.setTextColor(Color.BLUE);
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            finish();
-                        }
-                    }, 5000);
+                    point += 1;
+                    getPoint();
+                    if(getPoint()){
+                        audioPlay.stop();
+                        tvReply.setText("Chính Xác");
+                        tvReply.setTextColor(Color.BLUE);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, 5000);
+                    }
+                    else {
+                        audioPlay.stop();
+                        onCreate(savedInstanceState );
+                    }
                 }
                 else {
                     audioPlay.stop();
@@ -100,15 +111,23 @@ public class AudioActivity extends Activity {
             public void onClick(View v) {
                 if(btn2.getText().equals(name_audio))
                 {
-                    audioPlay.stop();
-                    tvReply.setText("Chính Xác");
-                    tvReply.setTextColor(Color.BLUE);
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            finish();
-                        }
-                    }, 5000);
+                    point += 1;
+                    getPoint();
+                    if(getPoint()){
+                        audioPlay.stop();
+                        tvReply.setText("Chính Xác");
+                        tvReply.setTextColor(Color.BLUE);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, 5000);
+                    }
+                    else {
+                        audioPlay.stop();
+                        onCreate(savedInstanceState );
+                    }
                 }
                 else {
                     audioPlay.stop();
@@ -122,15 +141,23 @@ public class AudioActivity extends Activity {
             public void onClick(View v) {
                 if(btn3.getText().equals(name_audio))
                 {
-                    audioPlay.stop();
-                    tvReply.setText("Chính Xác");
-                    tvReply.setTextColor(Color.BLUE);
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            finish();
-                        }
-                    }, 5000);
+                    point += 1;
+                    getPoint();
+                    if(getPoint()){
+                        audioPlay.stop();
+                        tvReply.setText("Chính Xác");
+                        tvReply.setTextColor(Color.BLUE);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, 5000);
+                    }
+                    else {
+                        audioPlay.stop();
+                        onCreate(savedInstanceState );
+                    }
                 }
                 else {
                     audioPlay.stop();
@@ -144,15 +171,23 @@ public class AudioActivity extends Activity {
             public void onClick(View v) {
                 if(btn4.getText().equals(name_audio))
                 {
-                    audioPlay.stop();
-                    tvReply.setText("Chính Xác");
-                    tvReply.setTextColor(Color.BLUE);
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            finish();
-                        }
-                    }, 5000);
+                    point += 1;
+                    getPoint();
+                    if(getPoint()){
+                        audioPlay.stop();
+                        tvReply.setText("Chính Xác");
+                        tvReply.setTextColor(Color.BLUE);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, 5000);
+                    }
+                    else {
+                        audioPlay.stop();
+                        onCreate(savedInstanceState );
+                    }
                 }
                 else {
                     audioPlay.stop();
@@ -214,6 +249,29 @@ public class AudioActivity extends Activity {
             btn2.setText(arr_title.get(rand_title2));
             btn3.setText(arr_title.get(rand_title3));
         }
+    }
+
+    private boolean getPoint(){
+        Boolean check = false;
+        switch (point){
+            case 3:
+                lnPoint.setBackgroundResource(R.drawable.point_3);
+                Log.d(TAG, String.valueOf(point));
+                check = true;
+                break;
+            case 2:
+                lnPoint.setBackgroundResource(R.drawable.point_3);
+                Log.d(TAG, String.valueOf(point));
+                check = false;
+                break;
+            case 1:
+                lnPoint.setBackgroundResource(R.drawable.point_3);
+                Log.d(TAG, String.valueOf(point));
+                check = false;
+                break;
+
+        }
+        return check;
     }
 
 }

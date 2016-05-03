@@ -50,7 +50,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.d(TAG,"Create table alarm true");
             db.execSQL(CREATE_TABLE_DAY);
             Log.e(TAG,"Create table day true");
-            db.execSQL("Insert into pcode_table values(1)");
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG," Create table False");
@@ -125,6 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean delete(String table,String where) {
         open();
         long index = db.delete(table, where, null);
+        Log.d(TAG, "delete complete!");
         close();
         return index > 0;
     }

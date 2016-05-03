@@ -14,7 +14,7 @@ import java.util.Calendar;
  */
 public class AlarmReceiver extends BroadcastReceiver {
 
-    public static final String TAG = "Receiver";
+    public static final String TAG = AlarmReceiver.class.getSimpleName();
     @Override
     public void onReceive(final Context context, Intent intent) {
 

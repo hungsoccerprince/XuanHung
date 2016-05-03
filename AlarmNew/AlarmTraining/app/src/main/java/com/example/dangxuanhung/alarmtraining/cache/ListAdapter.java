@@ -1,4 +1,4 @@
-package com.example.dangxuanhung.alarmtraining;
+package com.example.dangxuanhung.alarmtraining.cache;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,12 +12,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dangxuanhung.alarmtraining.DatabaseHelper;
+import com.example.dangxuanhung.alarmtraining.SetAlarmService;
 import com.example.dangxuanhung.alarmtraining.model.Alarm;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Dang Xuan Hung on 04/03/2016.
@@ -34,6 +33,7 @@ public class ListAdapter extends ArrayAdapter<Alarm> {
     private Switch switchState;
     private DatabaseHelper dbHelper;
 
+
     public ListAdapter(Context context, int textViewResourceId,ArrayList<Alarm> array) {
         super(context, textViewResourceId,array);
         // TODO Auto-generated constructor stub
@@ -43,7 +43,7 @@ public class ListAdapter extends ArrayAdapter<Alarm> {
         this.arrAlarm = array;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, final View convertView, final ViewGroup parent) {
         View alarmView = convertView;
 
         if (alarmView == null) {
@@ -51,7 +51,10 @@ public class ListAdapter extends ArrayAdapter<Alarm> {
         }
         dbHelper = new DatabaseHelper(getContext());
         alarm = arrAlarm.get(position);
+
+
         if (alarm != null) {
+
             tvTimeAlarm = ((CustomViewListAlarm)alarmView).tvTimeAlarm;
             tvNameAlarm = ((CustomViewListAlarm) alarmView).tvNameAlarm;
             tvIdAlarm = ((CustomViewListAlarm) alarmView).tvIdAlarm;
@@ -61,8 +64,9 @@ public class ListAdapter extends ArrayAdapter<Alarm> {
             switchState.setTextOff("Off");
             switchState.setTextOn("On");
 
-            if(alarm.getState().equals("on"))
+            if(alarm.getState().equals("on")){
                 switchState.setChecked(true);
+            }
 
             switchState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -71,15 +75,13 @@ public class ListAdapter extends ArrayAdapter<Alarm> {
                         ContentValues v_update_alarm = new ContentValues();
                         v_update_alarm.put("state","on");
                         try {
-                            dbHelper.update(v_update_alarm,"_id_alarm="+alarm.getIdAlarm(),"alarm_table");
-                            dbHelper.update(v_update_alarm,"id_alarm="+alarm.getIdAlarm(),"day_table");
-                            Log.d(TAG,"id "+ alarm.getIdAlarm());
+                            dbHelper.update(v_update_alarm,"_id_alarm="+tvIdAlarm.getText(),"alarm_table");
+                            dbHelper.update(v_update_alarm,"id_alarm="+tvIdAlarm.getText(),"day_table");
+                            Log.d(TAG,"id "+ tvIdAlarm.getText());
                         }
                         catch (Exception e){
                             Log.e(TAG, String.valueOf(e));
                         }
-
-
 
                         Intent i_service = new Intent(getContext(),SetAlarmService.class);
                         getContext().startService(i_service);
@@ -89,9 +91,9 @@ public class ListAdapter extends ArrayAdapter<Alarm> {
                         ContentValues v_update_alarm = new ContentValues();
                         v_update_alarm.put("state","off");
                         try {
-                            dbHelper.update(v_update_alarm,"_id_alarm="+alarm.getIdAlarm(),"alarm_table");
-                            dbHelper.update(v_update_alarm,"id_alarm="+alarm.getIdAlarm(),"day_table");
-                            Log.d(TAG,"id "+ alarm.getIdAlarm());
+                            dbHelper.update(v_update_alarm,"_id_alarm="+tvIdAlarm.getText(),"alarm_table");
+                            dbHelper.update(v_update_alarm,"id_alarm="+tvIdAlarm.getText(),"day_table");
+                            Log.d(TAG,"id "+ tvIdAlarm.getText());
                         }
                         catch (Exception e){
                             Log.e(TAG, String.valueOf(e));
@@ -134,13 +136,7 @@ public class ListAdapter extends ArrayAdapter<Alarm> {
 
             tvDayAlarm.setText(dayView);
         }
-
         return alarmView;
     }
 
-    public String getHourFormat(Date d) {
-        SimpleDateFormat dft = new SimpleDateFormat("hh:mm a",
-                Locale.getDefault());
-        return dft.format(d);
-    }
 }

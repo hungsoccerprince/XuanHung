@@ -1,10 +1,12 @@
-package com.example.dangxuanhung.alarmtraining;
+package com.example.dangxuanhung.alarmtraining.cache;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import com.example.dangxuanhung.alarmtraining.R;
 
 /**
  * Created by Dang Xuan Hung on 04/03/2016.

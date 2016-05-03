@@ -47,6 +47,9 @@ public class StopAlarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_ring);
 
+        Intent i_setAlarm = new Intent(StopAlarm.this,SetAlarmService.class);
+        startService(i_setAlarm);
+
         // Count Time display activity
         startTimer();
 
@@ -68,16 +71,16 @@ public class StopAlarm extends AppCompatActivity {
                         .setPositiveButton("Image", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                Intent intent = new Intent(getApplicationContext(), RingtonePlayingService.class);
+                               /* Intent intent = new Intent(getApplicationContext(), RingtonePlayingService.class);
                                 intent.putExtra("extra", "off");
                                 startService(intent);
                                 finish();
                                 Vibrator vibrator = (Vibrator) StopAlarm.this.getSystemService(Context.VIBRATOR_SERVICE);
                                 vibrator.cancel();
 
-                                Intent i_image = new Intent(StopAlarm.this,SDCardImagesActivity.class);
+                                Intent i_image = new Intent(StopAlarm.this,SDCardImagesActivity.class);*/
                                 finish();
-                                startActivity(i_image);
+                                //startActivity(i_image);
                             }
                         })
                         .setNegativeButton("Audio", new DialogInterface.OnClickListener() {

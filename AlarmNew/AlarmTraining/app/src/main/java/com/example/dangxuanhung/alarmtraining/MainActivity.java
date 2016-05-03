@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.dangxuanhung.alarmtraining.cache.ListAdapter;
 import com.example.dangxuanhung.alarmtraining.model.Alarm;
 import com.example.dangxuanhung.alarmtraining.model.DayAlarm;
 import com.melnykov.fab.FloatingActionButton;
@@ -32,8 +34,9 @@ public class MainActivity extends Activity {
 
     ArrayList<Alarm> arrAlarm;
     ArrayList<DayAlarm> arrDay;
-    ListAdapter adapterAlarm;
+    ListAlarmAdapter adapter;
     int max_id;
+    private RecyclerView rvAlarm;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,33 +52,20 @@ public class MainActivity extends Activity {
         dbHelper = new DatabaseHelper(this);
        // arrDay = new ArrayList<DayAlarm>();
         arrAlarm = new ArrayList<Alarm>();
-
-        lvListAlarm = (ListView) findViewById(R.id.lvListAlarm);
-
-        fabAddAlarm = (FloatingActionButton) findViewById(R.id.fabAddAlarm);
-        fabAddAlarm.attachToListView(lvListAlarm);
-
+        /*lvListAlarm = (ListView) findViewById(R.id.lvListAlarm);
         adapterAlarm = new ListAdapter(this, R.layout.listview, arrAlarm);
-        lvListAlarm.setAdapter(adapterAlarm);
+        lvListAlarm.setAdapter(adapterAlarm);*/
+
+        rvAlarm = (RecyclerView)findViewById(R.id.lvListAlarm);
+        rvAlarm.setLayoutManager(new LinearLayoutManager(this));
         showList();
 
-        fabAddAlarm.setOnClickListener(new View.OnClickListener() {
+        adapter = new ListAlarmAdapter(getApplicationContext(), arrAlarm, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_add = new Intent(MainActivity.this, AddAlarm.class);
-                intent_add.putExtra("max_id", max_id + 1);
-                startActivityForResult(intent_add, REQUEST_CODE_INPUT);
-
-            }
-        });
-
-        lvListAlarm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Alarm alarm = (Alarm) parent.getItemAtPosition(position);
+                int position = rvAlarm.getChildLayoutPosition(v);
+                Alarm alarm = arrAlarm.get(position);
                 Intent intent_edit = new Intent(MainActivity.this, EditAlarm.class);
-
                 intent_edit.putExtra("id", alarm.getIdAlarm());
                 intent_edit.putExtra("name_alarm", alarm.getNameAlarm());
                 intent_edit.putExtra("ring_alarm", alarm.getRingAlarm());
@@ -86,9 +76,22 @@ public class MainActivity extends Activity {
 
                 startActivityForResult(intent_edit, REQUEST_CODE_EDIT);
             }
-
         });
+        rvAlarm.setAdapter(adapter);
 
+        fabAddAlarm = (FloatingActionButton) findViewById(R.id.fabAddAlarm);
+        fabAddAlarm.attachToRecyclerView(rvAlarm);
+
+
+        fabAddAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_add = new Intent(MainActivity.this, AddAlarm.class);
+                intent_add.putExtra("max_id", max_id + 1);
+                startActivityForResult(intent_add, REQUEST_CODE_INPUT);
+
+            }
+        });
     }
 
     @Override
@@ -96,10 +99,12 @@ public class MainActivity extends Activity {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         showList();
+        adapter.notifyDataSetChanged();
     }
 
     // show list alarm from database to listview
     public void showList() {
+
         arrAlarm.clear();
         Cursor kq_alarm = dbHelper.getData("Select * from alarm_table");
         //Log.d(TAG, String.valueOf(kq_alarm.getCount()));
@@ -120,7 +125,6 @@ public class MainActivity extends Activity {
             arrAlarm.add(alarm);
         }
         // Log.d(TAG, "max_id : "+ arrAlarm.get(arrAlarm.size()-1).getIdAlarm());
-        adapterAlarm.notifyDataSetChanged();
         if (arrAlarm.size() > 0){
             Log.d(TAG, "max_id : "+ arrAlarm.get(arrAlarm.size()-1).getIdAlarm());
             max_id = arrAlarm.get(arrAlarm.size() - 1).getIdAlarm();

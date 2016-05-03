@@ -131,7 +131,6 @@ public class EditAlarm extends Activity {
             public void onClick(View v) {
 
                 setDay();
-
                 String nameAlarm = edtNameAlarm.getText().toString();
                 int hourAlarm = calendar.get(Calendar.HOUR_OF_DAY);
                 int minuteAlarm = calendar.get(Calendar.MINUTE);
@@ -143,7 +142,7 @@ public class EditAlarm extends Activity {
                 values_alarm.put("hour",hourAlarm);
                 values_alarm.put("minute",minuteAlarm);
                 values_alarm.put("arr_day", array_day_string);
-                values_alarm.put("state","off");
+                values_alarm.put("state","on");
                 values_alarm.put("vibrate", getVibrate());
                 dbHelper.update(values_alarm,"_id_alarm="+id,"alarm_table");
                 dbHelper.delete("day_table","id_alarm="+id);
@@ -160,7 +159,6 @@ public class EditAlarm extends Activity {
                     values_day_alarm.put("state", "on");
                     values_day_alarm.put("vibrate", getVibrate());
                     dbHelper.insert(values_day_alarm, "day_table");
-                    Log.d(TAG, "insert day true");
                 }
 
                 Intent i_setAlarm = new Intent(EditAlarm.this,SetAlarmService.class);
@@ -175,7 +173,6 @@ public class EditAlarm extends Activity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // xóa csdl
                 dbHelper.delete("alarm_table","_id_alarm="+id);
                 dbHelper.delete("day_table","id_alarm="+id);
@@ -215,6 +212,7 @@ public class EditAlarm extends Activity {
     public void sendToMain(int resultcode)
     {
         Intent i=getIntent();
+        i.putExtra("request","edit");
         setResult(resultcode, i);
         finish();
     }

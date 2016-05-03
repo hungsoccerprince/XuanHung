@@ -115,6 +115,7 @@ public class SetAlarmService extends Service {
                 if(list1.get(j).getHour()>c_now.get(Calendar.HOUR_OF_DAY) | (list1.get(j).getHour()==c_now.get(Calendar.HOUR_OF_DAY) &&  list1.get(j).getMinute()>c_now.get(Calendar.MINUTE))){
                     mlist.add(list1.get(j));
                 }
+                else list0.add(list1.get(j));
             }
             Log.d(TAG,"mlist : "+String.valueOf(mlist.size()));
             if(mlist.size()==1){
