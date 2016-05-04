@@ -9,10 +9,10 @@ public class Alarm {
     private int hourAlarm;
     private int minuteAlarm;
     private String ringAlarm;
-  //  private int dayAlarm;
     private String arrDay;
     private String state;
     private String vibrate;
+    private String mode;
 
     public Alarm(){
         super();
@@ -79,5 +79,13 @@ public class Alarm {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public String getMode() {
+        return mode;
     }
 }

@@ -13,6 +13,7 @@ public class DayAlarm {
     private String ringAlarm;
     private String state;
     private String vibrate;
+    private String mode;
 
     public int getIdDay() {
         return idDay;
@@ -86,4 +87,11 @@ public class DayAlarm {
         return vibrate;
     }
 
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 }

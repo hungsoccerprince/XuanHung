@@ -144,6 +144,7 @@ public class EditAlarm extends Activity {
                 values_alarm.put("arr_day", array_day_string);
                 values_alarm.put("state","on");
                 values_alarm.put("vibrate", getVibrate());
+                values_alarm.put("mode", tvAlarmMode.getText().toString());
                 dbHelper.update(values_alarm,"_id_alarm="+id,"alarm_table");
                 dbHelper.delete("day_table","id_alarm="+id);
 
@@ -158,9 +159,11 @@ public class EditAlarm extends Activity {
                     values_day_alarm.put("day_alarm", arrDay.get(i));
                     values_day_alarm.put("state", "on");
                     values_day_alarm.put("vibrate", getVibrate());
+                    values_day_alarm.put("mode", tvAlarmMode.getText().toString());
                     dbHelper.insert(values_day_alarm, "day_table");
                 }
 
+                Log.d(TAG, "mode add : "+ tvAlarmMode.getText().toString());
                 Intent i_setAlarm = new Intent(EditAlarm.this,SetAlarmService.class);
                 startService(i_setAlarm);
 
@@ -357,6 +360,7 @@ public class EditAlarm extends Activity {
         tvTime.setText(time);
         tvSelectRing.setText(i.getStringExtra("ring_alarm"));
         edtNameAlarm.setText(i.getStringExtra("name_alarm"));
+        tvAlarmMode.setText(i.getStringExtra("mode"));
 
         calendar.set(Calendar.HOUR_OF_DAY,hour);
         calendar.set(Calendar.MINUTE,minute);

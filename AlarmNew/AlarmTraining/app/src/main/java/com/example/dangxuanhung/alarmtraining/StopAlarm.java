@@ -47,6 +47,9 @@ public class StopAlarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_ring);
 
+        final String mode = getIntent().getExtras().getString("mode");
+        Log.d(TAG,"mode : "+ mode);
+
         Intent i_setAlarm = new Intent(StopAlarm.this,SetAlarmService.class);
         startService(i_setAlarm);
 
@@ -79,22 +82,34 @@ public class StopAlarm extends AppCompatActivity {
                                 vibrator.cancel();
 
                                 Intent i_image = new Intent(StopAlarm.this,SDCardImagesActivity.class);*/
-                                finish();
                                 //startActivity(i_image);
+                                Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
+                                intent.putExtra("extra", "off");
+                                startService(intent);
+                                finish();
                             }
                         })
                         .setNegativeButton("Audio", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
-                                intent.putExtra("extra", "off");
-                                startService(intent);
-                                finish();
-                                Vibrator vibrator = (Vibrator) StopAlarm.this.getSystemService(Context.VIBRATOR_SERVICE);
-                                vibrator.cancel();
+                                if(mode.equals("Default")){
+                                    Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
+                                    intent.putExtra("extra", "off");
+                                    startService(intent);
+                                    finish();
+                                }
+                                else {
+                                    Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
+                                    intent.putExtra("extra", "off");
+                                    startService(intent);
+                                    finish();
+                                    Vibrator vibrator = (Vibrator) StopAlarm.this.getSystemService(Context.VIBRATOR_SERVICE);
+                                    vibrator.cancel();
 
-                                Intent intent_audio = new Intent(StopAlarm.this,AudioActivity.class);
-                                startActivity(intent_audio);
+                                    Intent intent_audio = new Intent(StopAlarm.this,AudioActivity.class);
+                                    startActivity(intent_audio);
+                                }
+
                             }
                         });
                 AlertDialog alert = builder.create();

@@ -65,6 +65,7 @@ public class SetAlarmService extends Service {
             dayAlarm.setRingAlarm(kq_day.getString(kq_day.getColumnIndex("ring_alarm")));
             dayAlarm.setState(kq_day.getString(kq_day.getColumnIndex("state")));
             dayAlarm.setVibrate(kq_day.getString(kq_day.getColumnIndex("vibrate")));
+            dayAlarm.setMode(kq_day.getString(kq_day.getColumnIndex("mode")));
 
             arrDayAlarm.add(dayAlarm);
         }
@@ -129,6 +130,7 @@ public class SetAlarmService extends Service {
                 dayAlarmSelect.setRingAlarm(mlist.get(0).getRingAlarm());
                 dayAlarmSelect.setVibrate(mlist.get(0).getVibrate());
                 dayAlarmSelect.setState(mlist.get(0).getState());
+                dayAlarmSelect.setMode(mlist.get(0).getMode());
 
                 Log.d(TAG,"hour today"+ String.valueOf(dayAlarmSelect.getHour()));
                 Log.d(TAG,"minute today"+ String.valueOf(dayAlarmSelect.getMinute()));
@@ -141,6 +143,7 @@ public class SetAlarmService extends Service {
                 my_intent.putExtra("hour",dayAlarmSelect.getHour());
                 my_intent.putExtra("minute",dayAlarmSelect.getMinute());
                 my_intent.putExtra("extra", "on");
+                my_intent.putExtra("mode",dayAlarmSelect.getMode());
 
                 Calendar calendar_alarm = Calendar.getInstance();
                 calendar_alarm.set(Calendar.HOUR_OF_DAY,dayAlarmSelect.getHour());
@@ -177,6 +180,7 @@ public class SetAlarmService extends Service {
                 dayAlarmSelect.setRingAlarm(mlist.get(choose).getRingAlarm());
                 dayAlarmSelect.setVibrate(mlist.get(choose).getVibrate());
                 dayAlarmSelect.setState(mlist.get(choose).getState());
+                dayAlarmSelect.setMode(mlist.get(choose).getMode());
 
                 Log.d(TAG,"today day : "+ dayAlarmSelect.getDay() );
                 Log.d(TAG,"today hour : "+ dayAlarmSelect.getHour() );
@@ -190,6 +194,7 @@ public class SetAlarmService extends Service {
                 my_intent.putExtra("hour",dayAlarmSelect.getHour());
                 my_intent.putExtra("minute",dayAlarmSelect.getMinute());
                 my_intent.putExtra("extra", "on");
+                my_intent.putExtra("mode",dayAlarmSelect.getMode());
 
                 Calendar calendar_alarm = Calendar.getInstance();
                 calendar_alarm.set(Calendar.HOUR_OF_DAY,dayAlarmSelect.getHour());
@@ -223,6 +228,7 @@ public class SetAlarmService extends Service {
             my_intent.putExtra("hour",list2.get(0).getHour());
             my_intent.putExtra("minute",list2.get(0).getMinute());
             my_intent.putExtra("extra", "on");
+            my_intent.putExtra("mode",list2.get(0).getMode());
 
             Log.d(TAG,"HOUR :"+list2.get(0).getHour());
             Log.d(TAG,"MINUTE :"+list2.get(0).getMinute());
@@ -279,6 +285,7 @@ public class SetAlarmService extends Service {
             my_intent.putExtra("hour",list2.get(choose).getHour());
             my_intent.putExtra("minute",list2.get(choose).getMinute());
             my_intent.putExtra("extra", "on");
+            my_intent.putExtra("mode",list2.get(choose).getMode());
 
             pending_intent = PendingIntent.getBroadcast(SetAlarmService.this,1,
                     my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
@@ -309,6 +316,7 @@ public class SetAlarmService extends Service {
             my_intent.putExtra("hour",list0.get(0).getHour());
             my_intent.putExtra("minute",list0.get(0).getMinute());
             my_intent.putExtra("extra", "on");
+            my_intent.putExtra("mode",list0.get(0).getMode());
 
             Log.d(TAG,"HOUR_List0 :"+list0.get(0).getHour());
             Log.d(TAG,"MINUTE_List0 :"+list0.get(0).getMinute());
@@ -363,6 +371,7 @@ public class SetAlarmService extends Service {
             my_intent.putExtra("hour",list0.get(choose).getHour());
             my_intent.putExtra("minute",list0.get(choose).getMinute());
             my_intent.putExtra("extra", "on");
+            my_intent.putExtra("mode",list2.get(choose).getMode());
 
             Log.d(TAG,"DAY_List0 choose :"+list0.get(choose).getDay());
             Log.d(TAG,"HOUR_List0 choose:"+list0.get(choose).getHour());

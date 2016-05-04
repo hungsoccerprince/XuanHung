@@ -119,7 +119,10 @@ public class AddAlarm extends Activity {
                 values_alarm.put("arr_day", array_day_string);
                 values_alarm.put("state", "on");
                 values_alarm.put("vibrate", getVibrate());
+                values_alarm.put("mode", tvAlarmMode.getText().toString());
                 dbHelper.insert(values_alarm,"alarm_table");
+
+                Log.d(TAG, "mode add : "+ tvAlarmMode.getText().toString());
 
                 int i=0;
                 for(i=0;i<arrDay.size();i++){
@@ -132,6 +135,7 @@ public class AddAlarm extends Activity {
                     values_day_alarm.put("day_alarm", arrDay.get(i));
                     values_day_alarm.put("state", "on");
                     values_day_alarm.put("vibrate", getVibrate());
+                    values_day_alarm.put("mode", tvAlarmMode.getText().toString());
                     dbHelper.insert(values_day_alarm,"day_table");
                     Log.d(TAG,"insert day true");
                 }

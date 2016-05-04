@@ -22,6 +22,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         String ring_alarm = intent.getExtras().getString("ring");
         String name_alarm = intent.getExtras().getString("name");
         String  vibrate = intent.getExtras().getString("vibrate");
+        String mode = intent.getExtras().getString("mode");
         int day = intent.getExtras().getInt("day");
         int hour = intent.getExtras().getInt("hour");
         int minute = intent.getExtras().getInt("minute");
@@ -36,6 +37,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             if(state.equals("on")){
                 Intent ring_intent = new Intent(context,StopAlarm.class);
                 ring_intent.putExtra("name",name_alarm);
+                ring_intent.putExtra("mode",mode);
                 ring_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(ring_intent);
 
