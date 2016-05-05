@@ -156,6 +156,7 @@ public class AddAlarm extends Activity {
             public void onClick(View v) {
                 Intent select_ring_intent = new Intent(AddAlarm.context, SelectRingTone.class);
                 select_ring_intent.putExtra("request","add");
+                select_ring_intent.putExtra("type",getString(R.string.list_default));
                 startActivityForResult(select_ring_intent, REQUEST_CODE_INPUT);
             }
         });
@@ -172,7 +173,6 @@ public class AddAlarm extends Activity {
             type = data.getExtras().getString("type");
             Log.d(TAG, type);
             tvSelectRing.setText(selectRing);
-
         }
     }
 

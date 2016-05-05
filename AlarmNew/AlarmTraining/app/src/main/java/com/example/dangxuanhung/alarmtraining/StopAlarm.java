@@ -71,25 +71,7 @@ public class StopAlarm extends AppCompatActivity {
 
                 builder.setMessage("DAY DI NAO")
                         .setCancelable(false)
-                        .setPositiveButton("Image", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                               /* Intent intent = new Intent(getApplicationContext(), RingtonePlayingService.class);
-                                intent.putExtra("extra", "off");
-                                startService(intent);
-                                finish();
-                                Vibrator vibrator = (Vibrator) StopAlarm.this.getSystemService(Context.VIBRATOR_SERVICE);
-                                vibrator.cancel();
-
-                                Intent i_image = new Intent(StopAlarm.this,SDCardImagesActivity.class);*/
-                                //startActivity(i_image);
-                                Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
-                                intent.putExtra("extra", "off");
-                                startService(intent);
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("Audio", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Tắt báo thức", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
                                 if(mode.equals("Default")){
@@ -114,7 +96,7 @@ public class StopAlarm extends AppCompatActivity {
                         });
                 AlertDialog alert = builder.create();
                 //Setting the title manually
-                alert.setTitle("AlertDialogExample");
+                alert.setTitle("Báo thức");
                 alert.show();
             }
         });

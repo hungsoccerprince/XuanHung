@@ -23,6 +23,7 @@ import java.util.ArrayList;
  */
 public class SelectRingTone extends AppCompatActivity {
 
+    private static final String TAG = SelectRingTone.class.getSimpleName();
     ListView lvListRing ;
     RadioButton radioDefault, radioMyMusic;
 
@@ -30,6 +31,7 @@ public class SelectRingTone extends AppCompatActivity {
     private Cursor audioCursor;
     String name_audio;
     public static String request;
+    private String type;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -39,10 +41,23 @@ public class SelectRingTone extends AppCompatActivity {
 
         Intent getIntent = getIntent();
         request = getIntent.getStringExtra("request");
+        type = getIntent.getStringExtra("type");
+        Log.d(TAG,type);
 
         lvListRing = (ListView)findViewById(R.id.lvListRing);
         radioDefault = (RadioButton)findViewById(R.id.radioDefault);
         radioMyMusic = (RadioButton)findViewById(R.id.radioMyMusic);
+
+        if(type.equals(getString(R.string.list_default))){
+            radioDefault.setChecked(true);
+            creatArray();
+        }
+
+        if(type.equals(getString(R.string.mylist))){
+            radioMyMusic.setChecked(true);
+            creatMyList();
+        }
+
 
         radioDefault.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

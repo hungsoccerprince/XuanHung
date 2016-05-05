@@ -74,6 +74,7 @@ public class MainActivity extends Activity {
                 intent_edit.putExtra("arr_day_string",alarm.getArrDay());
                 intent_edit.putExtra("vibrate",alarm.getVibrate());
                 intent_edit.putExtra("mode",alarm.getMode());
+                intent_edit.putExtra("type",alarm.getType());
 
                 startActivityForResult(intent_edit, REQUEST_CODE_EDIT);
             }
@@ -121,6 +122,7 @@ public class MainActivity extends Activity {
             alarm.setArrDay(kq_alarm.getString(kq_alarm.getColumnIndex("arr_day")));
             alarm.setState(kq_alarm.getString(kq_alarm.getColumnIndex("state")));
             alarm.setMode(kq_alarm.getString(kq_alarm.getColumnIndex("mode")));
+            alarm.setType(kq_alarm.getString(kq_alarm.getColumnIndex("type")));
 
             Log.d(TAG,alarm.getState());
 

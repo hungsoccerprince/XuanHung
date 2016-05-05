@@ -261,7 +261,20 @@ public class AudioActivity extends Activity {
 
     private boolean getPoint(){
         Boolean check = false;
-        switch (point){
+        if(point==3){
+            lnPoint.setBackgroundResource(R.drawable.point_3);
+            Log.d(TAG, String.valueOf(point));
+            check = true;
+        }
+        else if(point==2){
+            lnPoint.setBackgroundResource(R.drawable.point_2);
+            Log.d(TAG, String.valueOf(point));
+        }
+        else if(point==1){
+            lnPoint.setBackgroundResource(R.drawable.point_3);
+            Log.d(TAG, String.valueOf(point));
+        }
+       /* switch (point){
             case 3:
                 lnPoint.setBackgroundResource(R.drawable.point_3);
                 Log.d(TAG, String.valueOf(point));
@@ -270,15 +283,12 @@ public class AudioActivity extends Activity {
             case 2:
                 lnPoint.setBackgroundResource(R.drawable.point_3);
                 Log.d(TAG, String.valueOf(point));
-                check = false;
                 break;
             case 1:
                 lnPoint.setBackgroundResource(R.drawable.point_3);
                 Log.d(TAG, String.valueOf(point));
-                check = false;
                 break;
-
-        }
+        }*/
         return check;
     }
 

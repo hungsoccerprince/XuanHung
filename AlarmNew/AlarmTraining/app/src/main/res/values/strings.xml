@@ -2,4 +2,5 @@
     <string name="app_name">AlarmTraining</string>
     <string name="mylist">mylist</string>
     <string name="list_default">default</string>
+    <string name="cauhoi">Tên bài hát này là gì?</string>
 </resources>

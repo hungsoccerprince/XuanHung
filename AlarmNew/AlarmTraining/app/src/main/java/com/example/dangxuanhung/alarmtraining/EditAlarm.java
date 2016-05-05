@@ -64,6 +64,7 @@ public class EditAlarm extends Activity {
     DatabaseHelper dbHelper;
     String array_day_string ="";
     private int id;
+    private String type;
 
     final CharSequence alarmMode[] ={"Default","Play Game"};
 
@@ -95,6 +96,7 @@ public class EditAlarm extends Activity {
         Log.d(TAG, "id edit + " + id);
         String day_alarm = intent_edit.getStringExtra("arr_day_string");
         String vibrate_checked = intent_edit.getExtras().getString("vibrate");
+        type = intent_edit.getExtras().getString("type");
 
         getDefaultInfor(intent_edit);
         getDayView(day_alarm);
@@ -145,6 +147,7 @@ public class EditAlarm extends Activity {
                 values_alarm.put("state","on");
                 values_alarm.put("vibrate", getVibrate());
                 values_alarm.put("mode", tvAlarmMode.getText().toString());
+                values_alarm.put("type",type);
                 dbHelper.update(values_alarm,"_id_alarm="+id,"alarm_table");
                 dbHelper.delete("day_table","id_alarm="+id);
 
@@ -160,6 +163,7 @@ public class EditAlarm extends Activity {
                     values_day_alarm.put("state", "on");
                     values_day_alarm.put("vibrate", getVibrate());
                     values_day_alarm.put("mode", tvAlarmMode.getText().toString());
+                    values_day_alarm.put("type",type);
                     dbHelper.insert(values_day_alarm, "day_table");
                 }
 
@@ -193,6 +197,7 @@ public class EditAlarm extends Activity {
             public void onClick(View v) {
                 Intent select_ring_intent = new Intent(EditAlarm.context,SelectRingTone.class);
                 select_ring_intent.putExtra("request","edit");
+                select_ring_intent.putExtra("type",type);
                 startActivityForResult(select_ring_intent, REQUEST_CODE_EDIT);
             }
         });
@@ -207,6 +212,7 @@ public class EditAlarm extends Activity {
 
         if(data!=null){
             String selectRing = data.getExtras().getString("name_ring");
+            type = data.getExtras().getString("type");
             tvSelectRing.setText(selectRing);
         }
     }
