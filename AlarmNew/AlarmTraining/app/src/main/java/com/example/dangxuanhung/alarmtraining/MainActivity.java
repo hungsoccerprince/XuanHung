@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
         adapter = new ListAlarmAdapter(getApplicationContext(), arrAlarm, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = rvAlarm.getChildLayoutPosition(v);
+                int position = rvAlarm.getChildPosition(v);
                 Alarm alarm = arrAlarm.get(position);
                 Intent intent_edit = new Intent(MainActivity.this, EditAlarm.class);
                 intent_edit.putExtra("id", alarm.getIdAlarm());

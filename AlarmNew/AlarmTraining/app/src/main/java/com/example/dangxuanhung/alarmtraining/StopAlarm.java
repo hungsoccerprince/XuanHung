@@ -177,6 +177,11 @@ public class StopAlarm extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        return ;
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
 

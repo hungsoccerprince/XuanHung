@@ -13,6 +13,7 @@ public class Alarm {
     private String state;
     private String vibrate;
     private String mode;
+    private String type;
 
     public Alarm(){
         super();
@@ -87,5 +88,13 @@ public class Alarm {
 
     public String getMode() {
         return mode;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 }

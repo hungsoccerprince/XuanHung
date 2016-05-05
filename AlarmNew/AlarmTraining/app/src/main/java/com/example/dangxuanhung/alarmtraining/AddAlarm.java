@@ -56,13 +56,14 @@ public class AddAlarm extends Activity {
     private String array_day_string ="";
     private boolean bl[] = new boolean[alarmMode.length];
     private String msg ="";
-
+    private String type;
     private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_alarm);
+        type = getString(R.string.list_default);
 
         selList=new ArrayList();
         arrDay = new ArrayList<>();
@@ -120,6 +121,7 @@ public class AddAlarm extends Activity {
                 values_alarm.put("state", "on");
                 values_alarm.put("vibrate", getVibrate());
                 values_alarm.put("mode", tvAlarmMode.getText().toString());
+                values_alarm.put("type",type);
                 dbHelper.insert(values_alarm,"alarm_table");
 
                 Log.d(TAG, "mode add : "+ tvAlarmMode.getText().toString());
@@ -136,6 +138,7 @@ public class AddAlarm extends Activity {
                     values_day_alarm.put("state", "on");
                     values_day_alarm.put("vibrate", getVibrate());
                     values_day_alarm.put("mode", tvAlarmMode.getText().toString());
+                    values_day_alarm.put("type",type);
                     dbHelper.insert(values_day_alarm,"day_table");
                     Log.d(TAG,"insert day true");
                 }
@@ -166,7 +169,10 @@ public class AddAlarm extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if(data!=null){
             String selectRing = data.getExtras().getString("name_ring");
+            type = data.getExtras().getString("type");
+            Log.d(TAG, type);
             tvSelectRing.setText(selectRing);
+
         }
     }
 

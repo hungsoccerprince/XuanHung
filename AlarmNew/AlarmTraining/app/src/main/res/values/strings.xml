@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AlarmTraining</string>
+    <string name="mylist">mylist</string>
+    <string name="list_default">default</string>
 </resources>

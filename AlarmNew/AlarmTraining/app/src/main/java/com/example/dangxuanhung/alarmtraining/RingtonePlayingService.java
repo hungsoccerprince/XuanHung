@@ -2,12 +2,15 @@ package com.example.dangxuanhung.alarmtraining;
 
 import android.app.Service;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 /**
@@ -19,6 +22,7 @@ public class RingtonePlayingService extends Service {
     MediaPlayer media_song;
     Boolean isRunning=false;
     private int startID;
+    private Cursor audioCursor;
 
     @Nullable
     @Override
@@ -32,6 +36,9 @@ public class RingtonePlayingService extends Service {
         String state = intent.getExtras().getString("extra");
         Log.d(TAG, "extra : "+ state);
         String ring_alarm = intent.getExtras().getString("ring_alarm");
+       // Log.d(TAG,ring_alarm);
+        String type = intent.getExtras().getString("type");
+       // Log.d(TAG, "type : "+ type);
 
         switch (state){
             case "on":
@@ -44,11 +51,16 @@ public class RingtonePlayingService extends Service {
                 startID=0;
         }
 
+        if(type!=null){
+            if(type.equals(getString(R.string.list_default)))
+                createPlaymedia(ring_alarm);
+            if(type.equals(getString(R.string.mylist)))
+                createPlaymediaMyList(ring_alarm);
+        }
+
         // running and click on
         if(!this.isRunning && startID==1){
             Log.e("you want start?", "Yes!");
-
-            createPlaymedia(ring_alarm);
             media_song.start();
             isRunning=true;
             startID=0;
@@ -80,11 +92,9 @@ public class RingtonePlayingService extends Service {
     }
     @Override
     public void onDestroy(){
-
         super.onDestroy();
         Toast.makeText(this,"Stop Service",Toast.LENGTH_SHORT).show();
     }
-
 
     public void createPlaymedia(String name){
 
@@ -107,6 +117,37 @@ public class RingtonePlayingService extends Service {
             }
         }
     }
+
+    public void createPlaymediaMyList(String name){
+        String name_audio;
+
+        final String[] proj = {MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.DATA,
+                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.SIZE,
+        };
+        audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,proj, null, null, null);
+        int i=0;
+        for(i=0;i<audioCursor.getCount();i++){
+            audioCursor.moveToPosition(i);
+            name_audio = audioCursor.getString(2);
+            if(name_audio.equals(name)){
+                try {
+                    media_song = new MediaPlayer();
+                    media_song.setDataSource(audioCursor.getString(1));
+                    media_song.prepare();
+                    //Log.d(TAG, String.valueOf(media_song.getCurrentPosition()));
+//                    media_song.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+
+    }
+
+
 
 
 }

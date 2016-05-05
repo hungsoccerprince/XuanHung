@@ -24,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "arr_day VARCHAR(20),"+
                     "state VARCHAR(20),"+
                     "mode VARCHAR(20),"+
+                    "type VARCHAR(20),"+
                     "vibrate VARCHAR(20))" ;
     public static final String CREATE_TABLE_DAY =
             "CREATE TABLE IF NOT EXISTS day_table(_id_day INTEGER PRIMARY KEY, " +
@@ -35,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "minute_alarm INTERGER, " +
                     "state VARCHAR(20),"+
                     "mode VARCHAR(20),"+
+                    "type VARCHAR(20),"+
                     "vibrate VARCHAR(20))" ;
 
     public static final int DATA_VERSION = 1;

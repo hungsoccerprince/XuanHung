@@ -14,6 +14,7 @@ public class DayAlarm {
     private String state;
     private String vibrate;
     private String mode;
+    private String type;
 
     public int getIdDay() {
         return idDay;
@@ -93,5 +94,13 @@ public class DayAlarm {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 }

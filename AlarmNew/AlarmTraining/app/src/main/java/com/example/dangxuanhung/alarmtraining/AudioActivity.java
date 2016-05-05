@@ -1,13 +1,12 @@
 package com.example.dangxuanhung.alarmtraining;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -18,6 +17,11 @@ import android.widget.TextView;
 
 import com.skyfishjy.library.RippleBackground;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -59,6 +63,10 @@ public class AudioActivity extends Activity {
         audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,proj, null, null, null);
         Log.d("AudioSize",String.valueOf(audioCursor.getCount()));
 
+        if(audioCursor.getCount()==0){
+            copyAssets();
+            audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,proj, null, null, null);
+        }
             // random 1 mp3 file
         Random rand = new Random();
         int rand_audio = rand.nextInt(audioCursor.getCount()-1);
@@ -272,6 +280,65 @@ public class AudioActivity extends Activity {
 
         }
         return check;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        return ;
+    }
+
+    private void copyAssets() {
+        AssetManager assetManager = getAssets();
+        String[] files = null;
+        try {
+            files = assetManager.list("ring");
+            Log.d(TAG, String.valueOf(files.length));
+
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to get asset file list.", e);
+        }
+        if (files != null) {
+            for (String filename : files) {
+                Log.d(TAG,filename);
+                InputStream in = null;
+                OutputStream out = null;
+                try {
+                    in = assetManager.open(filename);
+                    File outFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), filename);
+                    out = new FileOutputStream(outFile);
+                    copyFile(in, out);
+                    Log.d(TAG, "copy file : "+ filename);
+                } catch(IOException e) {
+                    Log.e(TAG, "Failed to copy asset file: " + filename, e);
+                }
+                finally {
+                    if (in != null) {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            // NOOP
+                        }
+                    }
+                    if (out != null) {
+                        try {
+                            out.close();
+                        } catch (IOException e) {
+                            // NOOP
+                        }
+                    }
+                }
+            }
+        }
+        else Log.d(TAG,"null");
+
+    }
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
     }
 
 }
