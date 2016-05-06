@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,7 +22,7 @@ import java.util.Calendar;
 /**
  * Created by Dang Xuan Hung on 07/03/2016.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     public static int REQUEST_CODE_INPUT = 1;
     public static int REQUEST_CODE_EDIT = 2;

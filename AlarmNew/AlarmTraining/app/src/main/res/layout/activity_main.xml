@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:orientation="vertical"
         android:layout_gravity="center_vertical"
         android:background="#a5a3e8">
@@ -17,7 +17,6 @@
             android:id="@+id/digitalClock1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/analogClock1"
             android:textSize="80dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
@@ -27,6 +26,7 @@
             android:shadowDy="0"
             android:shadowRadius="10"
              />
+        <!--android:layout_below="@+id/analogClock1"-->
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/fabAddAlarm"

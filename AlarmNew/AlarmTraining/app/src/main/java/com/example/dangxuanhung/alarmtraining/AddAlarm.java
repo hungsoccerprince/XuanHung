@@ -1,5 +1,6 @@
 package com.example.dangxuanhung.alarmtraining;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -12,12 +13,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -36,7 +40,7 @@ import java.util.Locale;
 /**
  * Created by Dang Xuan Hung on 07/03/2016.
  */
-public class AddAlarm extends Activity {
+public class AddAlarm extends AppCompatActivity {
 
     private static final String TAG = AddAlarm.class.getSimpleName();
     public static int REQUEST_CODE_INPUT =1;
@@ -63,8 +67,23 @@ public class AddAlarm extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_alarm);
-        type = getString(R.string.list_default);
 
+        // custom action_bar
+        android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+
+        View mCustomView = mInflater.inflate(R.layout.custom_actionbar_addalarm, null);
+
+        btnBack = (Button)mCustomView.findViewById(R.id.btnBackMain);
+        btnSave = (Button)mCustomView.findViewById(R.id.btnSave);
+
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
+
+
+        type = getString(R.string.list_default);
         selList=new ArrayList();
         arrDay = new ArrayList<>();
      //   arrDayAlarm = new ArrayList<>();
@@ -335,9 +354,9 @@ public class AddAlarm extends Activity {
 
     private void getViewLayout(){
         tvTime = (TextView) findViewById(R.id.tvTime);
-        btnBack = (Button) findViewById(R.id.btnBackMain);
+//        btnBack = (Button) findViewById(R.id.btnBackMain);
+//        btnSave = (Button)findViewById(R.id.btnSave);
         tvAlarmMode = (TextView)findViewById(R.id.tvAlarmMode);
-        btnSave = (Button)findViewById(R.id.btnSave);
         edtNameAlarm = (EditText)findViewById(R.id.edtNameAlarm);
         tvSelectRing = (TextView)findViewById(R.id.tvSelectRing);
 

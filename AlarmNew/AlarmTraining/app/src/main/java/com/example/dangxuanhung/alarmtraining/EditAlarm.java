@@ -12,8 +12,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -35,7 +37,7 @@ import java.util.Date;
 /**
  * Created by Dang Xuan Hung on 05/03/2016.
  */
-public class EditAlarm extends Activity {
+public class EditAlarm extends AppCompatActivity {
 
     public static final int REQUEST_CODE_EDIT=2;
     private static final String TAG = EditAlarm.class.getSimpleName() ;
@@ -82,6 +84,21 @@ public class EditAlarm extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_alarm);
+
+        android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+
+        View mCustomView = mInflater.inflate(R.layout.custom_actionbar_editalarm, null);
+
+        btnBack = (Button)mCustomView.findViewById(R.id.btnBackMain);
+        btnSave = (Button)mCustomView.findViewById(R.id.btnSave);
+        btnDelete = (Button)mCustomView.findViewById(R.id.btnDelete);
+
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
+
         getControl();
         selList=new ArrayList();
         arrDay = new ArrayList<>();
@@ -374,12 +391,9 @@ public class EditAlarm extends Activity {
 
     public void getControl(){
         tvTime = (TextView) findViewById(R.id.tvTime);
-        btnBack = (Button) findViewById(R.id.btnBackMain);
         tvAlarmMode = (TextView)findViewById(R.id.tvAlarmMode);
-        btnSave = (Button)findViewById(R.id.btnSave);
         edtNameAlarm = (EditText)findViewById(R.id.edtNameAlarm);
         tvSelectRing = (TextView)findViewById(R.id.tvSelectRing);
-        btnDelete = (Button)findViewById(R.id.btnDelete);
 
         cbMon =(CheckBox)findViewById(R.id.cbMon);
         cbTue =(CheckBox)findViewById(R.id.cbTue);

@@ -16,10 +16,10 @@
         android:theme="@style/AppTheme"
         android:label="@string/app_name">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -30,7 +30,7 @@
         <activity android:name=".StopAlarm" />
 
         <activity android:name=".SelectRingTone"
-            android:label="RingTone" />
+            android:label="Select a ring" />
 
         <activity android:name=".EditAlarm"
             />
