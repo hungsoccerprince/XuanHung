@@ -72,8 +72,12 @@ public class ListAlarmAdapter extends RecyclerView.Adapter<ListAlarmAdapter.View
     @Override
     public void onBindViewHolder(ListAlarmAdapter.ViewHolder viewHolder, int position) {
         final Alarm alarm = arrAlarm.get(position);
+        String hour = alarm.getHourAlarm()<10?"0"+String.valueOf(alarm.getHourAlarm()):String.valueOf(alarm.getHourAlarm());
+        String minute = alarm.getMinuteAlarm()<10?"0"+String.valueOf(alarm.getMinuteAlarm()):String.valueOf(alarm.getMinuteAlarm());
+
         viewHolder.tvIdAlarm.setText(String.valueOf(alarm.getIdAlarm()));
-        viewHolder.tvTimeAlarm.setText(String.valueOf(alarm.getHourAlarm())+ ":" + String.valueOf(alarm.getMinuteAlarm()));
+     //   viewHolder.tvTimeAlarm.setText(String.valueOf(alarm.getHourAlarm())+ ":" + String.valueOf(alarm.getMinuteAlarm()));
+        viewHolder.tvTimeAlarm.setText(hour + ":" + minute);
         viewHolder.tvNameAlarm.setText(alarm.getNameAlarm());
 
         Switch switchState = viewHolder.switchState;

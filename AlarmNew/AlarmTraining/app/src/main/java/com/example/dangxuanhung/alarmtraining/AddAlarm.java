@@ -73,7 +73,6 @@ public class AddAlarm extends AppCompatActivity {
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
-
         View mCustomView = mInflater.inflate(R.layout.custom_actionbar_addalarm, null);
 
         btnBack = (Button)mCustomView.findViewById(R.id.btnBackMain);
@@ -82,11 +81,9 @@ public class AddAlarm extends AppCompatActivity {
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
 
-
         type = getString(R.string.list_default);
         selList=new ArrayList();
         arrDay = new ArrayList<>();
-     //   arrDayAlarm = new ArrayList<>();
         dbHelper = new DatabaseHelper(this);
 
         this.context=getApplicationContext();
@@ -94,7 +91,6 @@ public class AddAlarm extends AppCompatActivity {
         Log.d(TAG, "Max ID "+max_id);
 
         calendar = Calendar.getInstance();
-       // arrDayAlarm.clear();
 
         getViewLayout();
         getDefaultInfor();

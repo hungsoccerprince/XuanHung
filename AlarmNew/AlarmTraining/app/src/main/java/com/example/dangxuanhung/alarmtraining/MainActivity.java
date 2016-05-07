@@ -44,18 +44,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Calendar c1 = Calendar.getInstance();
-        c1.set(Calendar.HOUR_OF_DAY,1);
-        c1.set(Calendar.MINUTE,2);
-        Calendar c2 = Calendar.getInstance();
-        c2.set(Calendar.HOUR_OF_DAY,1);
-        c2.set(Calendar.MINUTE,5);
+        Log.d(TAG, "c1 " + String.valueOf(c1.get(Calendar.HOUR_OF_DAY)));
 
         dbHelper = new DatabaseHelper(this);
-       // arrDay = new ArrayList<DayAlarm>();
         arrAlarm = new ArrayList<Alarm>();
-        /*lvListAlarm = (ListView) findViewById(R.id.lvListAlarm);
-        adapterAlarm = new ListAdapter(this, R.layout.listview, arrAlarm);
-        lvListAlarm.setAdapter(adapterAlarm);*/
 
         rvAlarm = (RecyclerView)findViewById(R.id.lvListAlarm);
         rvAlarm.setLayoutManager(new LinearLayoutManager(this));

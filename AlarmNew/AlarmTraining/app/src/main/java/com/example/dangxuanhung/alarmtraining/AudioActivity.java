@@ -49,6 +49,7 @@ public class AudioActivity extends Activity {
         btn4=(Button)findViewById(R.id.btn4);
         tvReply =(TextView)findViewById(R.id.tvReply);
         lnPoint = (LinearLayout)findViewById(R.id.lnPoint);
+        getPoint();
 
         final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.content);
         final Handler handler=new Handler();
@@ -261,7 +262,7 @@ public class AudioActivity extends Activity {
 
     private boolean getPoint(){
         Boolean check = false;
-        if(point==3){
+      /*  if(point==3){
             lnPoint.setBackgroundResource(R.drawable.point_3);
             Log.d(TAG, String.valueOf(point));
             check = true;
@@ -270,13 +271,12 @@ public class AudioActivity extends Activity {
             lnPoint.setBackgroundResource(R.drawable.point_2);
             Log.d(TAG, String.valueOf(point));
         }
-        else if(point==1){
-            lnPoint.setBackgroundResource(R.drawable.point_3);
+        else if(point==1 || point==0){
+            lnPoint.setBackgroundResource(R.drawable.point_1);
             Log.d(TAG, String.valueOf(point));
-        }
-       /* switch (point){
+        }*/
+        switch (point){
             case 3:
-                lnPoint.setBackgroundResource(R.drawable.point_3);
                 Log.d(TAG, String.valueOf(point));
                 check = true;
                 break;
@@ -285,10 +285,13 @@ public class AudioActivity extends Activity {
                 Log.d(TAG, String.valueOf(point));
                 break;
             case 1:
-                lnPoint.setBackgroundResource(R.drawable.point_3);
+                lnPoint.setBackgroundResource(R.drawable.point_2);
                 Log.d(TAG, String.valueOf(point));
                 break;
-        }*/
+            case 0:
+                lnPoint.setBackgroundResource(R.drawable.point_1);
+                break;
+        }
         return check;
     }
 
