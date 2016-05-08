@@ -78,6 +78,7 @@ public class AudioActivity extends Activity {
             audioPlay.setDataSource(audioCursor.getString(1));
             audioPlay.prepare();
             audioPlay.start();
+            audioPlay.setLooping(true);
             }
         catch (Exception e){
             Log.e(getLocalClassName(), String.valueOf(e));

@@ -62,6 +62,7 @@ public class RingtonePlayingService extends Service {
         if(!this.isRunning && startID==1){
             Log.e("you want start?", "Yes!");
             media_song.start();
+            media_song.setLooping(true);
             isRunning=true;
             startID=0;
         }

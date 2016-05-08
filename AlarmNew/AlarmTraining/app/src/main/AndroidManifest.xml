@@ -27,7 +27,9 @@
         <activity android:name=".AddAlarm">
         </activity>
 
-        <activity android:name=".StopAlarm" />
+        <activity android:name=".StopAlarm"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
 
         <activity android:name=".SelectRingTone"
             android:label="Select a ring" />
@@ -38,7 +40,9 @@
         <activity android:name=".SDCardImagesActivity"
             />
 
-        <activity android:name=".AudioActivity"/>
+        <activity android:name=".AudioActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+           />
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

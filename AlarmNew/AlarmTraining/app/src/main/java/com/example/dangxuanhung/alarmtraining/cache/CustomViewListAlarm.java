@@ -31,7 +31,6 @@ public class CustomViewListAlarm extends LinearLayout {
 
 
         tvTimeAlarm = (TextView)findViewById(R.id.tvTimeAlarm);
-        tvIdAlarm = (TextView)findViewById(R.id.tvIdAlarm);
         tvNameAlarm = (TextView)findViewById(R.id.tvNameAlarm);
         tvDayAlarm = (TextView)findViewById(R.id.tvDayAlarm);
         switchState = (Switch)findViewById(R.id.switchState);

@@ -11,7 +11,8 @@
         android:layout_height="200dp"
         android:orientation="vertical"
         android:layout_gravity="center_vertical"
-        android:background="#a5a3e8">
+        >
+        <!--android:background="#a5a3e8"-->
 
         <com.example.dangxuanhung.alarmtraining.LedDigitalClock
             android:id="@+id/digitalClock1"

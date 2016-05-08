@@ -128,7 +128,7 @@
         <TextView
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Alarm' Name"
+            android:text="@string/title_alarm"
             android:textColor="#0c2d0c"
             android:textSize="@dimen/activity_vertical_margin"
             android:layout_gravity="bottom">
@@ -138,7 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edtNameAlarm"
-            android:hint="Enter alarm' name"
+            android:hint="@string/enter_alarm_name"
             android:textColor="#0c2d0c"
             android:textSize="20dp"
             android:layout_gravity="bottom"/>
@@ -154,7 +154,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/tvAlarmModeLable"
-            android:text="Alarm Mode"
+            android:text="@string/alarm_mode"
             android:textSize="@dimen/activity_vertical_margin"
             android:textColor="#0c2d0c"
             android:layout_gravity="bottom"
@@ -164,7 +164,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tvAlarmMode"
-            android:hint="Select mode for alarm..."
+            android:hint="@string/select_mode_for_alarm"
             android:textColor="#0c2d0c"
             android:textSize="20dp"
             android:layout_gravity="bottom"
@@ -182,7 +182,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="Vibrate"
+            android:text="@string/vibrate"
             android:textColor="#0c2d0c"
             android:textSize="@dimen/activity_vertical_margin"
             android:layout_gravity="bottom">
@@ -207,7 +207,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/tvSelectRingLable"
-            android:text="RingTone"
+            android:text="@string/ringtone"
             android:textColor="#0c2d0c"
             android:textSize="@dimen/activity_vertical_margin"
             android:layout_gravity="bottom"/>
@@ -216,7 +216,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tvSelectRing"
-            android:hint="select ring tone"
+            android:hint="@string/select_ring_tone"
             android:textColor="#0c2d0c"
             android:layout_gravity="bottom"
             android:textSize="20dp"

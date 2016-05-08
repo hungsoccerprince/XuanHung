@@ -46,7 +46,6 @@ public class ListAlarmAdapter extends RecyclerView.Adapter<ListAlarmAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             tvTimeAlarm = (TextView)itemView.findViewById(R.id.tvTimeAlarm);
-            tvIdAlarm = (TextView)itemView.findViewById(R.id.tvIdAlarm);
             tvNameAlarm = (TextView)itemView.findViewById(R.id.tvNameAlarm);
             tvDayAlarm = (TextView)itemView.findViewById(R.id.tvDayAlarm);
             switchState = (Switch)itemView.findViewById(R.id.switchState);
@@ -75,7 +74,6 @@ public class ListAlarmAdapter extends RecyclerView.Adapter<ListAlarmAdapter.View
         String hour = alarm.getHourAlarm()<10?"0"+String.valueOf(alarm.getHourAlarm()):String.valueOf(alarm.getHourAlarm());
         String minute = alarm.getMinuteAlarm()<10?"0"+String.valueOf(alarm.getMinuteAlarm()):String.valueOf(alarm.getMinuteAlarm());
 
-        viewHolder.tvIdAlarm.setText(String.valueOf(alarm.getIdAlarm()));
      //   viewHolder.tvTimeAlarm.setText(String.valueOf(alarm.getHourAlarm())+ ":" + String.valueOf(alarm.getMinuteAlarm()));
         viewHolder.tvTimeAlarm.setText(hour + ":" + minute);
         viewHolder.tvNameAlarm.setText(alarm.getNameAlarm());

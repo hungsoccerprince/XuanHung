@@ -3,4 +3,11 @@
     <string name="mylist">mylist</string>
     <string name="list_default">default</string>
     <string name="cauhoi">Tên bài hát này là gì?</string>
+    <string name="title_alarm">Title</string>
+    <string name="alarm_mode">Alarm Mode</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="ringtone">RingTone</string>
+    <string name="enter_alarm_name">Enter title</string>
+    <string name="select_mode_for_alarm">Select mode for alarm...</string>
+    <string name="select_ring_tone">select ring tone</string>
 </resources>

@@ -48,6 +48,7 @@ public class StopAlarm extends AppCompatActivity {
         setContentView(R.layout.layout_ring);
 
         final String mode = getIntent().getExtras().getString("mode");
+        final String name = getIntent().getExtras().getString("name");
         Log.d(TAG,"mode : "+ mode);
 
         Intent i_setAlarm = new Intent(StopAlarm.this,SetAlarmService.class);
@@ -96,7 +97,7 @@ public class StopAlarm extends AppCompatActivity {
                         });
                 AlertDialog alert = builder.create();
                 //Setting the title manually
-                alert.setTitle("Báo thức");
+                alert.setTitle(name);
                 alert.show();
             }
         });
