@@ -139,6 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edtNameAlarm"
+                android:singleLine="true"
                 android:hint="@string/enter_alarm_name"
                 android:textColor="#0c2d0c"
                 android:textSize="20dp"
@@ -171,6 +172,31 @@
                 android:layout_gravity="bottom"
                 android:background="@drawable/border_layout">
             </TextView>
+<!--
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom"
+                >
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Mặc định"
+                    android:id="@+id/radioDefault"
+                    android:layout_gravity="bottom"
+                    />
+                <RadioButton
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Nhạc của tôi"
+                    android:id="@+id/radioMyMusic"
+                    />
+            </RadioGroup>
+-->
         </LinearLayout>
 
         <LinearLayout

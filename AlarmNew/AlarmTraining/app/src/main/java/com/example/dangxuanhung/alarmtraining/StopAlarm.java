@@ -75,13 +75,13 @@ public class StopAlarm extends AppCompatActivity {
                         .setNegativeButton("Tắt báo thức", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                if(mode.equals("Default")){
+                                if(mode.equals(getString(R.string.mode_default))){
                                     Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
                                     intent.putExtra("extra", "off");
                                     startService(intent);
                                     finish();
                                 }
-                                else {
+                                if(mode.equals(getString(R.string.mode_play_game))) {
                                     Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
                                     intent.putExtra("extra", "off");
                                     startService(intent);

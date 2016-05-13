@@ -61,6 +61,7 @@ public class AddAlarm extends AppCompatActivity {
     private boolean bl[] = new boolean[alarmMode.length];
     private String msg ="";
     private String type;
+    private String mode;
     private GoogleApiClient client;
 
     @Override
@@ -353,6 +354,7 @@ public class AddAlarm extends AppCompatActivity {
 //        btnBack = (Button) findViewById(R.id.btnBackMain);
 //        btnSave = (Button)findViewById(R.id.btnSave);
         tvAlarmMode = (TextView)findViewById(R.id.tvAlarmMode);
+        tvAlarmMode.setText("Default");
         edtNameAlarm = (EditText)findViewById(R.id.edtNameAlarm);
         tvSelectRing = (TextView)findViewById(R.id.tvSelectRing);
 

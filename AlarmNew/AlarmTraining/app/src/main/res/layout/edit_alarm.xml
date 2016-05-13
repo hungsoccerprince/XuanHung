@@ -137,6 +137,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:id="@+id/edtNameAlarm"
             android:hint="@string/enter_alarm_name"
             android:textColor="#0c2d0c"

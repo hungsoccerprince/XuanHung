@@ -111,29 +111,19 @@ public class SetAlarmService extends Service {
         if (list1.size()>=1) {
             DayAlarm dayAlarmSelect = new DayAlarm();
             ArrayList<DayAlarm> mlist = new ArrayList<>();// list alarm gần nhất trong ngày
-            int j=0;
+            int j1=0;
             Calendar c_now = Calendar.getInstance();
-            for(j=0;j<list1.size();j++){
+            for(j1=0;j1<list1.size();j1++){
 
-                if(list1.get(j).getHour()>c_now.get(Calendar.HOUR_OF_DAY) | (list1.get(j).getHour()==c_now.get(Calendar.HOUR_OF_DAY) &&  list1.get(j).getMinute()>c_now.get(Calendar.MINUTE))){
-                    mlist.add(list1.get(j));
+                if(list1.get(j1).getHour()>c_now.get(Calendar.HOUR_OF_DAY) | (list1.get(j1).getHour()==c_now.get(Calendar.HOUR_OF_DAY) &&  list1.get(j1).getMinute()>c_now.get(Calendar.MINUTE))){
+                    mlist.add(list1.get(j1));
                 }
-                else list0.add(list1.get(j));
+                else list0.add(list1.get(j1));
             }
             Log.d(TAG,"mlist : "+String.valueOf(mlist.size()));
             if(mlist.size()==1){
                 Log.d(TAG,"1");
-                dayAlarmSelect.setIdDay(mlist.get(0).getIdDay());
-                dayAlarmSelect.setIdAlarm(mlist.get(0).getIdAlarm());
-                dayAlarmSelect.setDay(mlist.get(0).getDay());
-                dayAlarmSelect.setHour(mlist.get(0).getHour());
-                dayAlarmSelect.setMinute(mlist.get(0).getMinute());
-                dayAlarmSelect.setNameAlarm(mlist.get(0).getNameAlarm());
-                dayAlarmSelect.setRingAlarm(mlist.get(0).getRingAlarm());
-                dayAlarmSelect.setVibrate(mlist.get(0).getVibrate());
-                dayAlarmSelect.setState(mlist.get(0).getState());
-                dayAlarmSelect.setMode(mlist.get(0).getMode());
-                dayAlarmSelect.setType(mlist.get(0).getType());
+                dayAlarmSelect = mlist.get(0);
 
                 Log.d(TAG,"hour today"+ String.valueOf(dayAlarmSelect.getHour()));
                 Log.d(TAG,"minute today"+ String.valueOf(dayAlarmSelect.getMinute()));
@@ -159,7 +149,8 @@ public class SetAlarmService extends Service {
                 AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
                 alarm_manager.set(AlarmManager.RTC_WAKEUP,
                         calendar_alarm.getTimeInMillis(), pending_intent);
-            } else if(mlist.size()>1){
+            }
+            else if(mlist.size()>1){
                 int choose=0;
                 int k=1;
                 Calendar c1 = Calendar.getInstance();
@@ -175,17 +166,7 @@ public class SetAlarmService extends Service {
                         choose=k;
                     }
                 }
-                dayAlarmSelect.setIdDay(mlist.get(choose).getIdDay());
-                dayAlarmSelect.setIdAlarm(mlist.get(choose).getIdAlarm());
-                dayAlarmSelect.setDay(mlist.get(choose).getDay());
-                dayAlarmSelect.setHour(mlist.get(choose).getHour());
-                dayAlarmSelect.setMinute(mlist.get(choose).getMinute());
-                dayAlarmSelect.setNameAlarm(mlist.get(choose).getNameAlarm());
-                dayAlarmSelect.setRingAlarm(mlist.get(choose).getRingAlarm());
-                dayAlarmSelect.setVibrate(mlist.get(choose).getVibrate());
-                dayAlarmSelect.setState(mlist.get(choose).getState());
-                dayAlarmSelect.setMode(mlist.get(choose).getMode());
-                dayAlarmSelect.setType(mlist.get(choose).getType());
+                dayAlarmSelect = mlist.get(choose);
 
                 Log.d(TAG,"today day : "+ dayAlarmSelect.getDay() );
                 Log.d(TAG,"today hour : "+ dayAlarmSelect.getHour() );
@@ -212,6 +193,187 @@ public class SetAlarmService extends Service {
                 AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
                 alarm_manager.set(AlarmManager.RTC_WAKEUP,
                         calendar_alarm.getTimeInMillis(), pending_intent);
+            }
+            else if(mlist.size()==0){
+                if(list2.size()==1){ // chỉ có 1 báo thức trong các ngày còn lại của tuần
+                    int d1 = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                    int h1 = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                    int m1 = Calendar.getInstance().get(Calendar.MINUTE);
+                    int d2 = list2.get(0).getDay();
+                    int h2 = list2.get(0).getHour();
+                    int m2 = list2.get(0).getMinute();
+
+                    int minute = (d2-d1-1)*24*60 + (24-h1)*60-m1 + h2*60+m2 ;
+                    long milis = minute*60000 ;
+                    long time_alarm = Calendar.getInstance().getTimeInMillis()+ milis;
+
+                    Intent my_intent = new Intent(SetAlarmService.this,AlarmReceiver.class);
+                    my_intent.putExtra("name",list2.get(0).getNameAlarm());
+                    my_intent.putExtra("ring",list2.get(0).getRingAlarm());
+                    my_intent.putExtra("vibrate",list2.get(0).getVibrate());
+                    my_intent.putExtra("day",list2.get(0).getDay());
+                    my_intent.putExtra("hour",list2.get(0).getHour());
+                    my_intent.putExtra("minute",list2.get(0).getMinute());
+                    my_intent.putExtra("extra", "on");
+                    my_intent.putExtra("mode",list2.get(0).getMode());
+                    my_intent.putExtra("type",list2.get(0).getType());
+
+                    Log.d(TAG,"HOUR :"+list2.get(0).getHour());
+                    Log.d(TAG,"MINUTE :"+list2.get(0).getMinute());
+
+                    pending_intent = PendingIntent.getBroadcast(SetAlarmService.this,1,
+                            my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                    alarm_manager.set(AlarmManager.RTC_WAKEUP,
+                            time_alarm, pending_intent);
+
+                }
+                else if(list2.size()>1){ // có nhiều hơn 1 alarm trong các ngày còn lại của tuần
+                    int choose = 0;
+                    int j=1;
+                    for(j=1;j<list2.size();j++){
+                        Calendar c_choose = Calendar.getInstance();
+                        c_choose.set(Calendar.HOUR_OF_DAY,list2.get(choose).getHour());
+                        c_choose.set(Calendar.MINUTE,list2.get(choose).getMinute());
+                        long time_choose = c_choose.getTimeInMillis();
+
+                        if(list2.get(j).getDay()<list2.get(choose).getDay()){
+                            choose=j;
+                        }
+                        else if(list2.get(j).getDay()==list2.get(choose).getDay()){
+                            Calendar c_for = Calendar.getInstance();
+                            c_for.set(Calendar.HOUR_OF_DAY,list2.get(j).getHour());
+                            c_for.set(Calendar.MINUTE,list2.get(j).getMinute());
+                            long time_for = c_for.getTimeInMillis();
+                            if(time_for<time_choose){
+                                choose=j;
+                            }
+                        }
+                    }
+                    Log.d(TAG,"list2 day min : " +list2.get(choose).getDay());
+                    Log.d(TAG,"list2 hour min : " +list2.get(choose).getHour());
+                    Log.d(TAG,"list2 minute min : " +list2.get(choose).getMinute());
+                    int d1 = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                    int h1 = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                    int m1 = Calendar.getInstance().get(Calendar.MINUTE);
+                    int d2 = list2.get(choose).getDay();
+                    int h2 = list2.get(choose).getHour();
+                    int m2 = list2.get(choose).getMinute();
+
+                    int minute = (d2-d1-1)*24*60 + (24-h1)*60-m1 + h2*60+m2 ;
+                    long milis = minute*60000 ;
+                    long time_alarm = Calendar.getInstance().getTimeInMillis()+ milis;
+
+                    Intent my_intent = new Intent(SetAlarmService.this,AlarmReceiver.class);
+                    my_intent.putExtra("name",list2.get(choose).getNameAlarm());
+                    my_intent.putExtra("ring",list2.get(choose).getRingAlarm());
+                    my_intent.putExtra("vibrate",list2.get(choose).getVibrate());
+                    my_intent.putExtra("day",list2.get(choose).getDay());
+                    my_intent.putExtra("hour",list2.get(choose).getHour());
+                    my_intent.putExtra("minute",list2.get(choose).getMinute());
+                    my_intent.putExtra("extra", "on");
+                    my_intent.putExtra("mode",list2.get(choose).getMode());
+                    my_intent.putExtra("type",list2.get(choose).getType());
+
+                    pending_intent = PendingIntent.getBroadcast(SetAlarmService.this,1,
+                            my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                    alarm_manager.set(AlarmManager.RTC_WAKEUP,
+                            time_alarm, pending_intent);
+
+                }
+                else if(list0.size()==1){
+                    int d1 = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                    int h1 = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                    int m1 = Calendar.getInstance().get(Calendar.MINUTE);
+                    int d2 = list0.get(0).getDay();
+                    int h2 = list0.get(0).getHour();
+                    int m2 = list0.get(0).getMinute();
+
+                    int minute = (7-d1)*24*60 + (24-h1)*60-m1 + (d2-1)*24*60 + h2*60 + m2 ;
+                    long milis = minute*60000 ;
+                    long time_alarm = Calendar.getInstance().getTimeInMillis()+ milis;
+
+                    Intent my_intent = new Intent(SetAlarmService.this,AlarmReceiver.class);
+                    my_intent.putExtra("name",list0.get(0).getNameAlarm());
+                    my_intent.putExtra("ring",list0.get(0).getRingAlarm());
+                    my_intent.putExtra("vibrate",list0.get(0).getVibrate());
+                    my_intent.putExtra("day",list0.get(0).getDay());
+                    my_intent.putExtra("hour",list0.get(0).getHour());
+                    my_intent.putExtra("minute",list0.get(0).getMinute());
+                    my_intent.putExtra("extra", "on");
+                    my_intent.putExtra("mode",list0.get(0).getMode());
+                    my_intent.putExtra("type",list0.get(0).getType());
+
+                    Log.d(TAG,"HOUR_List0 :"+list0.get(0).getHour());
+                    Log.d(TAG,"MINUTE_List0 :"+list0.get(0).getMinute());
+
+                    pending_intent = PendingIntent.getBroadcast(SetAlarmService.this,1,
+                            my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                    alarm_manager.set(AlarmManager.RTC_WAKEUP,
+                            time_alarm, pending_intent);
+
+                }
+                else if(list0.size()>1){
+                    int choose = 0;
+                    int j=1;
+                    for(j=1;j<list0.size();j++){
+                        Calendar c_choose = Calendar.getInstance();
+                        c_choose.set(Calendar.HOUR_OF_DAY,list0.get(choose).getHour());
+                        c_choose.set(Calendar.MINUTE,list0.get(choose).getMinute());
+                        long time_choose = c_choose.getTimeInMillis();
+
+                        if(list0.get(j).getDay()<list0.get(choose).getDay()){
+                            choose=j;
+                        }
+                        else if(list0.get(j).getDay()==list0.get(choose).getDay()){
+                            Calendar c_for = Calendar.getInstance();
+                            c_for.set(Calendar.HOUR_OF_DAY,list0.get(j).getHour());
+                            c_for.set(Calendar.MINUTE,list0.get(j).getMinute());
+                            long time_for = c_for.getTimeInMillis();
+                            if(time_for<time_choose){
+                                choose=j;
+                            }
+                        }
+                    }
+
+                    int d1 = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                    int h1 = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                    int m1 = Calendar.getInstance().get(Calendar.MINUTE);
+                    int d2 = list0.get(choose).getDay();
+                    int h2 = list0.get(choose).getHour();
+                    int m2 = list0.get(choose).getMinute();
+
+                    int minute = (7-d1)*24*60 + (24-h1)*60-m1 + (d2-1)*24*60 + h2*60 + m2 ;
+                    long milis = minute*60000 ;
+                    long time_alarm = Calendar.getInstance().getTimeInMillis()+ milis;
+
+                    Intent my_intent = new Intent(SetAlarmService.this,AlarmReceiver.class);
+                    my_intent.putExtra("name",list0.get(choose).getNameAlarm());
+                    my_intent.putExtra("ring",list0.get(choose).getRingAlarm());
+                    my_intent.putExtra("vibrate",list0.get(choose).getVibrate());
+                    my_intent.putExtra("day",list0.get(choose).getDay());
+                    my_intent.putExtra("hour",list0.get(choose).getHour());
+                    my_intent.putExtra("minute",list0.get(choose).getMinute());
+                    my_intent.putExtra("extra", "on");
+                    my_intent.putExtra("mode",list0.get(choose).getMode());
+                    my_intent.putExtra("type",list0.get(choose).getType());
+
+                    Log.d(TAG,"DAY_List0 choose :"+list0.get(choose).getDay());
+                    Log.d(TAG,"HOUR_List0 choose:"+list0.get(choose).getHour());
+                    Log.d(TAG,"MINUTE_List0 choose:"+list0.get(choose).getMinute());
+
+                    pending_intent = PendingIntent.getBroadcast(SetAlarmService.this,1,
+                            my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                    alarm_manager.set(AlarmManager.RTC_WAKEUP,
+                            time_alarm, pending_intent);
+                }
             }
         }
         else if(list2.size()==1){ // chỉ có 1 báo thức trong các ngày còn lại của tuần
@@ -303,8 +465,7 @@ public class SetAlarmService extends Service {
                     time_alarm, pending_intent);
 
         }
-        else
-        if(list0.size()==1){
+        else if(list0.size()==1){
             int d1 = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
             int h1 = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
             int m1 = Calendar.getInstance().get(Calendar.MINUTE);
@@ -312,7 +473,7 @@ public class SetAlarmService extends Service {
             int h2 = list0.get(0).getHour();
             int m2 = list0.get(0).getMinute();
 
-            int minute = (7-d1)*24*60 + (24-h2)*60-m1 + (d2-1)*24*60 + h2*60 + m2 ;
+            int minute = (7-d1)*24*60 + (24-h1)*60-m1 + (d2-1)*24*60 + h2*60 + m2 ;
             long milis = minute*60000 ;
             long time_alarm = Calendar.getInstance().getTimeInMillis()+ milis;
 
@@ -368,7 +529,7 @@ public class SetAlarmService extends Service {
             int h2 = list0.get(choose).getHour();
             int m2 = list0.get(choose).getMinute();
 
-            int minute = (7-d1)*24*60 + (24-h2)*60-m1 + (d2-1)*24*60 + h2*60 + m2 ;
+            int minute = (7-d1)*24*60 + (24-h1)*60-m1 + (d2-1)*24*60 + h2*60 + m2 ;
             long milis = minute*60000 ;
             long time_alarm = Calendar.getInstance().getTimeInMillis()+ milis;
 
