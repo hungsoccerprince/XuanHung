@@ -50,6 +50,7 @@ public class AudioActivity extends Activity {
         tvReply =(TextView)findViewById(R.id.tvReply);
         lnPoint = (LinearLayout)findViewById(R.id.lnPoint);
         getPoint();
+       // copyAssets();
 
         final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.content);
         final Handler handler=new Handler();
@@ -64,10 +65,12 @@ public class AudioActivity extends Activity {
         audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,proj, null, null, null);
         Log.d("AudioSize",String.valueOf(audioCursor.getCount()));
 
+/*
         if(audioCursor.getCount()==0){
             copyAssets();
             audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,proj, null, null, null);
         }
+*/
             // random 1 mp3 file
         Random rand = new Random();
         int rand_audio = rand.nextInt(audioCursor.getCount()-1);
@@ -95,7 +98,7 @@ public class AudioActivity extends Activity {
                     getPoint();
                     if(getPoint()){
                         audioPlay.stop();
-                        tvReply.setText("Chính Xác");
+                        tvReply.setText(R.string.complete);
                         tvReply.setTextColor(Color.BLUE);
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -125,7 +128,7 @@ public class AudioActivity extends Activity {
                     getPoint();
                     if(getPoint()){
                         audioPlay.stop();
-                        tvReply.setText("Chính Xác");
+                        tvReply.setText(R.string.complete);
                         tvReply.setTextColor(Color.BLUE);
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -155,7 +158,7 @@ public class AudioActivity extends Activity {
                     getPoint();
                     if(getPoint()){
                         audioPlay.stop();
-                        tvReply.setText("Chính Xác");
+                        tvReply.setText(R.string.complete);
                         tvReply.setTextColor(Color.BLUE);
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -185,7 +188,7 @@ public class AudioActivity extends Activity {
                     getPoint();
                     if(getPoint()){
                         audioPlay.stop();
-                        tvReply.setText("Chính Xác");
+                        tvReply.setText(R.string.complete);
                         tvReply.setTextColor(Color.BLUE);
                         handler.postDelayed(new Runnable() {
                             @Override

@@ -70,9 +70,9 @@ public class StopAlarm extends AppCompatActivity {
                 // creat dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(StopAlarm.this);
 
-                builder.setMessage("DAY DI NAO")
+                builder.setMessage("AlarmMusic")
                         .setCancelable(false)
-                        .setNegativeButton("Tắt báo thức", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.stop_alarm, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
                                 if(mode.equals(getString(R.string.mode_default))){

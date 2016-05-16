@@ -53,7 +53,6 @@ public class AddAlarm extends AppCompatActivity {
     private EditText edtNameAlarm;
     private static Context context;
     private DatabaseHelper dbHelper;
-   // private ArrayList<Integer> selList;
     private ArrayList<Integer> arrDay;
     private String array_day_string ;
     private String type;
@@ -138,47 +137,51 @@ public class AddAlarm extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 arrDay = setDay();
-                String nameAlarm = edtNameAlarm.getText().toString();
-                int hourAlarm = calendar.get(Calendar.HOUR_OF_DAY);
-                int minuteAlarm = calendar.get(Calendar.MINUTE);
-                String ringAlarm = tvSelectRing.getText().toString();
-
-                ContentValues values_alarm = new ContentValues();
-                values_alarm.put("name_alarm",nameAlarm);
-                values_alarm.put("ring_alarm",ringAlarm);
-                values_alarm.put("hour",hourAlarm);
-                values_alarm.put("minute",minuteAlarm);
-                values_alarm.put("arr_day", array_day_string);
-                values_alarm.put("state", "on");
-                values_alarm.put("vibrate", getVibrate());
-                values_alarm.put("mode", mode);
-                values_alarm.put("type",type);
-                dbHelper.insert(values_alarm,"alarm_table");
-
-                Log.d(TAG, "mode add : "+ tvAlarmMode.getText().toString());
-
-                int i=0;
-                for(i=0;i<arrDay.size();i++){
-                    ContentValues values_day_alarm = new ContentValues();
-                    values_day_alarm.put("id_alarm",max_id);
-                    values_day_alarm.put("name_alarm",nameAlarm);
-                    values_day_alarm.put("ring_alarm",ringAlarm);
-                    values_day_alarm.put("hour_alarm",hourAlarm);
-                    values_day_alarm.put("minute_alarm",minuteAlarm);
-                    values_day_alarm.put("day_alarm", arrDay.get(i));
-                    values_day_alarm.put("state", "on");
-                    values_day_alarm.put("vibrate", getVibrate());
-                    values_day_alarm.put("mode", mode);
-                    values_day_alarm.put("type",type);
-                    dbHelper.insert(values_day_alarm,"day_table");
-                    Log.d(TAG,"insert day true");
+                if(arrDay.size()==0){
+                    Toast.makeText(AddAlarm.this,"Please select days for the alarm!",Toast.LENGTH_LONG).show();
                 }
+                else{
+                    String nameAlarm = edtNameAlarm.getText().toString();
+                    int hourAlarm = calendar.get(Calendar.HOUR_OF_DAY);
+                    int minuteAlarm = calendar.get(Calendar.MINUTE);
+                    String ringAlarm = tvSelectRing.getText().toString();
 
-                Intent i_setAlarm = new Intent(AddAlarm.this,SetAlarmService.class);
-                startService(i_setAlarm);
-                sendToMain(MainActivity.REQUEST_CODE_INPUT);
+                    ContentValues values_alarm = new ContentValues();
+                    values_alarm.put("name_alarm",nameAlarm);
+                    values_alarm.put("ring_alarm",ringAlarm);
+                    values_alarm.put("hour",hourAlarm);
+                    values_alarm.put("minute",minuteAlarm);
+                    values_alarm.put("arr_day", array_day_string);
+                    values_alarm.put("state", "on");
+                    values_alarm.put("vibrate", getVibrate());
+                    values_alarm.put("mode", mode);
+                    values_alarm.put("type",type);
+                    dbHelper.insert(values_alarm,"alarm_table");
+
+                    Log.d(TAG, "mode add : "+ tvAlarmMode.getText().toString());
+
+                    int i=0;
+                    for(i=0;i<arrDay.size();i++){
+                        ContentValues values_day_alarm = new ContentValues();
+                        values_day_alarm.put("id_alarm",max_id);
+                        values_day_alarm.put("name_alarm",nameAlarm);
+                        values_day_alarm.put("ring_alarm",ringAlarm);
+                        values_day_alarm.put("hour_alarm",hourAlarm);
+                        values_day_alarm.put("minute_alarm",minuteAlarm);
+                        values_day_alarm.put("day_alarm", arrDay.get(i));
+                        values_day_alarm.put("state", "on");
+                        values_day_alarm.put("vibrate", getVibrate());
+                        values_day_alarm.put("mode", mode);
+                        values_day_alarm.put("type",type);
+                        dbHelper.insert(values_day_alarm,"day_table");
+                        Log.d(TAG,"insert day true");
+                    }
+
+                    Intent i_setAlarm = new Intent(AddAlarm.this,SetAlarmService.class);
+                    startService(i_setAlarm);
+                    sendToMain(MainActivity.REQUEST_CODE_INPUT);
+                }
 
             }
         });

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartAlarm</string>
+    <string name="app_name">AlarmMusic</string>
     <string name="mylist">mylist</string>
     <string name="list_default">default</string>
     <string name="title_alarm">Title</string>
@@ -11,4 +11,6 @@
     <string name="select_ring_tone">select ring tone</string>
     <string name="mode_default">Default</string>
     <string name="mode_play_game">Play Game</string>
+    <string name="complete">Complete!!!</string>
+    <string name="stop_alarm">Stop Alarm</string>
 </resources>

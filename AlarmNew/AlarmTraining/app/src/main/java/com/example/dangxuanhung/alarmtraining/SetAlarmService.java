@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.dangxuanhung.alarmtraining.model.DayAlarm;
 
@@ -149,6 +150,7 @@ public class SetAlarmService extends Service {
                 AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
                 alarm_manager.set(AlarmManager.RTC_WAKEUP,
                         calendar_alarm.getTimeInMillis(), pending_intent);
+                Toast.makeText(this,"Báo thức tiếp theo : Hôm nay " + dayAlarmSelect.getHour()+" giờ "+dayAlarmSelect.getMinute()+" phút!",Toast.LENGTH_LONG).show();
             }
             else if(mlist.size()>1){
                 int choose=0;
@@ -193,6 +195,8 @@ public class SetAlarmService extends Service {
                 AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
                 alarm_manager.set(AlarmManager.RTC_WAKEUP,
                         calendar_alarm.getTimeInMillis(), pending_intent);
+                Toast.makeText(this,"Báo thức tiếp theo : Hôm nay " + dayAlarmSelect.getHour()+" giờ "+dayAlarmSelect.getMinute()+" phút!",Toast.LENGTH_LONG).show();
+
             }
             else if(mlist.size()==0){
                 if(list2.size()==1){ // chỉ có 1 báo thức trong các ngày còn lại của tuần
@@ -227,6 +231,7 @@ public class SetAlarmService extends Service {
                     AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
                     alarm_manager.set(AlarmManager.RTC_WAKEUP,
                             time_alarm, pending_intent);
+                    Toast.makeText(this,"Báo thức tiếp theo : Thứ "+list2.get(0).getDay() + " " + list2.get(0).getHour()+" giờ "+list2.get(0).getMinute()+" phút!",Toast.LENGTH_LONG).show();
 
                 }
                 else if(list2.size()>1){ // có nhiều hơn 1 alarm trong các ngày còn lại của tuần
@@ -282,6 +287,7 @@ public class SetAlarmService extends Service {
                     AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
                     alarm_manager.set(AlarmManager.RTC_WAKEUP,
                             time_alarm, pending_intent);
+                    Toast.makeText(this,"Báo thức tiếp theo : Thứ "+list2.get(choose).getDay() + " " + list2.get(choose).getHour()+" giờ "+list2.get(choose).getMinute()+" phút!",Toast.LENGTH_LONG).show();
 
                 }
                 else if(list0.size()==1){
@@ -316,6 +322,8 @@ public class SetAlarmService extends Service {
                     AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
                     alarm_manager.set(AlarmManager.RTC_WAKEUP,
                             time_alarm, pending_intent);
+                    Toast.makeText(this,"Báo thức tiếp theo : Thứ "+list0.get(0).getDay() + " " + list0.get(0).getHour()+" giờ "+list0.get(0).getMinute()+" phút!",Toast.LENGTH_LONG).show();
+
 
                 }
                 else if(list0.size()>1){
@@ -373,6 +381,8 @@ public class SetAlarmService extends Service {
                     AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
                     alarm_manager.set(AlarmManager.RTC_WAKEUP,
                             time_alarm, pending_intent);
+                    Toast.makeText(this,"Báo thức tiếp theo : Thứ "+list0.get(choose).getDay() + " " + list0.get(choose).getHour()+" giờ "+list0.get(choose).getMinute()+" phút!",Toast.LENGTH_LONG).show();
+
                 }
             }
         }
@@ -408,6 +418,8 @@ public class SetAlarmService extends Service {
             AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
             alarm_manager.set(AlarmManager.RTC_WAKEUP,
                     time_alarm, pending_intent);
+            Toast.makeText(this,"Báo thức tiếp theo : Thứ "+list2.get(0).getDay() + " " + list2.get(0).getHour()+" giờ "+list2.get(0).getMinute()+" phút!",Toast.LENGTH_LONG).show();
+
 
         }
         else if(list2.size()>1){ // có nhiều hơn 1 alarm trong các ngày còn lại của tuần
@@ -464,6 +476,8 @@ public class SetAlarmService extends Service {
             alarm_manager.set(AlarmManager.RTC_WAKEUP,
                     time_alarm, pending_intent);
 
+            Toast.makeText(this,"Báo thức tiếp theo : Thứ "+list2.get(choose).getDay() + " " + list2.get(choose).getHour()+" giờ "+list2.get(choose).getMinute()+" phút!",Toast.LENGTH_LONG).show();
+
         }
         else if(list0.size()==1){
             int d1 = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
@@ -497,6 +511,8 @@ public class SetAlarmService extends Service {
             AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
             alarm_manager.set(AlarmManager.RTC_WAKEUP,
                     time_alarm, pending_intent);
+            Toast.makeText(this,"Báo thức tiếp theo : Thứ "+list0.get(0).getDay() + " " + list0.get(0).getHour()+" giờ "+list0.get(0).getMinute()+" phút!",Toast.LENGTH_LONG).show();
+
 
         }
         else if(list0.size()>1){
@@ -554,6 +570,8 @@ public class SetAlarmService extends Service {
             AlarmManager alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
             alarm_manager.set(AlarmManager.RTC_WAKEUP,
                     time_alarm, pending_intent);
+            Toast.makeText(this,"Báo thức tiếp theo : Thứ "+list0.get(choose).getDay() + " " + list0.get(choose).getHour()+" giờ "+list0.get(choose).getMinute()+" phút!",Toast.LENGTH_LONG).show();
+
         }
     }
 }
