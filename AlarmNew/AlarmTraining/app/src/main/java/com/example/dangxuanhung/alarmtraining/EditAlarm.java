@@ -42,42 +42,21 @@ public class EditAlarm extends AppCompatActivity {
     public static final int REQUEST_CODE_EDIT=2;
     private static final String TAG = EditAlarm.class.getSimpleName() ;
 
-    Calendar calendar;
-    TextView tvTime;
-    Button btnBack;
-    Button btnSave;
-    Button btnDelete;
-    CheckBox cbMon;
-    CheckBox cbTue;
-    CheckBox cbWen;
-    CheckBox cbThu;
-    CheckBox cbFri;
-    CheckBox cbSat;
-    CheckBox cbSun;
-
-    CheckBox cbVibrate;
-
-    Date timeSelect;
-    TextView tvAlarmMode;
-    TextView tvSelectRing;
-    EditText edtNameAlarm;
+    private Calendar calendar;
+    private TextView tvTime,tvAlarmMode,tvSelectRing;
+    private Button btnBack,btnSave,btnDelete;
+    private CheckBox cbMon,cbTue,cbWen,cbThu,cbFri,cbSat,cbSun,cbVibrate;
+    private Date timeSelect;
+    private EditText edtNameAlarm;
     private static Context context;
-    PendingIntent pending_intent;
-    DatabaseHelper dbHelper;
-    String array_day_string ="";
+    private DatabaseHelper dbHelper;
+    private String array_day_string;
     private int id;
     private String type;
-
-    final CharSequence alarmMode[] ={"Default","Play Game"};
-
-    ArrayList<Integer> selList;
+    private String mode;
+   // ArrayList<Integer> selList;
     ArrayList<Integer> arrDay;
     ArrayList<DayAlarm> arrDayAlarm ;
-
-    boolean bl[] = new boolean[alarmMode.length];
-
-    String msg ="";
-
     private GoogleApiClient client;
 
     @Override
@@ -89,6 +68,7 @@ public class EditAlarm extends AppCompatActivity {
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
+        array_day_string ="";
 
         View mCustomView = mInflater.inflate(R.layout.custom_actionbar_editalarm, null);
 
@@ -98,9 +78,9 @@ public class EditAlarm extends AppCompatActivity {
 
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
-
         getControl();
-        selList=new ArrayList();
+
+      //  selList=new ArrayList();
         arrDay = new ArrayList<>();
         arrDayAlarm = new ArrayList<>();
 
@@ -110,6 +90,7 @@ public class EditAlarm extends AppCompatActivity {
 
         final Intent intent_edit = getIntent();
         id = intent_edit.getExtras().getInt("id");
+        mode = intent_edit.getExtras().getString("mode");
         Log.d(TAG, "id edit + " + id);
         String day_alarm = intent_edit.getStringExtra("arr_day_string");
         String vibrate_checked = intent_edit.getExtras().getString("vibrate");
@@ -137,10 +118,26 @@ public class EditAlarm extends AppCompatActivity {
         tvAlarmMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog();
+                showDialog(EditAlarm.this, "Select mode alarm", new String[]{"Ok"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == -1)
+                        {
+                            if (select == 0){
+                                tvAlarmMode.setText("Default");
+                                mode = "Default";
+                            }
+
+                            else if (select == 1){
+                                tvAlarmMode.setText("Play Game");
+                                mode = "Play Game";
+                            }
+                        }
+                    }
+                });
+
 
             }
-
         });
 
         final Intent my_intent = new Intent(EditAlarm.getAppContext(),AlarmReceiver.class);
@@ -163,7 +160,7 @@ public class EditAlarm extends AppCompatActivity {
                 values_alarm.put("arr_day", array_day_string);
                 values_alarm.put("state","on");
                 values_alarm.put("vibrate", getVibrate());
-                values_alarm.put("mode", tvAlarmMode.getText().toString());
+                values_alarm.put("mode", mode);
                 values_alarm.put("type",type);
                 dbHelper.update(values_alarm,"_id_alarm="+id,"alarm_table");
                 dbHelper.delete("day_table","id_alarm="+id);
@@ -179,7 +176,7 @@ public class EditAlarm extends AppCompatActivity {
                     values_day_alarm.put("day_alarm", arrDay.get(i));
                     values_day_alarm.put("state", "on");
                     values_day_alarm.put("vibrate", getVibrate());
-                    values_day_alarm.put("mode", tvAlarmMode.getText().toString());
+                    values_day_alarm.put("mode", mode);
                     values_day_alarm.put("type",type);
                     dbHelper.insert(values_day_alarm, "day_table");
                 }
@@ -281,50 +278,35 @@ public class EditAlarm extends AppCompatActivity {
         time.show();
     }
 
-    public void alertDialog(){
-        final AlertDialog.Builder ad = new AlertDialog.Builder(this);
-        ad.setTitle("Choose a mode !");
+    int select = -1;
+    public void showDialog(Context context, String title, String[] btnText,
+                           DialogInterface.OnClickListener listener) {
 
-        ad.setMultiChoiceItems(alarmMode, bl, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1, boolean arg2) {
-                if(arg2)
-                {
-                    msg=alarmMode[arg1].toString();
+        final CharSequence[] items = {"Default", "Play Game"};
+
+        if (listener == null)
+            listener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface,
+                                    int paramInt) {
+                    paramDialogInterface.dismiss();
                 }
-                else if (selList.contains(arg1))
-                {
-                }
-            }
-        });
-        ad.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            };
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                tvAlarmMode.setText(msg);
-            }
-        });
-        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(),
-                        "You Have Cancel the Dialog box", Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
-
-        tvAlarmMode.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                msg = "";
-                ad.show();
-            }
-        });
+        builder.setSingleChoiceItems(items, -1,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        select = item;
+                    }
+                });
+        builder.setPositiveButton(btnText[0], listener);
+        if (btnText.length != 1) {
+            builder.setNegativeButton(btnText[1], listener);
+        }
+        builder.show();
     }
-
     public void setDay(){
         arrDay.clear();
         if(cbMon.isChecked()){
@@ -383,7 +365,7 @@ public class EditAlarm extends AppCompatActivity {
         tvTime.setText(time);
         tvSelectRing.setText(i.getStringExtra("ring_alarm"));
         edtNameAlarm.setText(i.getStringExtra("name_alarm"));
-        tvAlarmMode.setText(i.getStringExtra("mode"));
+        tvAlarmMode.setText(mode);
 
         calendar.set(Calendar.HOUR_OF_DAY,hour);
         calendar.set(Calendar.MINUTE,minute);

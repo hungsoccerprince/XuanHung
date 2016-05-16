@@ -53,13 +53,9 @@ public class AddAlarm extends AppCompatActivity {
     private EditText edtNameAlarm;
     private static Context context;
     private DatabaseHelper dbHelper;
-    final CharSequence alarmMode[] ={"Default","Play Game"};
-    private ArrayList<Integer> selList;
+   // private ArrayList<Integer> selList;
     private ArrayList<Integer> arrDay;
-   // private ArrayList<DayAlarm> arrDayAlarm ;
-    private String array_day_string ="";
-    private boolean bl[] = new boolean[alarmMode.length];
-    private String msg ="";
+    private String array_day_string ;
     private String type;
     private String mode;
     private GoogleApiClient client;
@@ -75,6 +71,7 @@ public class AddAlarm extends AppCompatActivity {
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
         View mCustomView = mInflater.inflate(R.layout.custom_actionbar_addalarm, null);
+        array_day_string ="";
 
         btnBack = (Button)mCustomView.findViewById(R.id.btnBackMain);
         btnSave = (Button)mCustomView.findViewById(R.id.btnSave);
@@ -83,7 +80,7 @@ public class AddAlarm extends AppCompatActivity {
         mActionBar.setDisplayShowCustomEnabled(true);
 
         type = getString(R.string.list_default);
-        selList=new ArrayList();
+       // selList=new ArrayList();
         arrDay = new ArrayList<>();
         dbHelper = new DatabaseHelper(this);
 
@@ -114,7 +111,27 @@ public class AddAlarm extends AppCompatActivity {
         tvAlarmMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog();
+                showDialog(AddAlarm.this, "Select mode alarm", new String[]{"Ok"}, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == -1)
+                        {
+                            if (select == 0){
+                                tvAlarmMode.setText("Default");
+                                mode = "Default";
+                            }
+
+                            else if (select == 1){
+                                tvAlarmMode.setText("Play Game");
+                                mode = "Play Game";
+                            }
+
+                        }
+                    }
+                });
+
+
             }
         });
 
@@ -136,7 +153,7 @@ public class AddAlarm extends AppCompatActivity {
                 values_alarm.put("arr_day", array_day_string);
                 values_alarm.put("state", "on");
                 values_alarm.put("vibrate", getVibrate());
-                values_alarm.put("mode", tvAlarmMode.getText().toString());
+                values_alarm.put("mode", mode);
                 values_alarm.put("type",type);
                 dbHelper.insert(values_alarm,"alarm_table");
 
@@ -153,7 +170,7 @@ public class AddAlarm extends AppCompatActivity {
                     values_day_alarm.put("day_alarm", arrDay.get(i));
                     values_day_alarm.put("state", "on");
                     values_day_alarm.put("vibrate", getVibrate());
-                    values_day_alarm.put("mode", tvAlarmMode.getText().toString());
+                    values_day_alarm.put("mode", mode);
                     values_day_alarm.put("type",type);
                     dbHelper.insert(values_day_alarm,"day_table");
                     Log.d(TAG,"insert day true");
@@ -192,12 +209,42 @@ public class AddAlarm extends AppCompatActivity {
         }
     }
 
+    int select = -1;
+    public void showDialog(Context context, String title, String[] btnText,
+                           DialogInterface.OnClickListener listener) {
+
+        final CharSequence[] items = {"Default", "Play Game"};
+
+        if (listener == null)
+            listener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface,
+                                    int paramInt) {
+                    paramDialogInterface.dismiss();
+                }
+            };
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+
+        builder.setSingleChoiceItems(items, -1,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        select = item;
+                    }
+                });
+        builder.setPositiveButton(btnText[0], listener);
+        if (btnText.length != 1) {
+            builder.setNegativeButton(btnText[1], listener);
+        }
+        builder.show();
+    }
+
+
     // gửi du liệu về mainactivity
     public void sendToMain(int resultcode)
     {
         Intent i=getIntent();
         i.putExtra("request","add");
-
         setResult(resultcode, i);
         finish();
     }
@@ -244,50 +291,6 @@ public class AddAlarm extends AppCompatActivity {
         time.show();
     }
 
-    public void alertDialog(){
-        final AlertDialog.Builder ad = new AlertDialog.Builder(this);
-        ad.setTitle("Choose a mode !");
-
-        ad.setMultiChoiceItems(alarmMode, bl, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1, boolean arg2) {
-                if(arg2)
-                {
-                    msg=alarmMode[arg1].toString();
-                }
-                else if (selList.contains(arg1))
-                {
-                }
-            }
-        });
-        ad.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                tvAlarmMode.setText(msg);
-            }
-        });
-        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(),
-                        "You Have Cancel the Dialog box", Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
-
-        tvAlarmMode.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                msg = "";
-                ad.show();
-            }
-        });
-    }
-
     public ArrayList<Integer> setDay(){
         ArrayList<Integer> arrDay = new ArrayList<Integer>();
         if(cbMon.isChecked()){
@@ -329,10 +332,8 @@ public class AddAlarm extends AppCompatActivity {
     }
 
     public void getDefaultInfor(){
-
         calendar = Calendar.getInstance();
         SimpleDateFormat dft = null;
-
         if(DateFormat.is24HourFormat(getApplication())){
             dft = new SimpleDateFormat("HH:mm", Locale.getDefault());
         }
