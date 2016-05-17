@@ -349,7 +349,7 @@ public class AddAlarm extends AppCompatActivity {
         tvTime.setTag(dft.format(calendar.getTime()));
 
         tvTime.setText(time);
-        tvSelectRing.setText("bantinhca");
+        tvSelectRing.setText("baby_drunk");
 
     }
 
