@@ -266,19 +266,7 @@ public class AudioActivity extends Activity {
 
     private boolean getPoint(){
         Boolean check = false;
-      /*  if(point==3){
-            lnPoint.setBackgroundResource(R.drawable.point_3);
-            Log.d(TAG, String.valueOf(point));
-            check = true;
-        }
-        else if(point==2){
-            lnPoint.setBackgroundResource(R.drawable.point_2);
-            Log.d(TAG, String.valueOf(point));
-        }
-        else if(point==1 || point==0){
-            lnPoint.setBackgroundResource(R.drawable.point_1);
-            Log.d(TAG, String.valueOf(point));
-        }*/
+
         switch (point){
             case 3:
                 Log.d(TAG, String.valueOf(point));

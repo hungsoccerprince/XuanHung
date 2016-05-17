@@ -70,17 +70,11 @@ public class StopAlarm extends AppCompatActivity {
                 // creat dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(StopAlarm.this);
 
-                builder.setMessage("AlarmMusic")
+                builder.setMessage(name)
                         .setCancelable(false)
                         .setNegativeButton(R.string.stop_alarm, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                if(mode.equals(getString(R.string.mode_default))){
-                                    Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
-                                    intent.putExtra("extra", "off");
-                                    startService(intent);
-                                    finish();
-                                }
                                 if(mode.equals(getString(R.string.mode_play_game))) {
                                     Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
                                     intent.putExtra("extra", "off");
@@ -92,12 +86,18 @@ public class StopAlarm extends AppCompatActivity {
                                     Intent intent_audio = new Intent(StopAlarm.this,AudioActivity.class);
                                     startActivity(intent_audio);
                                 }
+                                else {
+                                    Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
+                                    intent.putExtra("extra", "off");
+                                    startService(intent);
+                                    finish();
+                                }
 
                             }
                         });
                 AlertDialog alert = builder.create();
                 //Setting the title manually
-                alert.setTitle(name);
+                alert.setTitle("AlarmMusic");
                 alert.show();
             }
         });

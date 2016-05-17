@@ -13,4 +13,5 @@
     <string name="mode_play_game">Play Game</string>
     <string name="complete">Complete!!!</string>
     <string name="stop_alarm">Stop Alarm</string>
+    <string name="ring_default">alarm</string>
 </resources>

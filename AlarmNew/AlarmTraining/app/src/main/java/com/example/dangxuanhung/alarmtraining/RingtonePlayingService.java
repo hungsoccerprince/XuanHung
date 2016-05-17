@@ -129,21 +129,24 @@ public class RingtonePlayingService extends Service {
         };
         audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,proj, null, null, null);
         int i=0;
+        boolean check = false;
         for(i=0;i<audioCursor.getCount();i++){
             audioCursor.moveToPosition(i);
             name_audio = audioCursor.getString(2);
             if(name_audio.equals(name)){
                 try {
+                    check=true;
                     media_song = new MediaPlayer();
                     media_song.setDataSource(audioCursor.getString(1));
                     media_song.prepare();
-                    //Log.d(TAG, String.valueOf(media_song.getCurrentPosition()));
-//                    media_song.start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
             }
+        }
+        if(check==false){
+            media_song = MediaPlayer.create(this,R.raw.alarm);
         }
 
     }

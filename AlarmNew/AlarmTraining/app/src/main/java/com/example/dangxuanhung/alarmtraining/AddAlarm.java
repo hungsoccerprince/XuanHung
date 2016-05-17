@@ -71,6 +71,7 @@ public class AddAlarm extends AppCompatActivity {
         LayoutInflater mInflater = LayoutInflater.from(this);
         View mCustomView = mInflater.inflate(R.layout.custom_actionbar_addalarm, null);
         array_day_string ="";
+        mode = getString(R.string.mode_play_game);
 
         btnBack = (Button)mCustomView.findViewById(R.id.btnBackMain);
         btnSave = (Button)mCustomView.findViewById(R.id.btnSave);
@@ -117,13 +118,13 @@ public class AddAlarm extends AppCompatActivity {
                         if (which == -1)
                         {
                             if (select == 0){
-                                tvAlarmMode.setText("Default");
-                                mode = "Default";
+                                tvAlarmMode.setText(R.string.mode_default);
+                                mode = getString(R.string.mode_default);
                             }
 
                             else if (select == 1){
-                                tvAlarmMode.setText("Play Game");
-                                mode = "Play Game";
+                                tvAlarmMode.setText(getString(R.string.mode_play_game));
+                                mode = getString(R.string.mode_play_game);
                             }
 
                         }
@@ -216,7 +217,7 @@ public class AddAlarm extends AppCompatActivity {
     public void showDialog(Context context, String title, String[] btnText,
                            DialogInterface.OnClickListener listener) {
 
-        final CharSequence[] items = {"Default", "Play Game"};
+        final CharSequence[] items = {getString(R.string.mode_default), getString(R.string.mode_play_game)};
 
         if (listener == null)
             listener = new DialogInterface.OnClickListener() {
@@ -349,7 +350,8 @@ public class AddAlarm extends AppCompatActivity {
         tvTime.setTag(dft.format(calendar.getTime()));
 
         tvTime.setText(time);
-        tvSelectRing.setText("baby_drunk");
+        tvAlarmMode.setText(mode);
+        tvSelectRing.setText(R.string.ring_default);
 
     }
 
@@ -358,7 +360,6 @@ public class AddAlarm extends AppCompatActivity {
 //        btnBack = (Button) findViewById(R.id.btnBackMain);
 //        btnSave = (Button)findViewById(R.id.btnSave);
         tvAlarmMode = (TextView)findViewById(R.id.tvAlarmMode);
-        tvAlarmMode.setText("Default");
         edtNameAlarm = (EditText)findViewById(R.id.edtNameAlarm);
         tvSelectRing = (TextView)findViewById(R.id.tvSelectRing);
 

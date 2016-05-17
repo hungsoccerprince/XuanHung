@@ -54,7 +54,7 @@ public class EditAlarm extends AppCompatActivity {
     private int id;
     private String type;
     private String mode;
-   // ArrayList<Integer> selList;
+    private String ring_alarm;
     ArrayList<Integer> arrDay;
     ArrayList<DayAlarm> arrDayAlarm ;
     private GoogleApiClient client;
@@ -68,7 +68,9 @@ public class EditAlarm extends AppCompatActivity {
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
+        Intent i = getIntent();
         array_day_string ="";
+        ring_alarm = i.getStringExtra("ring_alarm");
 
         View mCustomView = mInflater.inflate(R.layout.custom_actionbar_editalarm, null);
 
@@ -119,22 +121,25 @@ public class EditAlarm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showDialog(EditAlarm.this, "Select mode alarm", new String[]{"Ok"}, new DialogInterface.OnClickListener() {
+
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == -1)
                         {
                             if (select == 0){
-                                tvAlarmMode.setText("Default");
-                                mode = "Default";
+                                tvAlarmMode.setText(R.string.mode_default);
+                                mode = getString(R.string.mode_default);
                             }
 
                             else if (select == 1){
-                                tvAlarmMode.setText("Play Game");
-                                mode = "Play Game";
+                                tvAlarmMode.setText(getString(R.string.mode_play_game));
+                                mode = getString(R.string.mode_play_game);
                             }
                         }
                     }
                 });
+
+
             }
         });
 
@@ -152,11 +157,11 @@ public class EditAlarm extends AppCompatActivity {
                     String nameAlarm = edtNameAlarm.getText().toString();
                     int hourAlarm = calendar.get(Calendar.HOUR_OF_DAY);
                     int minuteAlarm = calendar.get(Calendar.MINUTE);
-                    String ringAlarm = tvSelectRing.getText().toString();
+                   // String ringAlarm = tvSelectRing.getText().toString();
 
                     ContentValues values_alarm = new ContentValues();
                     values_alarm.put("name_alarm",nameAlarm);
-                    values_alarm.put("ring_alarm",ringAlarm);
+                    values_alarm.put("ring_alarm",ring_alarm);
                     values_alarm.put("hour",hourAlarm);
                     values_alarm.put("minute",minuteAlarm);
                     values_alarm.put("arr_day", array_day_string);
@@ -172,7 +177,7 @@ public class EditAlarm extends AppCompatActivity {
                         ContentValues values_day_alarm = new ContentValues();
                         values_day_alarm.put("id_alarm", id);
                         values_day_alarm.put("name_alarm", nameAlarm);
-                        values_day_alarm.put("ring_alarm", ringAlarm);
+                        values_day_alarm.put("ring_alarm", ring_alarm);
                         values_day_alarm.put("hour_alarm", hourAlarm);
                         values_day_alarm.put("minute_alarm", minuteAlarm);
                         values_day_alarm.put("day_alarm", arrDay.get(i));
@@ -229,6 +234,7 @@ public class EditAlarm extends AppCompatActivity {
         if(data!=null){
             String selectRing = data.getExtras().getString("name_ring");
             type = data.getExtras().getString("type");
+            ring_alarm = selectRing;
             tvSelectRing.setText(selectRing);
         }
     }
@@ -284,7 +290,7 @@ public class EditAlarm extends AppCompatActivity {
     public void showDialog(Context context, String title, String[] btnText,
                            DialogInterface.OnClickListener listener) {
 
-        final CharSequence[] items = {"Default", "Play Game"};
+        final CharSequence[] items = {getString(R.string.mode_default), getString(R.string.mode_play_game)};
 
         if (listener == null)
             listener = new DialogInterface.OnClickListener() {
@@ -365,7 +371,7 @@ public class EditAlarm extends AppCompatActivity {
         String time = s_hour + ":" + s_minute;
         tvTime.setTag(time);
         tvTime.setText(time);
-        tvSelectRing.setText(i.getStringExtra("ring_alarm"));
+        tvSelectRing.setText(ring_alarm);
         edtNameAlarm.setText(i.getStringExtra("name_alarm"));
         tvAlarmMode.setText(mode);
 
