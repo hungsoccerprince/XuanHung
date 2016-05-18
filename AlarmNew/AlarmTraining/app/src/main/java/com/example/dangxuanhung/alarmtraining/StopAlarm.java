@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,12 +48,13 @@ public class StopAlarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_ring);
 
+
         final String mode = getIntent().getExtras().getString("mode");
         final String name = getIntent().getExtras().getString("name");
         Log.d(TAG,"mode : "+ mode);
 
-        Intent i_setAlarm = new Intent(StopAlarm.this,SetAlarmService.class);
-        startService(i_setAlarm);
+       /* Intent i_setAlarm = new Intent(StopAlarm.this,SetAlarmService.class);
+        startService(i_setAlarm);*/
 
         // Count Time display activity
         startTimer();

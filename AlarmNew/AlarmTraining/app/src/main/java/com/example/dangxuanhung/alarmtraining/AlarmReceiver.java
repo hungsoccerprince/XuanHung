@@ -40,8 +40,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                 service_intent.putExtra("ring_alarm", ring_alarm);
                 service_intent.putExtra("type",type);
                 Log.d(TAG, "type : "+ type);
-
                 context.startService(service_intent);
+
+                Intent i_setAlarm = new Intent(context,SetAlarmService.class);
+                context.startService(i_setAlarm);
 
                 Intent ring_intent = new Intent(context,StopAlarm.class);
                 ring_intent.putExtra("name",name_alarm);
@@ -58,6 +60,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                 service_intent.putExtra("extra",state);
                 service_intent.putExtra("ring_alarm",ring_alarm);
                 context.startService(service_intent);
+
+                Intent i_setAlarm = new Intent(context,SetAlarmService.class);
+                context.startService(i_setAlarm);
             }
         }
 
