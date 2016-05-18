@@ -63,6 +63,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 context.startService(service_intent);
 
                 Intent i_setAlarm = new Intent(context,SetAlarmService.class);
+                i_setAlarm.putExtra("next",1);
                 context.startService(i_setAlarm);
 
             }

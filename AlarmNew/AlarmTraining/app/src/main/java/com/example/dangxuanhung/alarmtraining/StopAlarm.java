@@ -98,6 +98,11 @@ public class StopAlarm extends AppCompatActivity {
                                     Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
                                     intent.putExtra("extra", "off");
                                     startService(intent);
+
+                                    Intent i_setAlarm = new Intent(StopAlarm.this,SetAlarmService.class);
+                                    i_setAlarm.putExtra("next",1);
+                                    startService(i_setAlarm);
+
                                     finish();
                                 }
 
