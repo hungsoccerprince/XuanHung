@@ -100,6 +100,7 @@ public class ListAlarmAdapter extends RecyclerView.Adapter<ListAlarmAdapter.View
                     }
 
                     Intent i_service = new Intent(context,SetAlarmService.class);
+                    i_service.putExtra("next",0);
                     context.startService(i_service);
                     Toast.makeText(context,"On",Toast.LENGTH_SHORT).show();
                 }
@@ -116,6 +117,7 @@ public class ListAlarmAdapter extends RecyclerView.Adapter<ListAlarmAdapter.View
                     }
 
                     Intent i_service = new Intent(context,SetAlarmService.class);
+                    i_service.putExtra("next",0);
                     context.startService(i_service);
                     Toast.makeText(context,"Off",Toast.LENGTH_SHORT).show();
                 }

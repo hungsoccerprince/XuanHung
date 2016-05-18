@@ -25,9 +25,12 @@ public class SetAlarmService extends Service {
     private DatabaseHelper dbHelper;
     private ArrayList<DayAlarm> arrAlarm;
     private PendingIntent pending_intent;
+    private int next;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        next = intent.getExtras().getInt("next");
 
         dbHelper = new DatabaseHelper(this);
         arrAlarm = new ArrayList<DayAlarm>();
@@ -116,10 +119,19 @@ public class SetAlarmService extends Service {
             Calendar c_now = Calendar.getInstance();
             for(j1=0;j1<list1.size();j1++){
 
-                if(list1.get(j1).getHour()>c_now.get(Calendar.HOUR_OF_DAY) | (list1.get(j1).getHour()==c_now.get(Calendar.HOUR_OF_DAY) &&  list1.get(j1).getMinute()>c_now.get(Calendar.MINUTE))){
-                    mlist.add(list1.get(j1));
+                if(next==1){
+                    if(list1.get(j1).getHour()>c_now.get(Calendar.HOUR_OF_DAY) | (list1.get(j1).getHour()==c_now.get(Calendar.HOUR_OF_DAY) &&  list1.get(j1).getMinute() > c_now.get(Calendar.MINUTE))){
+                        mlist.add(list1.get(j1));
+                    }
+                    else list0.add(list1.get(j1));
                 }
-                else list0.add(list1.get(j1));
+                else {
+                    if(list1.get(j1).getHour()>c_now.get(Calendar.HOUR_OF_DAY) | (list1.get(j1).getHour()==c_now.get(Calendar.HOUR_OF_DAY) &&  list1.get(j1).getMinute() >= c_now.get(Calendar.MINUTE))){
+                        mlist.add(list1.get(j1));
+                    }
+                    else list0.add(list1.get(j1));
+                }
+
             }
             Log.d(TAG,"mlist : "+String.valueOf(mlist.size()));
             if(mlist.size()==1){

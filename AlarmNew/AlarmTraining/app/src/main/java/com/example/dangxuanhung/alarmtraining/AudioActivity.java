@@ -1,6 +1,7 @@
 package com.example.dangxuanhung.alarmtraining;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -269,6 +270,9 @@ public class AudioActivity extends Activity {
 
         switch (point){
             case 3:
+                Intent i_setAlarm = new Intent(this,SetAlarmService.class);
+                i_setAlarm.putExtra("next",1);
+                startService(i_setAlarm);
                 Log.d(TAG, String.valueOf(point));
                 check = true;
                 break;

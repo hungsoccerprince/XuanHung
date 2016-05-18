@@ -190,6 +190,7 @@ public class EditAlarm extends AppCompatActivity {
 
                     Log.d(TAG, "mode add : "+ tvAlarmMode.getText().toString());
                     Intent i_setAlarm = new Intent(EditAlarm.this,SetAlarmService.class);
+                    i_setAlarm.putExtra("next",0);
                     startService(i_setAlarm);
 
                     sendToMain(MainActivity.REQUEST_CODE_EDIT);
@@ -207,6 +208,7 @@ public class EditAlarm extends AppCompatActivity {
 
                 // set alarm mới
                 Intent i_setAlarm = new Intent(EditAlarm.this,SetAlarmService.class);
+                i_setAlarm.putExtra("next",0);
                 startService(i_setAlarm);
                 sendToMain(MainActivity.REQUEST_CODE_EDIT);
             }

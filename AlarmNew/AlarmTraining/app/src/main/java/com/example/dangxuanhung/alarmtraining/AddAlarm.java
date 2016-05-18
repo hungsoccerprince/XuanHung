@@ -180,6 +180,7 @@ public class AddAlarm extends AppCompatActivity {
                     }
 
                     Intent i_setAlarm = new Intent(AddAlarm.this,SetAlarmService.class);
+                    i_setAlarm.putExtra("next",0);
                     startService(i_setAlarm);
                     sendToMain(MainActivity.REQUEST_CODE_INPUT);
                 }

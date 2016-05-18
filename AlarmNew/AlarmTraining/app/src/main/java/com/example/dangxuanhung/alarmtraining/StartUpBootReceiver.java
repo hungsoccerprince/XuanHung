@@ -16,6 +16,7 @@ public class StartUpBootReceiver extends BroadcastReceiver {
             Log.d("startuptest", "StartUpBootReceiver BOOT_COMPLETED");
 
             Intent i_setAlarm = new Intent(context,SetAlarmService.class);
+            i_setAlarm.putExtra("next",1);
             context.startService(i_setAlarm);
         }
     }

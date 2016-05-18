@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,9 +34,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent service_intent = new Intent(context,RingtonePlayingService.class);
         Calendar c = Calendar.getInstance();
 
-        Intent i_setAlarm = new Intent(context,SetAlarmService.class);
-        context.startService(i_setAlarm);
-
+     /*   Intent i_setAlarm = new Intent(context,SetAlarmService.class);
+        context.startService(i_setAlarm);*/
 
         if(day==c.get(Calendar.DAY_OF_WEEK) && hour==c.get(Calendar.HOUR_OF_DAY) && minute== c.get(Calendar.MINUTE)){
             if(state.equals("on")){
@@ -51,6 +51,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 ring_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(ring_intent);
 
+
                 if(vibrate.equals("yes")){
                     Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(20000);
@@ -60,6 +61,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                 service_intent.putExtra("extra",state);
                 service_intent.putExtra("ring_alarm",ring_alarm);
                 context.startService(service_intent);
+
+                Intent i_setAlarm = new Intent(context,SetAlarmService.class);
+                context.startService(i_setAlarm);
 
             }
         }
