@@ -74,30 +74,23 @@ public class SDCardImagesActivity extends Activity {
             Date lastModDate = new Date(file.lastModified());
             Log.i("File last modified @ : ", lastModDate.toString());
 
-            //int dateTaken = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
-            int dateTaken = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
-
-            int _weight = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
-
-            Log.d("long", String.valueOf(_weight));
-            Log.d("Image", String.valueOf(dateTaken));
+            String dateTaken = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
 
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(dateTaken);
-            // Date date = calendar.getTime();
+            calendar.setTimeInMillis(Long.parseLong(dateTaken));
 
-            int time = calendar.get(Calendar.DAY_OF_WEEK);
+            Date time = calendar.getTime();
 
-            Log.d("Time", String.valueOf(time));
+            Log.d("Time", formatTime(time));
             //tvDateImage.setText(formatTime(date));
-            tvDateImage.setText(String.valueOf(time));
+            tvDateImage.setText(formatTime(time));
             img.setImageURI(uri);
         }
 
     }
 
     public String formatTime(Date time){
-        DateFormat df = new SimpleDateFormat("yyyy:MM:dd", Locale.getDefault());
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
         String timeFormat = df.format(time);
         return timeFormat;
     }

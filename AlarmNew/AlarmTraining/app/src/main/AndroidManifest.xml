@@ -39,8 +39,14 @@
         <activity android:name=".EditAlarm"
             />
 
-        <activity android:name=".SDCardImagesActivity"
-            />
+        <activity android:name=".SDCardImagesActivity">
+<!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+-->
+        </activity>
 
         <activity android:name=".AudioActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
