@@ -1,16 +1,11 @@
 package com.example.dangxuanhung.alarmtraining;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,12 +16,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.dangxuanhung.alarmtraining.model.DayAlarm;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,7 +27,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -71,7 +63,7 @@ public class AddAlarm extends AppCompatActivity {
         LayoutInflater mInflater = LayoutInflater.from(this);
         View mCustomView = mInflater.inflate(R.layout.custom_actionbar_addalarm, null);
         array_day_string ="";
-        mode = getString(R.string.mode_play_game);
+        mode = getString(R.string.mode_music);
 
         btnBack = (Button)mCustomView.findViewById(R.id.btnBackMain);
         btnSave = (Button)mCustomView.findViewById(R.id.btnSave);
@@ -123,10 +115,13 @@ public class AddAlarm extends AppCompatActivity {
                             }
 
                             else if (select == 1){
-                                tvAlarmMode.setText(getString(R.string.mode_play_game));
-                                mode = getString(R.string.mode_play_game);
+                                tvAlarmMode.setText(getString(R.string.mode_music));
+                                mode = getString(R.string.mode_music);
                             }
-
+                            else if (select==2){
+                                tvAlarmMode.setText(getString(R.string.mode_photo));
+                                mode = getString(R.string.mode_photo);
+                            }
                         }
                     }
                 });
@@ -218,7 +213,7 @@ public class AddAlarm extends AppCompatActivity {
     public void showDialog(Context context, String title, String[] btnText,
                            DialogInterface.OnClickListener listener) {
 
-        final CharSequence[] items = {getString(R.string.mode_default), getString(R.string.mode_play_game)};
+        final CharSequence[] items = {getString(R.string.mode_default), getString(R.string.mode_music),getString(R.string.mode_photo)};
 
         if (listener == null)
             listener = new DialogInterface.OnClickListener() {

@@ -4,17 +4,13 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -83,7 +79,7 @@ public class StopAlarm extends AppCompatActivity {
                         .setNegativeButton(R.string.stop_alarm, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                if(mode.equals(getString(R.string.mode_play_game))) {
+                                if(mode.equals(getString(R.string.mode_music))) {
                                     Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
                                     intent.putExtra("extra", "off");
                                     startService(intent);
@@ -93,6 +89,11 @@ public class StopAlarm extends AppCompatActivity {
 
                                     Intent intent_audio = new Intent(StopAlarm.this,AudioActivity.class);
                                     startActivity(intent_audio);
+                                }
+                                else if(mode.equals(getString(R.string.mode_photo))){
+                                    Intent intent_audio = new Intent(StopAlarm.this,SDCardImagesActivity.class);
+                                    startActivity(intent_audio);
+                                    finish();
                                 }
                                 else {
                                     Intent intent = new Intent(StopAlarm.this, RingtonePlayingService.class);
@@ -105,7 +106,6 @@ public class StopAlarm extends AppCompatActivity {
 
                                     finish();
                                 }
-
                             }
                         });
                 AlertDialog alert = builder.create();

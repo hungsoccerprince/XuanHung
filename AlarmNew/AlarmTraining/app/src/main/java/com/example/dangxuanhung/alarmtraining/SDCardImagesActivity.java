@@ -1,6 +1,9 @@
 package com.example.dangxuanhung.alarmtraining;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -14,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -129,6 +133,37 @@ public class SDCardImagesActivity extends Activity {
 
         }
 
+        else{
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Your Title");
+            alertDialogBuilder
+                    .setMessage("Click yes to exit!")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            // if this button is clicked, close
+                            // current activity
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            // if this button is clicked, just close
+                            // the dialog box and do nothing
+                            dialog.dismiss();
+                            Intent i_setAlarm = new Intent(SDCardImagesActivity.this,SetAlarmService.class);
+                            i_setAlarm.putExtra("next",1);
+                            startService(i_setAlarm);
+                            SDCardImagesActivity.this.finish();
+                        }
+                    });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            alertDialog.show();
+
+        }
+
     }
 
     private void checkAnswer(final Handler handler, final Bundle savedInstanceState ){
@@ -151,6 +186,7 @@ public class SDCardImagesActivity extends Activity {
                     }
                     else {
                         onCreate(savedInstanceState );
+
                     }
                 }
                 else {

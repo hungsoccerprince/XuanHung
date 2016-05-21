@@ -1,15 +1,11 @@
 package com.example.dangxuanhung.alarmtraining;
 
-import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +23,6 @@ import android.widget.Toast;
 import com.example.dangxuanhung.alarmtraining.model.DayAlarm;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.auth.api.credentials.internal.SaveRequest;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
@@ -132,9 +127,14 @@ public class EditAlarm extends AppCompatActivity {
                             }
 
                             else if (select == 1){
-                                tvAlarmMode.setText(getString(R.string.mode_play_game));
-                                mode = getString(R.string.mode_play_game);
+                                tvAlarmMode.setText(getString(R.string.mode_music));
+                                mode = getString(R.string.mode_music);
                             }
+                            else if (select==2){
+                                tvAlarmMode.setText(getString(R.string.mode_photo));
+                                mode = getString(R.string.mode_photo);
+                            }
+
                         }
                     }
                 });
@@ -292,7 +292,7 @@ public class EditAlarm extends AppCompatActivity {
     public void showDialog(Context context, String title, String[] btnText,
                            DialogInterface.OnClickListener listener) {
 
-        final CharSequence[] items = {getString(R.string.mode_default), getString(R.string.mode_play_game)};
+        final CharSequence[] items = {getString(R.string.mode_default), getString(R.string.mode_music),getString(R.string.mode_photo)};
 
         if (listener == null)
             listener = new DialogInterface.OnClickListener() {

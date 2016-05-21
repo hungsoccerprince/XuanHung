@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.skyfishjy.library.RippleBackground;
 
@@ -33,7 +34,7 @@ public class AudioActivity extends Activity {
 
     private static final String TAG = AudioActivity.class.getSimpleName();
     private Button btn1,btn2, btn3, btn4 ;
-    private TextView tvReply;
+    private TextView tvReply,tvQuestion;
     private LinearLayout lnPoint;
     private Cursor audioCursor;
     private String name_audio = null;
@@ -49,9 +50,13 @@ public class AudioActivity extends Activity {
         btn3=(Button)findViewById(R.id.btn3);
         btn4=(Button)findViewById(R.id.btn4);
         tvReply =(TextView)findViewById(R.id.tvReply);
+        tvQuestion = (TextView)findViewById(R.id.tvQuestion);
         lnPoint = (LinearLayout)findViewById(R.id.lnPoint);
+
+        tvQuestion.setText(getString(R.string.question_song));
+
         getPoint();
-       // copyAssets();
+        copyAssets();
 
         final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.content);
         final Handler handler=new Handler();
@@ -64,6 +69,14 @@ public class AudioActivity extends Activity {
         };
 
         audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,proj, null, null, null);
+
+        if(audioCursor.getCount()==0){
+            Toast.makeText(this,"Danh sách nhạc của bạn trống",Toast.LENGTH_SHORT).show();
+            Intent i_setAlarm = new Intent(this,SetAlarmService.class);
+            i_setAlarm.putExtra("next",1);
+            startService(i_setAlarm);
+            finish();
+        }
         Log.d("AudioSize",String.valueOf(audioCursor.getCount()));
 
 /*
