@@ -35,6 +35,7 @@ public class AudioActivity extends Activity {
     private static final String TAG = AudioActivity.class.getSimpleName();
     private Button btn1,btn2, btn3, btn4 ;
     private TextView tvReply,tvQuestion;
+    private RippleBackground rippleBackground;
     private LinearLayout lnPoint;
     private Cursor audioCursor;
     private String name_audio = null;
@@ -52,13 +53,14 @@ public class AudioActivity extends Activity {
         tvReply =(TextView)findViewById(R.id.tvReply);
         tvQuestion = (TextView)findViewById(R.id.tvQuestion);
         lnPoint = (LinearLayout)findViewById(R.id.lnPoint);
+        rippleBackground = (RippleBackground)findViewById(R.id.image_effect);
 
+        rippleBackground.setVisibility(View.VISIBLE);
         tvQuestion.setText(getString(R.string.question_song));
 
         getPoint();
         copyAssets();
 
-        final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.content);
         final Handler handler=new Handler();
         final MediaPlayer audioPlay = new MediaPlayer();
 
@@ -77,7 +79,155 @@ public class AudioActivity extends Activity {
             startService(i_setAlarm);
             finish();
         }
-        Log.d("AudioSize",String.valueOf(audioCursor.getCount()));
+        else {
+            Log.d("AudioSize",String.valueOf(audioCursor.getCount()));
+            Random rand = new Random();
+            int rand_audio = rand.nextInt(audioCursor.getCount()-1);
+            audioCursor.moveToPosition(rand_audio);
+            name_audio = audioCursor.getString(2);
+
+            try{
+                audioPlay.setDataSource(audioCursor.getString(1));
+                audioPlay.prepare();
+                audioPlay.start();
+                audioPlay.setLooping(true);
+            }
+            catch (Exception e){
+                Log.e(getLocalClassName(), String.valueOf(e));
+            }
+
+            getAnswer(audioCursor,name_audio);
+
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(btn1.getText().equals(name_audio))
+                    {
+                        point += 1;
+                        getPoint();
+                        if(getPoint()){
+                            audioPlay.stop();
+                            tvReply.setText(R.string.complete);
+                            tvReply.setTextColor(Color.BLUE);
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            }, 5000);
+                        }
+                        else {
+                            audioPlay.stop();
+                            onCreate(savedInstanceState );
+                        }
+                    }
+                    else {
+                        audioPlay.stop();
+                        onCreate(savedInstanceState );
+                    }
+                }
+            });
+
+            btn2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(btn2.getText().equals(name_audio))
+                    {
+                        point += 1;
+                        getPoint();
+                        if(getPoint()){
+                            audioPlay.stop();
+                            tvReply.setText(R.string.complete);
+                            tvReply.setTextColor(Color.BLUE);
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            }, 5000);
+                        }
+                        else {
+                            audioPlay.stop();
+                            onCreate(savedInstanceState );
+                        }
+                    }
+                    else {
+                        audioPlay.stop();
+                        onCreate(savedInstanceState );
+                    }
+                }
+            });
+
+            btn3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(btn3.getText().equals(name_audio))
+                    {
+                        point += 1;
+                        getPoint();
+                        if(getPoint()){
+                            audioPlay.stop();
+                            tvReply.setText(R.string.complete);
+                            tvReply.setTextColor(Color.BLUE);
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            }, 5000);
+                        }
+                        else {
+                            audioPlay.stop();
+                            onCreate(savedInstanceState );
+                        }
+                    }
+                    else {
+                        audioPlay.stop();
+                        onCreate(savedInstanceState );
+                    }
+                }
+            });
+
+            btn4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(btn4.getText().equals(name_audio))
+                    {
+                        point += 1;
+                        getPoint();
+                        if(getPoint()){
+                            audioPlay.stop();
+                            tvReply.setText(R.string.complete);
+                            tvReply.setTextColor(Color.BLUE);
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            }, 5000);
+                        }
+                        else {
+                            audioPlay.stop();
+                            onCreate(savedInstanceState );
+                        }
+                    }
+                    else {
+                        audioPlay.stop();
+                        onCreate(savedInstanceState );
+                    }
+                }
+            });
+
+
+            rippleBackground.startRippleAnimation();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //foundDevice();
+                }
+            },0);
+        }
+
 
 /*
         if(audioCursor.getCount()==0){
@@ -86,151 +236,7 @@ public class AudioActivity extends Activity {
         }
 */
             // random 1 mp3 file
-        Random rand = new Random();
-        int rand_audio = rand.nextInt(audioCursor.getCount()-1);
-        audioCursor.moveToPosition(rand_audio);
-        name_audio = audioCursor.getString(2);
 
-        try{
-            audioPlay.setDataSource(audioCursor.getString(1));
-            audioPlay.prepare();
-            audioPlay.start();
-            audioPlay.setLooping(true);
-            }
-        catch (Exception e){
-            Log.e(getLocalClassName(), String.valueOf(e));
-        }
-
-        getAnswer(audioCursor,name_audio);
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(btn1.getText().equals(name_audio))
-                {
-                    point += 1;
-                    getPoint();
-                    if(getPoint()){
-                        audioPlay.stop();
-                        tvReply.setText(R.string.complete);
-                        tvReply.setTextColor(Color.BLUE);
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                finish();
-                            }
-                        }, 5000);
-                    }
-                    else {
-                        audioPlay.stop();
-                        onCreate(savedInstanceState );
-                    }
-                }
-                else {
-                    audioPlay.stop();
-                    onCreate(savedInstanceState );
-                }
-            }
-        });
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(btn2.getText().equals(name_audio))
-                {
-                    point += 1;
-                    getPoint();
-                    if(getPoint()){
-                        audioPlay.stop();
-                        tvReply.setText(R.string.complete);
-                        tvReply.setTextColor(Color.BLUE);
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                finish();
-                            }
-                        }, 5000);
-                    }
-                    else {
-                        audioPlay.stop();
-                        onCreate(savedInstanceState );
-                    }
-                }
-                else {
-                    audioPlay.stop();
-                    onCreate(savedInstanceState );
-                }
-            }
-        });
-
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(btn3.getText().equals(name_audio))
-                {
-                    point += 1;
-                    getPoint();
-                    if(getPoint()){
-                        audioPlay.stop();
-                        tvReply.setText(R.string.complete);
-                        tvReply.setTextColor(Color.BLUE);
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                finish();
-                            }
-                        }, 5000);
-                    }
-                    else {
-                        audioPlay.stop();
-                        onCreate(savedInstanceState );
-                    }
-                }
-                else {
-                    audioPlay.stop();
-                    onCreate(savedInstanceState );
-                }
-            }
-        });
-
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(btn4.getText().equals(name_audio))
-                {
-                    point += 1;
-                    getPoint();
-                    if(getPoint()){
-                        audioPlay.stop();
-                        tvReply.setText(R.string.complete);
-                        tvReply.setTextColor(Color.BLUE);
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                finish();
-                            }
-                        }, 5000);
-                    }
-                    else {
-                        audioPlay.stop();
-                        onCreate(savedInstanceState );
-                    }
-                }
-                else {
-                    audioPlay.stop();
-                    onCreate(savedInstanceState );
-                }
-            }
-        });
-
-
-        rippleBackground.startRippleAnimation();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //foundDevice();
-            }
-        },0);
     }
 
     private void getAnswer(Cursor audioCursor, String name_audio){

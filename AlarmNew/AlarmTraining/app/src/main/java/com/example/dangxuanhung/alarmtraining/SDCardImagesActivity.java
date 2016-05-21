@@ -134,19 +134,14 @@ public class SDCardImagesActivity extends Activity {
         }
 
         else{
+
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setTitle("Your Title");
+            alertDialogBuilder.setTitle("Alarm Music");
+
             alertDialogBuilder
-                    .setMessage("Click yes to exit!")
+                    .setMessage("Your photo gallery is empty! \n Take pictures to use application!")
                     .setCancelable(false)
-                    .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,int id) {
-                            // if this button is clicked, close
-                            // current activity
-                            dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    .setNegativeButton("OK",new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,int id) {
                             // if this button is clicked, just close
                             // the dialog box and do nothing
@@ -154,14 +149,15 @@ public class SDCardImagesActivity extends Activity {
                             Intent i_setAlarm = new Intent(SDCardImagesActivity.this,SetAlarmService.class);
                             i_setAlarm.putExtra("next",1);
                             startService(i_setAlarm);
+                            Intent intent_stop = new Intent(SDCardImagesActivity.this, RingtonePlayingService.class);
+                            intent_stop.putExtra("extra", "off");
+                            startService(intent_stop);
                             SDCardImagesActivity.this.finish();
+
                         }
                     });
-
             AlertDialog alertDialog = alertDialogBuilder.create();
-
             alertDialog.show();
-
         }
 
     }
