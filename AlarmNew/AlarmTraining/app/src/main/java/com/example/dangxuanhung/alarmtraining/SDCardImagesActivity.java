@@ -38,7 +38,7 @@ public class SDCardImagesActivity extends Activity {
     ImageView imgView;
     private Button btn1,btn2, btn3, btn4 ;
     private TextView tvReply,tvQuestion;
-    private LinearLayout lnPoint;
+    private LinearLayout lnPoint,lnGame;
     private Cursor cursor_img;
     private String answer = null,name_image = null,date_image=null;
     private int point=0;
@@ -61,6 +61,7 @@ public class SDCardImagesActivity extends Activity {
         tvReply =(TextView)findViewById(R.id.tvReply);
         lnPoint = (LinearLayout)findViewById(R.id.lnPoint);
         tvQuestion = (TextView)findViewById(R.id.tvQuestion);
+        lnGame = (LinearLayout)findViewById(R.id.lnGame);
 
         imgView.setVisibility(View.VISIBLE);
 
@@ -134,7 +135,7 @@ public class SDCardImagesActivity extends Activity {
         }
 
         else{
-
+            lnGame.setVisibility(View.GONE);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("Alarm Music");
 
