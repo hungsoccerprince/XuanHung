@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">AlarmMusic</string>
+    <string name="mylist">mylist</string>
+    <string name="list_default">default</string>
+    <string name="title_alarm">Title</string>
+    <string name="alarm_mode">Alarm Mode</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="ringtone">RingTone</string>
+    <string name="enter_alarm_name">Enter title</string>
+    <string name="select_mode_for_alarm">Select mode for alarm...</string>
+    <string name="select_ring_tone">select ring tone</string>
+    <string name="mode_default">Default</string>
+    <string name="mode_music">Music</string>
+    <string name="complete">Complete!!!</string>
+    <string name="stop_alarm">Stop Alarm</string>
+    <string name="ring_default">alarm</string>
+    <string name="question_image_name">What\'s the  name of this photo ?</string>
+    <string name="question_image_time">when photo was taken ?</string>
+    <string name="question_song">What\'s the name of this song?</string>
+    <string name="mode_photo">Photo</string>
+</resources>

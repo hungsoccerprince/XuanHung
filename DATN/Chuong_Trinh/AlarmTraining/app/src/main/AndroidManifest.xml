@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.dangxuanhung.alarmtraining">
+
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name">
+
+        <activity android:name=".MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".AddAlarm">
+        </activity>
+
+        <activity android:name=".StopAlarm"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
+
+        <activity android:name=".SelectRingTone"
+            android:label="Select a ring" />
+
+        <activity android:name=".EditAlarm"
+            />
+
+        <activity android:name=".SDCardImagesActivity">
+<!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+-->
+        </activity>
+
+        <activity android:name=".AudioActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+           />
+
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <receiver android:name=".AlarmReceiver"/>
+        <receiver android:name=".StartUpBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        
+        <service android:name=".RingtonePlayingService"
+            android:enabled="true">
+        </service>
+
+        <service android:name=".SetAlarmService"
+            android:enabled="true">
+        </service>
+
+    </application>
+
+</manifest>
