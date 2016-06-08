@@ -345,6 +345,11 @@ public class SDCardImagesActivity extends Activity {
         return timeFormat;
     }
 
+    @Override
+    public void onBackPressed() {
+        return ;
+    }
+
 }
 
 
