@@ -24,7 +24,7 @@ public class StartUpBootReceiver extends BroadcastReceiver {
             Log.d("startuptest", "StartUpBootReceiver BOOT_COMPLETED");
 
             Intent i_setAlarm = new Intent(context,SetAlarmService.class);
-            i_setAlarm.putExtra("next",1);
+            i_setAlarm.putExtra("next",0);
             context.startService(i_setAlarm);
         }
 
@@ -32,7 +32,7 @@ public class StartUpBootReceiver extends BroadcastReceiver {
             Log.d("startuptest", "StartUpBootReceiver BOOT_COMPLETED");
 
             Intent i_setAlarm = new Intent(context,SetAlarmService.class);
-            i_setAlarm.putExtra("next",1);
+            i_setAlarm.putExtra("next",0);
             context.startService(i_setAlarm);
         }
 
@@ -40,7 +40,7 @@ public class StartUpBootReceiver extends BroadcastReceiver {
             Log.d("startuptest", "StartUpBootReceiver BOOT_COMPLETED");
 
             Intent i_setAlarm = new Intent(context,SetAlarmService.class);
-            i_setAlarm.putExtra("next",1);
+            i_setAlarm.putExtra("next",0);
             context.startService(i_setAlarm);
         }
 
