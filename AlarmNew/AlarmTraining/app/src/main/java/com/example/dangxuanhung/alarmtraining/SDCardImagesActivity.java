@@ -50,6 +50,10 @@ public class SDCardImagesActivity extends Activity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        reShow(savedInstanceState);
+    }
+
+    private void reShow(Bundle savedInstanceState){
         setContentView(R.layout.audio_layout);
 
         btn1=(Button)findViewById(R.id.btn1);
@@ -161,7 +165,6 @@ public class SDCardImagesActivity extends Activity {
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
         }
-
     }
 
     private void checkAnswer(final Handler handler, final Bundle savedInstanceState ){
@@ -183,12 +186,12 @@ public class SDCardImagesActivity extends Activity {
                         }, 5000);
                     }
                     else {
-                        onCreate(savedInstanceState );
+                        reShow(savedInstanceState );
 
                     }
                 }
                 else {
-                    onCreate(savedInstanceState );
+                    reShow(savedInstanceState );
                 }
             }
         });
@@ -210,11 +213,11 @@ public class SDCardImagesActivity extends Activity {
                         }, 5000);
                     }
                     else {
-                        onCreate(savedInstanceState );
+                        reShow(savedInstanceState );
                     }
                 }
                 else {
-                    onCreate(savedInstanceState );
+                    reShow(savedInstanceState );
                 }
             }
         });
@@ -236,11 +239,11 @@ public class SDCardImagesActivity extends Activity {
                         }, 5000);
                     }
                     else {
-                        onCreate(savedInstanceState );
+                        reShow(savedInstanceState );
                     }
                 }
                 else {
-                    onCreate(savedInstanceState );
+                    reShow(savedInstanceState );
                 }
             }
         });
@@ -262,11 +265,11 @@ public class SDCardImagesActivity extends Activity {
                         }, 5000);
                     }
                     else {
-                        onCreate(savedInstanceState );
+                        reShow(savedInstanceState );
                     }
                 }
                 else {
-                    onCreate(savedInstanceState );
+                    reShow(savedInstanceState );
                 }
             }
         });

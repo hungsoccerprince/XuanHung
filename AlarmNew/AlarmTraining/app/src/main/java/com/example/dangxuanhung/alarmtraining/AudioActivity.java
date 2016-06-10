@@ -44,8 +44,20 @@ public class AudioActivity extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.audio_layout);
+        reShow(savedInstanceState);
 
+/*
+        if(audioCursor.getCount()==0){
+            copyAssets();
+            audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,proj, null, null, null);
+        }
+*/
+            // random 1 mp3 file
+
+    }
+
+    private void reShow(final Bundle savedInstanceState){
+        setContentView(R.layout.audio_layout);
         btn1=(Button)findViewById(R.id.btn1);
         btn2=(Button)findViewById(R.id.btn2);
         btn3=(Button)findViewById(R.id.btn3);
@@ -59,7 +71,7 @@ public class AudioActivity extends Activity {
         tvQuestion.setText(getString(R.string.question_song));
 
         getPoint();
-        copyAssets();
+        //copyAssets();
 
         final Handler handler=new Handler();
         final MediaPlayer audioPlay = new MediaPlayer();
@@ -118,12 +130,12 @@ public class AudioActivity extends Activity {
                         }
                         else {
                             audioPlay.stop();
-                            onCreate(savedInstanceState );
+                            reShow(savedInstanceState );
                         }
                     }
                     else {
                         audioPlay.stop();
-                        onCreate(savedInstanceState );
+                        reShow(savedInstanceState );
                     }
                 }
             });
@@ -148,12 +160,12 @@ public class AudioActivity extends Activity {
                         }
                         else {
                             audioPlay.stop();
-                            onCreate(savedInstanceState );
+                            reShow(savedInstanceState );
                         }
                     }
                     else {
                         audioPlay.stop();
-                        onCreate(savedInstanceState );
+                        reShow(savedInstanceState );
                     }
                 }
             });
@@ -178,12 +190,12 @@ public class AudioActivity extends Activity {
                         }
                         else {
                             audioPlay.stop();
-                            onCreate(savedInstanceState );
+                            reShow(savedInstanceState );
                         }
                     }
                     else {
                         audioPlay.stop();
-                        onCreate(savedInstanceState );
+                        reShow(savedInstanceState );
                     }
                 }
             });
@@ -208,16 +220,15 @@ public class AudioActivity extends Activity {
                         }
                         else {
                             audioPlay.stop();
-                            onCreate(savedInstanceState );
+                            reShow(savedInstanceState );
                         }
                     }
                     else {
                         audioPlay.stop();
-                        onCreate(savedInstanceState );
+                        reShow(savedInstanceState );
                     }
                 }
             });
-
 
             rippleBackground.startRippleAnimation();
             handler.postDelayed(new Runnable() {
@@ -227,16 +238,6 @@ public class AudioActivity extends Activity {
                 }
             },0);
         }
-
-
-/*
-        if(audioCursor.getCount()==0){
-            copyAssets();
-            audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,proj, null, null, null);
-        }
-*/
-            // random 1 mp3 file
-
     }
 
     private void getAnswer(Cursor audioCursor, String name_audio){
