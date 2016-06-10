@@ -19,6 +19,31 @@ public class StartUpBootReceiver extends BroadcastReceiver {
             i_setAlarm.putExtra("next",1);
             context.startService(i_setAlarm);
         }
+
+        if (Intent.ACTION_TIME_CHANGED.equals(intent.getAction())) {
+            Log.d("startuptest", "StartUpBootReceiver BOOT_COMPLETED");
+
+            Intent i_setAlarm = new Intent(context,SetAlarmService.class);
+            i_setAlarm.putExtra("next",1);
+            context.startService(i_setAlarm);
+        }
+
+        if (Intent.ACTION_DATE_CHANGED.equals(intent.getAction())) {
+            Log.d("startuptest", "StartUpBootReceiver BOOT_COMPLETED");
+
+            Intent i_setAlarm = new Intent(context,SetAlarmService.class);
+            i_setAlarm.putExtra("next",1);
+            context.startService(i_setAlarm);
+        }
+
+        if (Intent.ACTION_TIMEZONE_CHANGED.equals(intent.getAction())) {
+            Log.d("startuptest", "StartUpBootReceiver BOOT_COMPLETED");
+
+            Intent i_setAlarm = new Intent(context,SetAlarmService.class);
+            i_setAlarm.putExtra("next",1);
+            context.startService(i_setAlarm);
+        }
+
     }
 
 }

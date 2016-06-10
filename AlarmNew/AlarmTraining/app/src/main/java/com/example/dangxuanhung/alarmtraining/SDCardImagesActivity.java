@@ -40,7 +40,7 @@ public class SDCardImagesActivity extends Activity {
     private TextView tvReply,tvQuestion;
     private LinearLayout lnPoint,lnGame;
     private Cursor cursor_img;
-    private String answer = null,name_image = null,date_image=null;
+    private String answer = null,name_image = null,date_image=null,fake_date=null;
     private int point=0;
     /*
      * Column index for the Thumbnails Image IDs.
@@ -101,6 +101,7 @@ public class SDCardImagesActivity extends Activity {
             calendar.setTimeInMillis(Long.parseLong(dateTaken));
             Date time = calendar.getTime();
             date_image = formatTime(time);
+            fake_date = fakeFormatTime(time);
             Log.d("Time", date_image);
             Log.d(TAG, "name : "+ name_image);
 
@@ -109,25 +110,25 @@ public class SDCardImagesActivity extends Activity {
                 case 1:
                     tvQuestion.setText(R.string.question_image_name);
                     answer = name_image;
-                    getAnswer_Image(answer, date_image);
+                    getAnswer_Image(answer, date_image,fake_date);
                     checkAnswer(handler,savedInstanceState);
                     break;
                 case 3:
                     tvQuestion.setText(R.string.question_image_name);
                     answer = name_image;
-                    getAnswer_Image(answer, date_image);
+                    getAnswer_Image(answer, date_image,fake_date);
                     checkAnswer(handler,savedInstanceState);
                     break;
                 case 2:
                     tvQuestion.setText(R.string.question_image_time);
                     answer = date_image;
-                    getAnswer_Image(answer,name_image);
+                    getAnswer_Image(answer,name_image,fake_date);
                     checkAnswer(handler,savedInstanceState);
                     break;
                 case 4:
                     tvQuestion.setText(R.string.question_image_time);
                     answer = date_image;
-                    getAnswer_Image(answer,name_image);
+                    getAnswer_Image(answer,name_image,fake_date);
                     checkAnswer(handler,savedInstanceState);
                     break;
             }
@@ -274,36 +275,36 @@ public class SDCardImagesActivity extends Activity {
 
     }
 
-    private void getAnswer_Image(String answer,String not_answer){
+    private void getAnswer_Image(String answer,String not_answer,String date_fake){
         Random rand = new Random();
         int rand_button = rand.nextInt(3)+1;
 
         if(rand_button==1){
             btn1.setText(answer);
             btn2.setText(not_answer);
-            btn3.setText("xuan hung");
-            btn4.setText("xuan hung");
+            btn3.setText("Next");
+            btn4.setText(date_fake);
         }
 
         if(rand_button==2){
             btn2.setText(answer);
             btn3.setText(not_answer);
-            btn4.setText("xuan hung");
-            btn1.setText("xuan hung");
+            btn4.setText("Next");
+            btn1.setText(date_fake);
         }
 
         if(rand_button==3){
             btn3.setText(answer);
             btn4.setText(not_answer);
-            btn1.setText("xuan hung");
-            btn2.setText("xuan hung");
+            btn1.setText("Next");
+            btn2.setText(date_fake);
         }
 
         if(rand_button==4){
             btn4.setText(answer);
             btn1.setText(not_answer);
-            btn2.setText("xuan hung");
-            btn3.setText("xuan hung");
+            btn2.setText("Next");
+            btn3.setText(date_fake);
         }
     }
 
@@ -344,6 +345,13 @@ public class SDCardImagesActivity extends Activity {
         String timeFormat = df.format(time);
         return timeFormat;
     }
+
+    public String fakeFormatTime(Date time) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String timeFormat = df.format(time);
+        return timeFormat;
+    }
+
 
     @Override
     public void onBackPressed() {
