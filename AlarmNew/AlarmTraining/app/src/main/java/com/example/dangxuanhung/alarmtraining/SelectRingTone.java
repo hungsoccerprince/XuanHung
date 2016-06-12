@@ -143,7 +143,7 @@ public class SelectRingTone extends AppCompatActivity {
                     sentToAddAlarm(EditAlarm.REQUEST_CODE_EDIT,selectRing,getString(R.string.mylist));
                 }
 
-                Toast.makeText(getApplicationContext(), "Ring Selected : " + selectRing, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Ring Selected : " + selectRing, Toast.LENGTH_LONG).show();
             }
         });
 
